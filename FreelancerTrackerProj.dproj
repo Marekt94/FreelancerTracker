@@ -58,7 +58,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>FreelancerTrackerProj</SanitizedProjectName>
-        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;C:\Projekty\DORM\source;C:\Projekty\DORM\lib\uib\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -116,6 +116,12 @@
         </DCCReference>
         <DCCReference Include="src\Module Server\ModuleServer.pas"/>
         <DCCReference Include="src\Module Server\Interfaces\InterfaceModuleServer.pas"/>
+        <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
+        <DCCReference Include="src\Module Salary\Interfaces\InterfaceModuleSalary.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryRESTController.pas"/>
+        <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryRepository.pas"/>
+        <DCCReference Include="src\Module Salary\Salary.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryRepository.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

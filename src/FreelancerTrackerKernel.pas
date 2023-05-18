@@ -13,7 +13,7 @@ type
 implementation
 
 uses
-  ModuleServer;
+  ModuleServer, ModuleSalary;
 
 { TFreelancerTrackerKernel }
 
@@ -21,6 +21,7 @@ procedure TFreelancerTrackerKernel.RegisterModules(
   p_ModuleList: TList<IModule>);
 begin
   inherited;
+  p_ModuleList.Add(TModuleSalary.Create);
   p_ModuleList.Add(TModuleServer.Create);
 end;
 
