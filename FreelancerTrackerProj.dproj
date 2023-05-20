@@ -58,9 +58,10 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>FreelancerTrackerProj</SanitizedProjectName>
-        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;C:\Projekty\DORM\source;C:\Projekty\DORM\lib\uib\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;C:\Projekty\DORM\source;C:\Projekty\DORM\lib\uib\source;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\dbc\;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\core;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\component;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\parsesql;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\plain;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;ZComponent;vclFireDAC;IndySystem;ZCore;bindcompvclsmp;tethering;svnui;bindcompvclwinx;dsnapcon;FireDACADSDriver;madExcept_;FireDACMSAccDriver;fmxFireDAC;vclimg;madBasic_;TeeDB;FireDAC;ZDbc;vcltouch;vcldb;bindcompfmx;svn;FireDACSqliteDriver;FireDACPgDriver;inetdb;OverbyteIcsD104Run;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;vcledge;fmxobj;vclwinx;Tee;rtl;madDisAsm_;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;ZParseSql;bindcomp;appanalytics;dsnap;ZPlain;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -116,12 +117,17 @@
         </DCCReference>
         <DCCReference Include="src\Module Server\ModuleServer.pas"/>
         <DCCReference Include="src\Module Server\Interfaces\InterfaceModuleServer.pas"/>
-        <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceModuleSalary.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRESTController.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryRepository.pas"/>
         <DCCReference Include="src\Module Salary\Salary.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRepository.pas"/>
+        <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
+        <DCCReference Include="src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas"/>
+        <DCCReference Include="src\Module Salary\FormaOpodatkowaniaRepository.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryEvaluatorController.pas"/>
+        <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryDTO.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -1,7 +1,6 @@
 program FreelancerTrackerProj;
 
 
-
 uses
   madExcept,
   madLinkDisAsm,
@@ -17,12 +16,17 @@ uses
   Main in 'src\Frames\Main.pas' {frmMain: TFrame},
   ModuleServer in 'src\Module Server\ModuleServer.pas',
   InterfaceModuleServer in 'src\Module Server\Interfaces\InterfaceModuleServer.pas',
-  ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
   InterfaceModuleSalary in 'src\Module Salary\Interfaces\InterfaceModuleSalary.pas',
   SalaryRESTController in 'src\Module Salary\SalaryRESTController.pas',
   InterfaceSalaryRepository in 'src\Module Salary\Interfaces\InterfaceSalaryRepository.pas',
   Salary in 'src\Module Salary\Salary.pas',
-  SalaryRepository in 'src\Module Salary\SalaryRepository.pas';
+  SalaryRepository in 'src\Module Salary\SalaryRepository.pas',
+  ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
+  InterfaceFormaOpodatkowaniaRepository in 'src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas',
+  FormaOpodatkowaniaRepository in 'src\Module Salary\FormaOpodatkowaniaRepository.pas',
+  SalaryEvaluatorController in 'src\Module Salary\SalaryEvaluatorController.pas',
+  InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
+  SalaryDTO in 'src\Module Salary\SalaryDTO.pas';
 
 {$R *.res}
 

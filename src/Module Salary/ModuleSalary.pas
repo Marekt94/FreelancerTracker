@@ -17,7 +17,9 @@ type
 implementation
 
 uses
-  MiniREST.Server.Intf, SalaryRESTController, InterfaceKernel, InterfaceSalaryRepository, SalaryRepository;
+  MiniREST.Server.Intf, SalaryRESTController, InterfaceKernel,
+  InterfaceSalaryRepository, SalaryRepository, InterfaceFormaOpodatkowaniaRepository,
+  FormaOpodatkowaniaRepository, InterfaceSalaryEvaluatorController, SalaryEvaluatorController;
 
 { TModuleSalary }
 
@@ -36,13 +38,14 @@ begin
   Result := inherited;
   if Result then
     (MainKernel.GiveObjectByInterface(IMiniRESTServer) as IMiniRESTServer).AddController(TSalaryRESTController);
-  (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries;
 end;
 
 procedure TModuleSalary.RegisterClasses;
 begin
   inherited;
   RegisterClass(ISalaryRepository, TSalaryRepository);
+  RegisterClass(IFormaOpodatkowaniaRepository, TFormaOpodatkowaniaRepository);
+  RegisterClass(ISalaryEvaluatorController, TSalaryEvaluatorController);
 end;
 
 end.
