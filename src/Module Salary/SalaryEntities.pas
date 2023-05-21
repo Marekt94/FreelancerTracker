@@ -43,6 +43,8 @@ type
 
   [Entity('SALARIES')]
   TSalary = class
+  private
+    procedure SetFormaOpodatkowania(const Value: TFormaOpodatkowania);
   protected
     FId: Integer;
     FMiesiac: Integer;
@@ -69,7 +71,7 @@ type
     [Column('ID_FORMA_OPODATKOWANIA')]
     property IdFormyOpodatkowania : Integer read FIdFormyOpodatkowania write FIdFormyopodatkowania;
     [BelongsTo('IdFormyOpodatkowania')]
-    property FormaOpodatkowania : TFormaOpodatkowania read FFormaOpodatkowania write FFormaOpodatkowania;
+    property FormaOpodatkowania : TFormaOpodatkowania read FFormaOpodatkowania write SetFormaOpodatkowania;
     property Stawka             : Single  read FStawka             write FStawka;
     [Column('DNI_ROBOCZYCH')]
     property DniRoboczych       : Integer read FDniRoboczych       write FDniRoboczych;
@@ -90,6 +92,9 @@ type
 
 implementation
 
+uses
+  System.SysUtils;
+
 { TSalary }
 
 constructor TSalary.Create;
@@ -100,6 +105,12 @@ end;
 destructor TSalary.Destroy;
 begin
   FFormaOpodatkowania.Free;
+end;
+
+procedure TSalary.SetFormaOpodatkowania(const Value: TFormaOpodatkowania);
+begin
+  FreeAndNil(FFormaOpodatkowania);
+  FFormaOpodatkowania := Value;
 end;
 
 { TFormaOpodatkowania }

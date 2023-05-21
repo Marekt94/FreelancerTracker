@@ -53,14 +53,16 @@ type
     FDoWyplaty : Single;
     FDoRozdysponowania : Single;
     FZablokowane : boolean;
+  private
+    procedure SetFormaOpodatkowania(const Value: TFormaOpodatkowaniaDTO);
   public
     constructor Create(const p_Salary : TSalary); overload;
     destructor Destroy; override;
     property Id: Integer read FId write FId;
     property Miesiac: Integer read FMiesiac write FMiesiac;
     property Rok: Integer read FRok write FRok;
-    property IdFormyOpodatkowania : Integer read FIdFormyOpodatkowania write FIdFormyOpodatkowania;
-    property FormaOpodatkowania : TFormaOpodatkowaniaDTO read FFormaOpodatkowania write FFormaOpodatkowania;
+    property IdFormyOpodatkowania : Integer read FIdFormyOpodatkowania;
+    property FormaOpodatkowania : TFormaOpodatkowaniaDTO read FFormaOpodatkowania write SetFormaOpodatkowania;
     property Stawka             : Single  read FStawka             write FStawka;
     property DniRoboczych       : Integer read FDniRoboczych       write FDniRoboczych;
     property DniPrzepracowanych : Integer read FDniPrzepracowanych write FDniPrzepracowanych;
@@ -74,6 +76,9 @@ type
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TFormaOpodatkowaniaDTO }
 
@@ -149,6 +154,12 @@ destructor TSalaryDTO.Destroy;
 begin
   FFormaOpodatkowania.Free;
   inherited;
+end;
+
+procedure TSalaryDTO.SetFormaOpodatkowania(const Value: TFormaOpodatkowaniaDTO);
+begin
+  FreeAndNil(FFormaOpodatkowania);
+  FFormaOpodatkowania := Value;
 end;
 
 end.

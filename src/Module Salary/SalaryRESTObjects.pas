@@ -3,35 +3,42 @@ unit SalaryRESTObjects;
 interface
 
 uses
-  SalaryEntities, REST.Json, SalaryDTOs;
+  SalaryEntities, REST.Json, SalaryDTOs, System.Generics.Collections;
 
 type
-  TWysokoscPodatkuRESTObject = class(TWysokoscPodatku)
-  private
+  TWysokoscPodatkuRESTObject = class
+  strict private
+    FEntity : TWysokoscPodatku;
     FDTO : TWysokoscPodatkuDTO;
     procedure CreateFromDTO(const p_WysokoscPodatkuDTO : TWysokoscPodatkuDTO);
     function GetDTO: TWysokoscPodatkuDTO;
     function GetJSONString: string;
   public
+    constructor Create; overload;
     constructor Create(const p_JSON : string); overload;
     constructor Create(const p_WysokoscPodatkuDTO : TWysokoscPodatkuDTO); overload;
     destructor Destroy; override;
     property DTO : TWysokoscPodatkuDTO read GetDTO;
     property DTOJSONString : string read GetJSONString;
+    property Entity : TWysokoscPodatku read FEntity write FEntity;
   end;
 
-  TFormaOpodatkowaniaRESTObject = class(TFormaOpodatkowania)
-  private
+  TFormaOpodatkowaniaRESTObject = class
+  strict private
+    FEntity : TFormaOpodatkowania;
     FDTO : TFormaOpodatkowaniaDTO;
+    FWysokoscPodatkuList : TObjectList<TWysokoscPodatkuRESTObject>;
     procedure CreateFromDTO(const p_FormaOpodatkowaniaDTO : TFormaOpodatkowaniaDTO);
     function GetDTO: TFormaOpodatkowaniaDTO;
     function GetJSONString: string;
   public
+    constructor Create; overload;
     constructor Create(const p_Json: string); overload;
     constructor Create(const p_FormaOpodatkowaniaDTO : TFormaOpodatkowaniaDTO); overload;
     destructor Destroy; override;
     property DTO : TFormaOpodatkowaniaDTO read GetDTO;
     property DTOJSONString : string read GetJSONString;
+    property Entity: TFormaOpodatkowania read FEntity write FEntity;
   end;
 
   TSalaryRESTObject = class
@@ -61,7 +68,8 @@ uses
 constructor TWysokoscPodatkuRESTObject.Create(const p_JSON : string);
 begin
   Create;
-  CreateFromDTO(TJson.JsonToObject<TWysokoscPodatkuDTO>(p_Json));
+  FDTO := TJson.JsonToObject<TWysokoscPodatkuDTO>(p_Json);
+  CreateFromDTO(FDTO);
 end;
 
 constructor TWysokoscPodatkuRESTObject.Create(
@@ -71,15 +79,21 @@ begin
   CreateFromDTO(p_WysokoscPodatkuDTO);
 end;
 
+constructor TWysokoscPodatkuRESTObject.Create;
+begin
+  FEntity := TWysokoscPodatku.Create;
+end;
+
 procedure TWysokoscPodatkuRESTObject.CreateFromDTO(const p_WysokoscPodatkuDTO: TWysokoscPodatkuDTO);
 begin
-  Self.FId                  := p_WysokoscPodatkuDTO.Id;
-  Self.FStawka              := p_WysokoscPodatkuDTO.Stawka;
-  Self.FFormaOpodatkowniaId := p_WysokoscPodatkuDTO.FormaOpodatkowaniaId;
+  FEntity.Id                  := p_WysokoscPodatkuDTO.Id;
+  FEntity.Stawka              := p_WysokoscPodatkuDTO.Stawka;
+  FEntity.FormaOpodatkowniaId := p_WysokoscPodatkuDTO.FormaOpodatkowaniaId;
 end;
 
 destructor TWysokoscPodatkuRESTObject.Destroy;
 begin
+  FEntity.Free;
   FDTO.Free;
   inherited;
 end;
@@ -89,7 +103,7 @@ begin
   if Assigned(FDTO) then
     FreeAndNil(FDTO);
 
-  FDTO := TWysokoscPodatkuDTO.Create(self);
+  FDTO := TWysokoscPodatkuDTO.Create(FEntity);
   Result := FDTO;
 end;
 
@@ -98,14 +112,15 @@ begin
   if Assigned(FDTO) then
     FreeAndNil(FDTO);
 
-  FDTO := TWysokoscPodatkuDTO.Create(self);
+  FDTO := TWysokoscPodatkuDTO.Create(FEntity);
   Result := TJson.ObjectToJsonString(FDTO);
 end;
 
 constructor TFormaOpodatkowaniaRESTObject.Create(const p_Json: string);
 begin
   Create;
-  CreateFromDTO(TJson.JsonToObject<TFormaOpodatkowaniaDTO>(p_Json))
+  FDTO := TJson.JsonToObject<TFormaOpodatkowaniaDTO>(p_Json);
+  CreateFromDTO(FDTO);
 end;
 
 constructor TFormaOpodatkowaniaRESTObject.Create(
@@ -115,20 +130,30 @@ begin
   CreateFromDTO(p_FormaOpodatkowaniaDTO);
 end;
 
+constructor TFormaOpodatkowaniaRESTObject.Create;
+begin
+  FEntity := TFormaOpodatkowania.Create;
+  FWysokoscPodatkuList := TObjectList<TWysokoscPodatkuRESTObject>.Create;
+end;
+
 procedure TFormaOpodatkowaniaRESTObject.CreateFromDTO(
   const p_FormaOpodatkowaniaDTO: TFormaOpodatkowaniaDTO);
 begin
-  FIdFormy    := p_FormaOpodatkowaniaDTO.Id;
-  FNazwa := p_FormaOpodatkowaniaDTO.Nazwa;
+  FEntity.IdFormy    := p_FormaOpodatkowaniaDTO.Id;
+  FEntity.Nazwa := p_FormaOpodatkowaniaDTO.Nazwa;
   for var i := 0 to p_FormaOpodatkowaniaDTO.GetWysokoscPodatkuCount -1 do
   begin
     var pomWysokoscPodatku := p_FormaOpodatkowaniaDTO.WysokoscPodatku[i];
     FWysokoscPodatkuList.Add(TWysokoscPodatkuRESTObject.Create(pomWysokoscPodatku));
+    FEntity.WysokoscPodatkuList.Add(FWysokoscPodatkuList[i].Entity);
+    FWysokoscPodatkuList[i].Entity := nil;
   end;
 end;
 
 destructor TFormaOpodatkowaniaRESTObject.Destroy;
 begin
+  FEntity.Free;
+  FWysokoscPodatkuList.Free;
   FDTO.Free;
   inherited;
 end;
@@ -138,7 +163,7 @@ begin
   if Assigned(FDTO) then
     FreeAndNil(FDTO);
 
-  FDTO := TFormaOpodatkowaniaDTO.Create(self);
+  FDTO := TFormaOpodatkowaniaDTO.Create(FEntity);
   Result := FDTO;
 end;
 
@@ -147,14 +172,15 @@ begin
   if Assigned(FDTO) then
     FreeAndNil(FDTO);
 
-  FDTO:= TFormaOpodatkowaniaDTO.Create(self);
+  FDTO:= TFormaOpodatkowaniaDTO.Create(FEntity);
   Result := TJson.ObjectToJsonString(FDTO);
 end;
 
 constructor TSalaryRESTObject.Create(const p_Json: string);
 begin
   Create;
-  CreateFromDTO(TJson.JsonToObject<TSalaryDTO>(p_JSon));
+  FDTO := TJson.JsonToObject<TSalaryDTO>(p_JSon);
+  CreateFromDTO(FDTO);
 end;
 
 constructor TSalaryRESTObject.Create(const p_SalaryDTO: TSalaryDTO);
@@ -179,9 +205,7 @@ begin
   FEntity.IdFormyOpodatkowania := p_SalaryDTO.IdFormyOpodatkowania;
   pomFormaPodatkowa := p_SalaryDTO.FormaOpodatkowania;
   if Assigned(pomFormaPodatkowa) then
-    FEntity.FormaOpodatkowania := TFormaOpodatkowaniaRESTObject.Create(p_SalaryDTO.FormaOpodatkowania)
-  else
-    FEntity.FormaOpodatkowania := nil;;
+    FEntity.FormaOpodatkowania := TFormaOpodatkowaniaRESTObject.Create(p_SalaryDTO.FormaOpodatkowania).Entity;
   FEntity.Stawka := p_SalaryDTO.Stawka;
   FEntity.DniRoboczych := p_SalaryDTO.DniRoboczych;
   FEntity.DniPrzepracowanych := p_SalaryDTO.DniPrzepracowanych;
