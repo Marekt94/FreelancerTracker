@@ -3,7 +3,7 @@ unit InterfaceSalaryEvaluatorController;
 interface
 
 uses
-  Salary;
+  SalaryEntities;
 
 type
   ISalaryEvaluatorController = interface

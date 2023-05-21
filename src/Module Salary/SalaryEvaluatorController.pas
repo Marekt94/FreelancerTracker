@@ -3,7 +3,7 @@ unit SalaryEvaluatorController;
 interface
 
 uses
-  InterfaceSalaryEvaluatorController, Salary;
+  InterfaceSalaryEvaluatorController, SalaryEntities;
 
 type
   TSalaryEvaluatorController = class(TInterfacedObject, ISalaryEvaluatorController)

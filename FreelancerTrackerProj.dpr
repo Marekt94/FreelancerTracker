@@ -19,14 +19,15 @@ uses
   InterfaceModuleSalary in 'src\Module Salary\Interfaces\InterfaceModuleSalary.pas',
   SalaryRESTController in 'src\Module Salary\SalaryRESTController.pas',
   InterfaceSalaryRepository in 'src\Module Salary\Interfaces\InterfaceSalaryRepository.pas',
-  Salary in 'src\Module Salary\Salary.pas',
+  SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
   SalaryRepository in 'src\Module Salary\SalaryRepository.pas',
   ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
   InterfaceFormaOpodatkowaniaRepository in 'src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas',
   FormaOpodatkowaniaRepository in 'src\Module Salary\FormaOpodatkowaniaRepository.pas',
   SalaryEvaluatorController in 'src\Module Salary\SalaryEvaluatorController.pas',
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
-  SalaryDTO in 'src\Module Salary\SalaryDTO.pas';
+  SalaryRESTObjects in 'src\Module Salary\SalaryRESTObjects.pas',
+  SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas';
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
-unit Salary;
+unit SalaryEntities;
 
 interface
 
@@ -6,10 +6,9 @@ uses
   dorm.mappings, System.Generics.Collections;
 
 type
-
   [Entity('WYSOKOSC_PODATKU')]
   TWysokoscPodatku = class
-  private
+  protected
     FId: Integer;
     FStawka: Double;
     FFormaOpodatkowniaId: Integer;
@@ -21,21 +20,22 @@ type
     property FormaOpodatkowniaId: Integer read FFormaOpodatkowniaId write FFormaOpodatkowniaId;
   end;
 
-  [ListOf('Salary.TWysokoscPodatku')]
+  [ListOf('SalaryEntities.TWysokoscPodatku')]
   TWysokoscPodatkuList = class (TObjectList<TWysokoscPodatku>)
   end;
 
   [Entity('FORMA_OPODATKOWANIA')]
   TFormaOpodatkowania = class
-  private
-    FId: Integer;
+  protected
+    FIdFormy: Integer;
     FWysokoscPodatkuList: TWysokoscPodatkuList;
     FNazwa: string;
   public
     constructor Create;
     destructor Destroy; override;
     [Id]
-    property Id: Integer read FId write FId;
+    [Column('ID')]
+    property IdFormy: Integer read FIdFormy write FIdFormy;
     [HasMany('FormaOpodatkowniaId')]
     property WysokoscPodatkuList: TWysokoscPodatkuList read FWysokoscPodatkuList write FWysokoscPodatkuList;
     property Nazwa: string read FNazwa write FNazwa;
@@ -43,10 +43,11 @@ type
 
   [Entity('SALARIES')]
   TSalary = class
-  strict private
+  protected
     FId: Integer;
     FMiesiac: Integer;
     FRok: Integer;
+    FIdFormyOpodatkowania : Integer;
     FFormaOpodatkowania: TFormaOpodatkowania;
     FStawka : Single;
     FDniRoboczych : Integer;
@@ -57,6 +58,7 @@ type
     FPelneNetto : Single;
     FDoWyplaty : Single;
     FDoRozdysponowania : Single;
+    FZablokowane : Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -64,7 +66,9 @@ type
     property Id: Integer read FId write FId;
     property Miesiac: Integer read FMiesiac write FMiesiac;
     property Rok: Integer read FRok write FRok;
-    [HasOne('Id')]
+    [Column('ID_FORMA_OPODATKOWANIA')]
+    property IdFormyOpodatkowania : Integer read FIdFormyOpodatkowania write FIdFormyopodatkowania;
+    [BelongsTo('IdFormyOpodatkowania')]
     property FormaOpodatkowania : TFormaOpodatkowania read FFormaOpodatkowania write FFormaOpodatkowania;
     property Stawka             : Single  read FStawka             write FStawka;
     [Column('DNI_ROBOCZYCH')]
@@ -74,19 +78,17 @@ type
     [Column('SKLADKA_ZDROWOTNA')]
     property SkladkaZdrowotna   : Single  read FSkladkaZdrowotna   write FSkladkaZdrowotna;
     property ZUS                : Single  read FZUS                write FZUS;
-    [Transient]
     property Netto              : Single  read FNetto              write FNetto;
-    [Transient]
+    [Column('PELNE_NETTO')]
     property PelneNetto         : Single  read FPelneNetto         write FPelneNetto;
-    [Transient]
+    [Column('DO_WYPLATY')]
     property DoWyplaty          : Single  read FDoWyplaty          write FDoWyplaty;
-    [Transient]
+    [Column('DO_ROZDYSPONOWANIA')]
     property DoRozdysponowania  : Single  read FDoRozdysponowania  write FDoRozdysponowania;
+    property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
 
 implementation
-
-{ TSalary }
 
 { TSalary }
 

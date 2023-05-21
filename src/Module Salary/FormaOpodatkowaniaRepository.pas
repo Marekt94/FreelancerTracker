@@ -3,7 +3,7 @@ unit FormaOpodatkowaniaRepository;
 interface
 
 uses
- InterfaceFormaOpodatkowaniaRepository, Salary;
+ InterfaceFormaOpodatkowaniaRepository, SalaryEntities;
 
 type
   TFormaOpodatkowaniaRepository = class(TInterfacedObject, IFormaOpodatkowaniaRepository)

@@ -120,14 +120,15 @@
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceModuleSalary.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRESTController.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryRepository.pas"/>
-        <DCCReference Include="src\Module Salary\Salary.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryEntities.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRepository.pas"/>
         <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas"/>
         <DCCReference Include="src\Module Salary\FormaOpodatkowaniaRepository.pas"/>
         <DCCReference Include="src\Module Salary\SalaryEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryDTO.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryRESTObjects.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryDTOs.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

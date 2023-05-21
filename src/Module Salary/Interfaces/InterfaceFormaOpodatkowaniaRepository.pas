@@ -3,7 +3,7 @@ unit InterfaceFormaOpodatkowaniaRepository;
 interface
 
 uses
-  Salary;
+  SalaryEntities;
 
 type
   IFormaOpodatkowaniaRepository = interface

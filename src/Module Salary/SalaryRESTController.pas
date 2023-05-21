@@ -16,6 +16,8 @@ type
     procedure GetFormaPodatkowa;
     [RequestMapping('/evaluate', '', rmPost)]
     procedure Evaluate;
+    [RequestMapping('/save_salary', '', rmPost)]
+    procedure SaveSalary;
     [RequestMapping('/Test', '', rmPost)]
     procedure Test;
   end;
@@ -23,25 +25,24 @@ type
 implementation
 
 uses
-  InterfaceKernel, InterfaceSalaryRepository, REST.JSON, System.JSON, Salary,
-  System.Generics.Collections, System.SysUtils, InterfaceFormaOpodatkowaniaRepository,
-  InterfaceSalaryEvaluatorController, SalaryDTO;
+  InterfaceKernel, InterfaceSalaryRepository, REST.JSON, System.JSON, SalaryRESTObjects,
+  SalaryEntities, SalaryDTOs, System.Generics.Collections, System.SysUtils, InterfaceFormaOpodatkowaniaRepository,
+  InterfaceSalaryEvaluatorController;
 
 { TSalaryRESTController }
 
 procedure TSalaryRESTController.Evaluate;
 var
   pomContoller : ISalaryEvaluatorController;
-  pomSalary : TSalary;
+  pomSalary : TSalaryRESTObject;
 begin
-  pomContoller := (MainKernel.GiveObjectByInterface(ISalaryEvaluatorController) as ISalaryEvaluatorController);
   var pom := GetActionContext.GetRequestContentAsString;
-  pomSalary := TJson.JsonToObject<TSalary>(pom);
+  pomSalary := TSalaryRESTObject.Create(pom);
   try
-//  pomSalary.FormaOpodatkowania.WysokoscPodatkuList.Add(TWysokoscPodatku.Create);
-//  pomSalary.FormaOpodatkowania.WysokoscPodatkuList[0].Stawka := 12;
-//  pomContoller.Evaluate(pomSalary);
-    ResponseJson(TJson.ObjectToJsonString(pomSalary));
+    pomContoller := (MainKernel.GiveObjectByInterface(ISalaryEvaluatorController) as ISalaryEvaluatorController);
+    var pomSalaryTemp := pomSalary.Entity;
+    pomContoller.Evaluate(pomSalaryTemp);
+    ResponseJson(pomSalary.DTOJSONString);
   finally
     pomSalary.Free;
   end;
@@ -50,10 +51,16 @@ end;
 procedure TSalaryRESTController.GetFormaPodatkowa;
 var
   pomFormaOpodatkowania : TFormaOpodatkowania;
+  pomFormaOpodatkowaniaDTO : TFormaOpodatkowaniaDTO;
 begin
   pomFormaOpodatkowania := (MainKernel.GiveObjectByInterface(IFormaOpodatkowaniaRepository) as IFormaOpodatkowaniaRepository).FormaOpodatkowania(StrToInt(PathVariable('id')));
   try
-    ResponseJson(TJson.ObjectToJsonString(pomFormaOpodatkowania));
+    pomFormaOpodatkowaniaDTO := TFormaOpodatkowaniaDTO.Create(pomFormaOpodatkowania);
+    try
+      ResponseJson(TJson.ObjectToJsonString(pomFormaOpodatkowaniaDTO));
+    finally
+      pomFormaOpodatkowaniaDTO.Free;
+    end;
   finally
     pomFormaOpodatkowania.Free;
   end;
@@ -77,7 +84,26 @@ var
 begin
   pomSalary := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salary(StrToInt(PathVariable('id')));
   try
-    ResponseJson(TJson.ObjectToJsonString(pomSalary));
+    var pomSalaryDTO := TSalaryDTO.Create(pomSalary);
+    try
+      ResponseJson(TJson.ObjectToJsonString(pomSalaryDTO));
+    finally
+      pomSalaryDTO.Free;
+    end;
+  finally
+    pomSalary.Free;
+  end;
+end;
+
+procedure TSalaryRESTController.SaveSalary;
+var
+  pomSalary : TSalaryRESTObject;
+  pomRepo : ISalaryRepository;
+begin
+  pomSalary := TSalaryRESTObject.Create(GetActionContext.GetRequestContentAsString);
+  try
+    pomRepo := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
+    pomRepo.SaveOrUpdate(pomSalary.Entity);
   finally
     pomSalary.Free;
   end;
@@ -85,14 +111,14 @@ end;
 
 procedure TSalaryRESTController.Test;
 var
-  pomSalaryDTO : TFormaOpodatkowaniaDTO;
+  pomSalary : TFormaOpodatkowaniaRESTObject;
 begin
   var pom := GetActionContext.GetRequestContentAsString;
-  pomSalaryDTO := TJSon.JsonToObject<TFormaOpodatkowaniaDTO>(pom);
+  pomSalary := TFormaOpodatkowaniaRESTObject.Create(pom);
   try
-    ResponseJson(TJson.ObjectToJsonString(pomSalaryDTO));
+    ResponseJson(pomSalary.DTOJSONString);
   finally
-    pomSalaryDTO.Free;
+    pomSalary.Free;
   end;
 end;
 
