@@ -27,7 +27,8 @@ uses
   SalaryEvaluatorController in 'src\Module Salary\SalaryEvaluatorController.pas',
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
   SalaryRESTObjects in 'src\Module Salary\SalaryRESTObjects.pas',
-  SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas';
+  SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas',
+  RESTLogger in 'src\Module Server\RESTLogger.pas';
 
 {$R *.res}
 
@@ -36,7 +37,7 @@ begin
   MainKernel := TVCLKernel.Create (TFreelancerTrackerKernel.Create);
   if Supports(MainKernel, IVCLKernel) then
   begin
-    (MainKernel as IVCLKernel).Open (TfrmMain, 'Freelancer Tracker');
+    (MainKernel as IVCLKernel).Open (TfrmMain, 'Freelancer Tracker Server');
     MainKernel.Close;
   end
 end.

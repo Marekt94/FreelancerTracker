@@ -3,7 +3,7 @@ unit ModuleServer;
 interface
 
 uses
-  Module, InterfaceModuleServer, MiniREST.Server.Intf;
+  Module, InterfaceModuleServer, MiniREST.Server.Intf, RESTLogger, MiniREST.Intf;
 
 type
   TModuleServer = class(TBaseModule, IModuleServer)
@@ -60,12 +60,15 @@ begin
   begin
     FServer.SetPort(8080);
     FServer.Start;
+    FServer.SetLogger(inherited GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
+    FServer.GetLogger.Info('Start serwera');
   end;
 end;
 
 procedure TModuleServer.RegisterClasses;
 begin
   RegisterClass(IMiniRESTServer, TMiniRESTServerIndy);
+  RegisterClass(IMiniRESTLogger, TRESTLoggger);
 end;
 
 end.

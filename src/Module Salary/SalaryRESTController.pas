@@ -14,12 +14,12 @@ type
     procedure GetSalary;
     [RequestMapping('/forma_podatkowa/{id}')]
     procedure GetFormaPodatkowa;
+    [RequestMapping('/forma_podatkowa')]
+    procedure GetFormyPodatkowe;
     [RequestMapping('/evaluate', '', rmPost)]
     procedure Evaluate;
     [RequestMapping('/save_salary', '', rmPost)]
     procedure SaveSalary;
-    [RequestMapping('/Test', '', rmPost)]
-    procedure Test;
   end;
 
 implementation
@@ -66,15 +66,63 @@ begin
   end;
 end;
 
+procedure TSalaryRESTController.GetFormyPodatkowe;
+var
+  pomFormaOpodatkowania : TList<TFormaOpodatkowania>;
+  pomJsonArray : TJSONArray;
+begin
+  pomFormaOpodatkowania := (MainKernel.GiveObjectByInterface(IFormaOpodatkowaniaRepository) as IFormaOpodatkowaniaRepository).FormaOpodatkowania;
+  pomJsonArray := TJSONArray.Create;
+  try
+    for var i := 0 to pomFormaOpodatkowania.Count - 1 do
+    begin
+      var pomDTO := TFormaOpodatkowaniaDTO.Create(pomFormaOpodatkowania[i]);
+      try
+        var pomJson := TJson.ObjectToJsonObject(pomDTO);
+        pomJsonArray.Add(pomJson);
+      finally
+        pomDTO.Free;
+      end;
+    end;
+
+    try
+      ResponseJson(pomJsonArray.ToJSON);
+    finally
+      pomFormaOpodatkowania.Free;
+    end;
+  finally
+    pomJsonArray.Free;
+  end;
+
+end;
+
 procedure TSalaryRESTController.GetSalaries;
 var
   pomObjectList : TList<TSalary>;
+  pomJsonArray : TJSONArray;
 begin
   pomObjectList := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries;
+
+  pomJsonArray := TJSONArray.Create;
   try
-    ResponseJson(TJson.ObjectToJsonString (pomObjectList));
+    for var i := 0 to pomObjectList.Count - 1 do
+    begin
+      var pomDTO := TSalaryDTO.Create(pomObjectList[i]);
+      try
+        var pomJson := TJson.ObjectToJsonObject(pomDTO);
+        pomJsonArray.Add(pomJson);
+      finally
+        pomDTO.Free;
+      end;
+    end;
+
+    try
+      ResponseJson(pomJsonArray.ToJSON);
+    finally
+      pomObjectList.Free;
+    end;
   finally
-    pomObjectList.Free;
+    pomJsonArray.Free;
   end;
 end;
 
@@ -104,19 +152,6 @@ begin
   try
     pomRepo := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
     pomRepo.SaveOrUpdate(pomSalary.Entity);
-  finally
-    pomSalary.Free;
-  end;
-end;
-
-procedure TSalaryRESTController.Test;
-var
-  pomSalary : TFormaOpodatkowaniaRESTObject;
-begin
-  var pom := GetActionContext.GetRequestContentAsString;
-  pomSalary := TFormaOpodatkowaniaRESTObject.Create(pom);
-  try
-    ResponseJson(pomSalary.DTOJSONString);
   finally
     pomSalary.Free;
   end;

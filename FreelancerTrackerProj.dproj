@@ -58,7 +58,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>FreelancerTrackerProj</SanitizedProjectName>
-        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;C:\Projekty\DORM\source;C:\Projekty\DORM\lib\uib\source;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\dbc\;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\core;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\component;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\parsesql;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\plain;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Projekty\Kernel\src\VCL\Interfaces;C:\Projekty\Kernel\src\VCL;C:\Projekty\Kernel\src;C:\Projekty\Kernel\src\Interfaces;C:\Projekty\MiniREST;C:\Projekty\Kernel\src\Base classes;C:\Projekty\MiniREST\JsonDataObjects\Source;C:\Projekty\DORM\source;C:\Projekty\DORM\lib\uib\source;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\dbc\;c:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\core;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\component;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\parsesql;C:\Projekty\DORM\lib\ZeosDBO-7_2_14\src\plain;C:\Projekty\Log4delphi-0.8\src\delphi;C:\Projekty\Log4delphi-0.8\src\delphi\util;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
@@ -129,6 +129,7 @@
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRESTObjects.pas"/>
         <DCCReference Include="src\Module Salary\SalaryDTOs.pas"/>
+        <DCCReference Include="src\Module Server\RESTLogger.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
