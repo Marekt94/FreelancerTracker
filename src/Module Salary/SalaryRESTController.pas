@@ -3,11 +3,12 @@ unit SalaryRESTController;
 interface
 
 uses
-  MiniREST.Controller.Base, MiniREST.Attribute, MiniREST.Common;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base;
 
 type
   TSalaryRESTController = class(TMiniRESTControllerBase)
   public
+    procedure ResponseJson(AJson: string; AStatusCode : Integer = 200); reintroduce;
     [RequestMapping('/salary')]
     procedure GetSalaries;
     [RequestMapping('/salary/{id}')]
@@ -141,6 +142,15 @@ begin
   finally
     pomSalary.Free;
   end;
+end;
+
+procedure TSalaryRESTController.ResponseJson(AJson: string;
+  AStatusCode: Integer);
+begin
+  GetActionContext.AppendHeader('Access-Control-Allow-Origin', '*');
+  GetActionContext.AppendHeader('Access-Control-Allow-Methods','POST, PUT, PATCH, GET, DELETE, OPTIONS');
+  GetActionContext.AppendHeader('Access-Control-Allow-Headers','Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
+  inherited ResponseJson(AJson, AStatusCode);
 end;
 
 procedure TSalaryRESTController.SaveSalary;
