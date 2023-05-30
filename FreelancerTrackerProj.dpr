@@ -28,7 +28,8 @@ uses
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
   SalaryRESTObjects in 'src\Module Salary\SalaryRESTObjects.pas',
   SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas',
-  RESTLogger in 'src\Module Server\RESTLogger.pas';
+  RESTLogger in 'src\Module Server\RESTLogger.pas',
+  Dictionaries in 'src\Module Salary\Dictionaries.pas';
 
 {$R *.res}
 

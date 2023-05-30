@@ -41,6 +41,16 @@ type
     property Nazwa: string read FNazwa write FNazwa;
   end;
 
+  [Entity('FORMA_OPODATKOWANIA')]
+  TFormaOpodatkowaniaID = class
+  protected
+    FIdFormy: Integer;
+  public
+    [Id]
+    [Column('ID')]
+    property IdFormy: Integer read FIdFormy write FIdFormy;
+  end;
+
   [Entity('SALARIES')]
   TSalary = class
   private
@@ -90,6 +100,16 @@ type
     property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
 
+  TMonth = class
+  strict private
+    FID : Integer;
+    FMonthName : string;
+  public
+    constructor Create(const p_id : Integer; const p_MonthName : string); overload;
+    property ID: Integer read FID;
+    property MonthName: string read FMonthName;
+  end;
+
 implementation
 
 uses
@@ -123,6 +143,15 @@ end;
 destructor TFormaOpodatkowania.Destroy;
 begin
   FWysokoscPodatkuList.Free;
+end;
+
+{ TMonth }
+
+constructor TMonth.Create(const p_id: Integer; const p_MonthName: string);
+begin
+  inherited Create;
+  FID := p_ID;
+  FMonthName := p_MonthName;
 end;
 
 end.

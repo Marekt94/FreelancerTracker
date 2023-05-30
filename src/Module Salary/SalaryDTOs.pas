@@ -3,7 +3,7 @@ unit SalaryDTOs;
 interface
 
 uses
-  SalaryEntities;
+  SalaryEntities, System.Generics.Collections;
 
 type
   TWysokoscPodatkuDTO = class
@@ -75,6 +75,14 @@ type
     property Zablokowane        : boolean read FZablokowane        write FZablokowane;
   end;
 
+  TDataForNewDTOResponse = class
+  strict private
+    FMiesiace : array of TMonth;
+    FFormaOpodatkowania : array of TFormaOpodatkowaniaDTO;
+  public
+    constructor Create(const p_Months : TList<TMonth>; const p_FormaOpodatkowania : TList<TFormaOpodatkowania>);
+    destructor Destory;
+  end;
 implementation
 
 uses
@@ -160,6 +168,26 @@ procedure TSalaryDTO.SetFormaOpodatkowania(const Value: TFormaOpodatkowaniaDTO);
 begin
   FreeAndNil(FFormaOpodatkowania);
   FFormaOpodatkowania := Value;
+end;
+
+{ TDataForNewDTOResponse }
+
+constructor TDataForNewDTOResponse.Create(const p_Months: TList<TMonth>;
+  const p_FormaOpodatkowania: TList<TFormaOpodatkowania>);
+begin
+  SetLength(FMiesiace, p_Months.Count);
+  for var i := 0 to p_Months.Count - 1 do
+    FMiesiace[i] := p_Months[i];
+
+  SetLength(FFormaOpodatkowania, p_FormaOpodatkowania.Count);
+  for var i := 0 to p_FormaOpodatkowania.Count - 1 do
+    FFormaOpodatkowania[i] := TFormaOpodatkowaniaDTO.Create(p_FormaOpodatkowania[i]);
+end;
+
+destructor TDataForNewDTOResponse.Destory;
+begin
+  for var i := Length(FFormaOpodatkowania) - 1 downto 0 do
+    FFormaOpodatkowania[i].Free;
 end;
 
 end.

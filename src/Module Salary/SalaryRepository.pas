@@ -7,17 +7,40 @@ uses
 
 type
   TSalaryRepository = class(TInterfacedObject, ISalaryRepository)
+  strict private
+    FMonthsAvailableMock : TObjectList<TMonth>;
+  public
+    destructor Destroy; override;
     function Salaries : TObjectList<TSalary>;
     function Salary(const p_ID : Integer) : TSalary;
+    function AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
   end;
 
 implementation
 
 uses
-  dorm, System.Classes, dorm.Commons;
+  dorm, System.Classes, dorm.Commons, Dictionaries;
 
 { TSalaryRepository }
+
+destructor TSalaryRepository.Destroy;
+begin
+  if Assigned(FMonthsAvailableMock) then
+    FMonthsAvailableMock.Free;
+  inherited;
+end;
+
+function TSalaryRepository.AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
+begin
+  if not Assigned(FMonthsAvailableMock) then
+  begin
+    FMonthsAvailableMock := TObjectList<TMonth>.Create;
+    for var i := 0 to Length(MonthRecArray) - 1 do
+      FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+  end;
+  Result := FMonthsAvailableMock;
+end;
 
 function TSalaryRepository.Salaries: TObjectList<TSalary>;
 var

@@ -35,12 +35,18 @@ end;
 function TFormaOpodatkowaniaRepository.FormaOpodatkowania: TList<TFormaOpodatkowania>;
 var
   pomSession : TSession;
+  pomIDs : TList<TFormaOpodatkowaniaID>;
 begin
+  //gdy wczytuje liste to nie wczytuj¹ sie relacje
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
   try
-    Result := pomSession.LoadList<TFormaOpodatkowania>;
+    pomIDs := pomSession.LoadList<TFormaOpodatkowaniaID>;
+    Result := TList<TFormaOpodatkowania>.Create;
+    for var pomID in pomIDs do
+      Result.Add(pomSession.Load<TFormaOpodatkowania>(pomID.IdFormy));
   finally
+    pomIDs.Free;
     pomSession.Free;
   end;
 end;

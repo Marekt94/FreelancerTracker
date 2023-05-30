@@ -3,7 +3,7 @@ unit SalaryRESTObjects;
 interface
 
 uses
-  SalaryEntities, REST.Json, SalaryDTOs, System.Generics.Collections;
+  SalaryEntities, REST.Json, SalaryDTOs, System.Generics.Collections, InterfaceFormaOpodatkowaniaRepository, InterfaceSalaryRepository;
 
 type
   TWysokoscPodatkuRESTObject = class
@@ -58,10 +58,25 @@ type
     property DTOJSONString : string read GetJSONString;
   end;
 
+  TDataForNewSalaryRestObject = class
+  strict private
+    FFormaOpodatkowaniaRepository : IFormaOpodatkowaniaRepository;
+    FSalaryRepository : ISalaryRepository;
+    FDTORequest : Integer;
+    FDTORespone : TDataForNewDTOResponse;
+    function GetDTO : TDataForNewDTOResponse;
+    function GetJSONString: string;
+  public
+    destructor Destroy; override;
+    constructor Create(const p_Year: integer); overload;
+    property DTO : TDataForNewDTOResponse read GetDTO;
+    property DTOJSONString : string read GetJSONString;
+  end;
+
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, InterfaceKernel;
 
 { TFormaOpodatkowaniaDTO }
 
@@ -241,6 +256,45 @@ begin
 
   FDTO:= TSalaryDTO.Create(FEntity);
   Result := TJson.ObjectToJsonString(FDTO);
+end;
+
+{ TDataForNewSalaryRestObject }
+
+destructor TDataForNewSalaryRestObject.Destroy;
+begin
+  if Assigned(FDTORespone) then
+    FDTORespone.Free;
+  inherited;
+end;
+
+function TDataForNewSalaryRestObject.GetDTO: TDataForNewDTOResponse;
+var
+  pomFormyOpodatkowania : TList<TFormaOpodatkowania>;
+  pomAvailableMonths    : TList<TMonth>;
+begin
+  if Assigned(FDTORespone) then
+    FDTORespone.Free;
+
+  pomFormyOpodatkowania := FFormaOpodatkowaniaRepository.FormaOpodatkowania;
+  pomAvailableMonths    := FSalaryRepository.AvailableMonths(FDTORequest);
+
+  FDTORespone := TDataForNewDTOResponse.Create(pomAvailableMonths, pomFormyOpodatkowania);
+  Result := FDTORespone;
+end;
+
+function TDataForNewSalaryRestObject.GetJSONString: string;
+var
+  pomDTO : TDataForNewDTOResponse;
+begin
+  pomDTO := GetDTO;
+  Result := TJson.ObjectToJsonString(pomDTO);
+end;
+
+constructor TDataForNewSalaryRestObject.Create(const p_Year: integer);
+begin
+  FDTORequest := p_Year;
+  FFormaOpodatkowaniaRepository := (MainKernel.GiveObjectByInterface(IFormaOpodatkowaniaRepository) as IFormaOpodatkowaniaRepository);
+  FSalaryRepository := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
 end;
 
 end.
