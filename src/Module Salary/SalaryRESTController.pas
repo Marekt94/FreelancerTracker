@@ -3,13 +3,16 @@ unit SalaryRESTController;
 interface
 
 uses
-  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base, MiniREST.Intf;
 
 type
   TSalaryRESTController = class(TMiniRESTControllerBase)
   public
     procedure ResponseJson(AJson: string; AStatusCode : Integer = 200); reintroduce;
-    [RequestMapping('/salary')]
+    {$IFDEF DEBUG}
+    function GetActionContext: IMiniRESTActionContext; reintroduce;
+    {$ENDIF}
+    [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
     [RequestMapping('/salary/{id}')]
     procedure GetSalary;
@@ -58,6 +61,16 @@ begin
     end;
   end;
 end;
+
+{$IFDEF DEBUG}
+function TSalaryRESTController.GetActionContext: IMiniRESTActionContext;
+begin
+  Result := inherited GetActionContext;
+  GetLogger.Debug(Result.GetURI);
+  if Result.GetCommandType = rmPost then
+    GetLogger.Debug(Result.GetRequestContentAsString);
+end;
+{$ENDIF}
 
 procedure TSalaryRESTController.GetDataForNewSalary;
 var
@@ -148,7 +161,8 @@ var
   pomJsonArray : TJSONArray;
 begin
   try
-    pomObjectList := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries;
+    var pomYear := StrToInt(GetActionContext.GetPathVariable('year'));
+    pomObjectList := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries(pomYear);
 
     pomJsonArray := TJSONArray.Create;
     try
@@ -224,6 +238,13 @@ begin
     try
       pomRepo := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
       pomRepo.SaveOrUpdate(pomSalary.Entity);
+      var pomResponse := TJSONObject.Create;
+      try
+        pomResponse.AddPair('id', TJSONNumber.Create(pomSalary.Entity.Id));
+        ResponseJson(pomResponse.ToString, 201);
+      finally
+        pomResponse.Free;
+      end;
     finally
       pomSalary.Free;
     end;

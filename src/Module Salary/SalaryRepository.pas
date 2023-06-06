@@ -11,7 +11,7 @@ type
     FMonthsAvailableMock : TObjectList<TMonth>;
   public
     destructor Destroy; override;
-    function Salaries : TObjectList<TSalary>;
+    function Salaries(const p_Year : Integer = -1) : TObjectList<TSalary>;
     function Salary(const p_ID : Integer) : TSalary;
     function AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  dorm, System.Classes, dorm.Commons, Dictionaries;
+  dorm, System.Classes, dorm.Commons, Dictionaries, dorm.Query;
 
 { TSalaryRepository }
 
@@ -42,14 +42,21 @@ begin
   Result := FMonthsAvailableMock;
 end;
 
-function TSalaryRepository.Salaries: TObjectList<TSalary>;
+function TSalaryRepository.Salaries(const p_Year : Integer = -1): TObjectList<TSalary>;
 var
   pomSession : TSession;
 begin
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
   try
-    Result := pomSession.LoadList<TSalary>;
+    if (p_Year = -1) then
+      Result := pomSession.LoadList<TSalary>
+    else
+      Result := pomSession.LoadListSQL<TSalary>(
+        Select
+        .From(TSalary)
+        .Where('ROK = ?', [p_Year])
+        );
   finally
     pomSession.Free;
   end;
