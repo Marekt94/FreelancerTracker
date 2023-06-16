@@ -40,6 +40,7 @@ begin
   //gdy wczytuje liste to nie wczytuj¹ sie relacje
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
+  pomIDs := nil;
   try
     pomIDs := pomSession.LoadList<TFormaOpodatkowaniaID>;
     Result := TList<TFormaOpodatkowania>.Create;

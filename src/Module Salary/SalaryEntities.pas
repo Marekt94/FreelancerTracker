@@ -30,6 +30,8 @@ type
     FIdFormy: Integer;
     FWysokoscPodatkuList: TWysokoscPodatkuList;
     FNazwa: string;
+    FZUS: Double;
+    FSkladkaZdrowotna: Double;
   public
     constructor Create;
     destructor Destroy; override;
@@ -39,6 +41,9 @@ type
     [HasMany('FormaOpodatkowniaId')]
     property WysokoscPodatkuList: TWysokoscPodatkuList read FWysokoscPodatkuList write FWysokoscPodatkuList;
     property Nazwa: string read FNazwa write FNazwa;
+    property ZUS: Double read FZUS write FZUS;
+    [Column('SKLADKA_ZDROWOTNA')]
+    property SkladkaZdrowotna: Double read FSkladkaZdrowotna write FSkladkaZdrowotna;
   end;
 
   [Entity('FORMA_OPODATKOWANIA')]
