@@ -53,6 +53,7 @@ type
     FDoWyplaty : Single;
     FDoRozdysponowania : Single;
     FZablokowane : boolean;
+    FNaUrlopowoChorobowe : single;
   private
     procedure SetFormaOpodatkowania(const Value: TFormaOpodatkowaniaDTO);
   public
@@ -72,6 +73,7 @@ type
     property PelneNetto         : Single  read FPelneNetto         write FPelneNetto;
     property DoWyplaty          : Single  read FDoWyplaty          write FDoWyplaty;
     property DoRozdysponowania  : Single  read FDoRozdysponowania  write FDoRozdysponowania;
+    property NaUrlopowoChorobowe: Single  read FNaUrlopowoChorobowe write FNaUrlopowoChorobowe;
     property Zablokowane        : boolean read FZablokowane        write FZablokowane;
   end;
 
@@ -81,7 +83,7 @@ type
     FFormaOpodatkowania : array of TFormaOpodatkowaniaDTO;
   public
     constructor Create(const p_Months : TList<TMonth>; const p_FormaOpodatkowania : TList<TFormaOpodatkowania>);
-    destructor Destory;
+    destructor Destroy; override;
   end;
 implementation
 
@@ -156,6 +158,7 @@ begin
   FDoWyplaty := p_Salary.DoWyplaty;
   FDoRozdysponowania := p_Salary.DoRozdysponowania;
   FZablokowane := p_Salary.Zablokowane;
+  FNaUrlopowoChorobowe := FDoWyplaty - FDoRozdysponowania
 end;
 
 destructor TSalaryDTO.Destroy;
@@ -184,7 +187,7 @@ begin
     FFormaOpodatkowania[i] := TFormaOpodatkowaniaDTO.Create(p_FormaOpodatkowania[i]);
 end;
 
-destructor TDataForNewDTOResponse.Destory;
+destructor TDataForNewDTOResponse.Destroy;
 begin
   for var i := Length(FFormaOpodatkowania) - 1 downto 0 do
     FFormaOpodatkowania[i].Free;

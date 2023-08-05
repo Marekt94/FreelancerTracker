@@ -9,9 +9,6 @@ type
   TSalaryRESTController = class(TMiniRESTControllerBase)
   public
     procedure ResponseJson(AJson: string; AStatusCode : Integer = 200); reintroduce;
-    {$IFDEF DEBUG}
-    function GetActionContext: IMiniRESTActionContext; reintroduce;
-    {$ENDIF}
     [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
     [RequestMapping('/salary/{id}')]
@@ -61,16 +58,6 @@ begin
     end;
   end;
 end;
-
-{$IFDEF DEBUG}
-function TSalaryRESTController.GetActionContext: IMiniRESTActionContext;
-begin
-  Result := inherited GetActionContext;
-  GetLogger.Debug(Result.GetURI);
-  if Result.GetCommandType = rmPost then
-    GetLogger.Debug(Result.GetRequestContentAsString);
-end;
-{$ENDIF}
 
 procedure TSalaryRESTController.GetDataForNewSalary;
 var
@@ -222,6 +209,11 @@ end;
 procedure TSalaryRESTController.ResponseJson(AJson: string;
   AStatusCode: Integer);
 begin
+  {$IFDEF DEBUG}
+  GetLogger.Debug(GetActionContext.GetURI);
+  if GetActionContext.GetCommandType = rmPost then
+    GetLogger.Debug(GetActionContext.GetRequestContentAsString);
+  {$ENDIF}
   GetActionContext.AppendHeader('Access-Control-Allow-Origin', '*');
   GetActionContext.AppendHeader('Access-Control-Allow-Methods','POST, PUT, PATCH, GET, DELETE, OPTIONS');
   GetActionContext.AppendHeader('Access-Control-Allow-Headers','Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');

@@ -7,14 +7,19 @@ uses
 
 type
   TFormaOpodatkowaniaRepository = class(TInterfacedObject, IFormaOpodatkowaniaRepository)
+  strict private
+    FFormaOpodatkowania : TFormaOpodatkowania;
+    FFormyOpodatkowania : TObjectList<TFormaOpodatkowania>;
+  public
+    destructor Destroy; override;
     function FormaOpodatkowania(const p_ID : Integer) : TFormaOpodatkowania; overload;
-    function FormaOpodatkowania : TList<TFormaOpodatkowania>; overload;
+    function FormaOpodatkowania : TObjectList<TFormaOpodatkowania>; overload;
   end;
 
 implementation
 
 uses
-  dorm, System.Classes, dorm.Commons;
+  dorm, System.Classes, dorm.Commons, System.SysUtils;
 
 { TFormaOpodatkowaniaRepository }
 
@@ -23,29 +28,40 @@ function TFormaOpodatkowaniaRepository.FormaOpodatkowania(
 var
   pomSession : TSession;
 begin
+  FreeAndNil(FFormaOpodatkowania);
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
   try
-    Result := pomSession.Load<TFormaOpodatkowania>(p_ID);
+    FFormaOpodatkowania := pomSession.Load<TFormaOpodatkowania>(p_ID);
+    Result := FFormaOpodatkowania;
   finally
     pomSession.Free;
   end;
 end;
 
-function TFormaOpodatkowaniaRepository.FormaOpodatkowania: TList<TFormaOpodatkowania>;
+destructor TFormaOpodatkowaniaRepository.Destroy;
+begin
+  FFormaOpodatkowania.Free;
+  FFormyOpodatkowania.Free;
+  inherited;
+end;
+
+function TFormaOpodatkowaniaRepository.FormaOpodatkowania: TObjectList<TFormaOpodatkowania>;
 var
   pomSession : TSession;
-  pomIDs : TList<TFormaOpodatkowaniaID>;
+  pomIDs : TObjectList<TFormaOpodatkowaniaID>;
 begin
+  FreeAndNil(FFormyOpodatkowania);
   //gdy wczytuje liste to nie wczytuj¹ sie relacje
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
   pomIDs := nil;
   try
     pomIDs := pomSession.LoadList<TFormaOpodatkowaniaID>;
-    Result := TList<TFormaOpodatkowania>.Create;
+    FFormyOpodatkowania := TObjectList<TFormaOpodatkowania>.Create;
     for var pomID in pomIDs do
-      Result.Add(pomSession.Load<TFormaOpodatkowania>(pomID.IdFormy));
+      FFormyOpodatkowania.Add(pomSession.Load<TFormaOpodatkowania>(pomID.IdFormy));
+    Result := FFormyOpodatkowania;
   finally
     pomIDs.Free;
     pomSession.Free;
