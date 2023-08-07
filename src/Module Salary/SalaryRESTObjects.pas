@@ -220,7 +220,12 @@ begin
   FEntity.IdFormyOpodatkowania := p_SalaryDTO.IdFormyOpodatkowania;
   pomFormaPodatkowa := p_SalaryDTO.FormaOpodatkowania;
   if Assigned(pomFormaPodatkowa) then
-    FEntity.FormaOpodatkowania := TFormaOpodatkowaniaRESTObject.Create(p_SalaryDTO.FormaOpodatkowania).Entity;
+  begin
+    var pomFormaOpodREST := TFormaOpodatkowaniaRESTObject.Create(p_SalaryDTO.FormaOpodatkowania);
+    FEntity.FormaOpodatkowania := pomFormaOpodREST.Entity;
+    pomFormaOpodREST.Entity := nil;
+    pomFormaOpodREST.Free;
+  end;
   FEntity.Stawka := p_SalaryDTO.Stawka;
   FEntity.DniRoboczych := p_SalaryDTO.DniRoboczych;
   FEntity.DniPrzepracowanych := p_SalaryDTO.DniPrzepracowanych;
