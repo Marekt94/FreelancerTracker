@@ -105,13 +105,16 @@ type
     property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
 
+  [Entity('SALARIES')]
   TMonth = class
   strict private
     FID : Integer;
     FMonthName : string;
   public
     constructor Create(const p_id : Integer; const p_MonthName : string); overload;
+    [Column('MIESIAC')]
     property ID: Integer read FID;
+    [Transient]
     property MonthName: string read FMonthName;
   end;
 

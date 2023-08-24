@@ -3,7 +3,8 @@ unit SalaryRepository;
 interface
 
 uses
-  InterfaceSalaryRepository, System.Generics.Collections, SalaryEntities;
+  InterfaceSalaryRepository, System.Generics.Collections, SalaryEntities, dorm.Filters,
+  System.TypInfo;
 
 type
   TSalaryRepository = class(TInterfacedObject, ISalaryRepository)
@@ -13,31 +14,58 @@ type
     destructor Destroy; override;
     function Salaries(const p_Year : Integer = -1) : TObjectList<TSalary>;
     function Salary(const p_ID : Integer) : TSalary;
-    function AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
+    function AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
   end;
 
 implementation
 
 uses
-  dorm, System.Classes, dorm.Commons, Dictionaries, dorm.Query;
+  dorm, System.Classes, dorm.Commons, Dictionaries, dorm.Query, System.SysUtils;
 
 { TSalaryRepository }
 
 destructor TSalaryRepository.Destroy;
 begin
-  if Assigned(FMonthsAvailableMock) then
-    FMonthsAvailableMock.Free;
+  FMonthsAvailableMock.Free;
   inherited;
 end;
 
-function TSalaryRepository.AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
+function TSalaryRepository.AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
+var
+  pomSession : TSession;
+  pomMiesiace : TObjectList<TMonth>;
 begin
-  if not Assigned(FMonthsAvailableMock) then
+  FMonthsAvailableMock.Free;
+  FMonthsAvailableMock := TObjectList<TMonth>.Create;
+
+  for var i := 0 to Length(MonthRecArray) - 1 do
+    FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+
+  if (AYear <> -1) then
   begin
-    FMonthsAvailableMock := TObjectList<TMonth>.Create;
-    for var i := 0 to Length(MonthRecArray) - 1 do
-      FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+    pomSession := TSession.CreateConfigured(
+      TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
+    try
+      pomMiesiace := pomSession.LoadListSQL<TMonth>(
+        Select
+        .From(TMonth)
+        .Where('ROK = ?', [AYear])
+        );
+      try
+        for var pomMiesiac in pomMiesiace do
+          for var i := 0 to FMonthsAvailableMock.Count - 1 do
+            if FMonthsAvailableMock[i].ID = pomMiesiac.ID then
+            begin
+              FMonthsAvailableMock.Delete(i);
+              break
+            end;
+      finally
+        pomMiesiace.Free;
+      end;
+    finally
+      pomSession.Free;
+    end;
   end;
   Result := FMonthsAvailableMock;
 end;
