@@ -8,6 +8,7 @@ uses
 type
   TSalaryRESTController = class(TMiniRESTControllerBase)
   public
+    procedure ResponseStatus(p_StatusText : string);
     procedure ResponseJson(AJson: string; AStatusCode : Integer = 200); reintroduce;
     [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
@@ -23,6 +24,8 @@ type
     procedure SaveSalary;
     [RequestMapping('/get_data_for_new_salary/{year}')]
     procedure GetDataForNewSalary;
+    [RequestMapping('/delete_salary/{id}'), rmDelete]
+    procedure DeleteSalary;
   end;
 
 implementation
@@ -33,6 +36,25 @@ uses
   InterfaceSalaryEvaluatorController;
 
 { TSalaryRESTController }
+
+procedure TSalaryRESTController.DeleteSalary;
+var
+  pomRes : Boolean;
+begin
+  try
+    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')));
+    if pomRes then
+      ResponseStatus('ok')
+    else
+      ResponseStatus('object does not exist');
+  except
+    on E : Exception do
+    begin
+      ResponseErro(E.Message);
+      GetLogger.Exception('[TSalaryRESTController.DeleteSalary]', E);
+    end;
+  end;
+end;
 
 procedure TSalaryRESTController.Evaluate;
 var
@@ -204,6 +226,13 @@ begin
       GetLogger.Exception('[TSalaryRESTController.GetSalary]', E);
     end;
   end;
+end;
+
+procedure TSalaryRESTController.ResponseStatus(p_StatusText : string);
+const
+  cStatusJSON = '{"status": "%s"}';
+begin
+  ResponseJson(Format(cStatusJSON, [p_StatusText]));
 end;
 
 procedure TSalaryRESTController.ResponseJson(AJson: string;

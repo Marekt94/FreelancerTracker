@@ -12,6 +12,7 @@ type
     function Salary(const p_ID : Integer) : TSalary;
     function AvailableMonths(const p_Year : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
+    function Delete(p_ID : Integer) : boolean;
   end;
 
 implementation

@@ -16,6 +16,7 @@ type
     function Salary(const p_ID : Integer) : TSalary;
     function AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
+    function Delete(p_ID : Integer) : boolean;
   end;
 
 implementation
@@ -24,6 +25,23 @@ uses
   dorm, System.Classes, dorm.Commons, Dictionaries, dorm.Query, System.SysUtils;
 
 { TSalaryRepository }
+
+function TSalaryRepository.Delete(p_ID: Integer): boolean;
+var
+  pomSession : TSession;
+  pomSalary  : TSalary;
+begin
+  pomSession := TSession.CreateConfigured(
+    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
+  try
+    pomSalary := pomSession.Load<TSalary>(p_ID);
+    Result := Assigned(pomSalary);
+    if Result then
+      pomSession.Delete(pomSalary)
+  finally
+    pomSession.Free;
+  end;
+end;
 
 destructor TSalaryRepository.Destroy;
 begin
