@@ -2,11 +2,6 @@ program FreelancerTrackerProj;
 
 
 uses
-  madExcept,
-  madLinkDisAsm,
-  madListHardware,
-  madListProcesses,
-  madListModules,
   Vcl.Forms,
   System.SysUtils,
   InterfaceKernel in '..\Kernel\src\Interfaces\InterfaceKernel.pas',
@@ -18,7 +13,6 @@ uses
   InterfaceModuleServer in 'src\Module Server\Interfaces\InterfaceModuleServer.pas',
   InterfaceModuleSalary in 'src\Module Salary\Interfaces\InterfaceModuleSalary.pas',
   SalaryRESTController in 'src\Module Salary\SalaryRESTController.pas',
-  InterfaceSalaryRepository in 'src\Module Salary\Interfaces\InterfaceSalaryRepository.pas',
   SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
   SalaryRepository in 'src\Module Salary\SalaryRepository.pas',
   ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
@@ -29,7 +23,14 @@ uses
   SalaryRESTObjects in 'src\Module Salary\SalaryRESTObjects.pas',
   SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas',
   RESTLogger in 'src\Module Server\RESTLogger.pas',
-  Dictionaries in 'src\Module Salary\Dictionaries.pas';
+  Dictionaries in 'src\Module Salary\Dictionaries.pas',
+  InterfaceUsersRepository in 'InterfaceUsersRepository.pas',
+  UsersRepository in 'src\Module Auth\UsersRepository.pas',
+  InterfaceSalaryRepository in 'src\Module Auth\Interfaces\InterfaceSalaryRepository.pas',
+  UsersEntities in 'src\Module Auth\UsersEntities.pas',
+  InterfaceSessionsRepository in 'src\Module Auth\Interfaces\InterfaceSessionsRepository.pas',
+  SessionsEntities in 'src\Module Auth\SessionsEntities.pas',
+  SessionsRepository in 'src\Module Auth\SessionsRepository.pas';
 
 {$R *.res}
 
