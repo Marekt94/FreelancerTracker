@@ -2,6 +2,11 @@ program FreelancerTrackerProj;
 
 
 uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
   Vcl.Forms,
   System.SysUtils,
   InterfaceKernel in '..\Kernel\src\Interfaces\InterfaceKernel.pas',
@@ -30,7 +35,11 @@ uses
   UsersEntities in 'src\Module Auth\UsersEntities.pas',
   InterfaceSessionsRepository in 'src\Module Auth\Interfaces\InterfaceSessionsRepository.pas',
   SessionsEntities in 'src\Module Auth\SessionsEntities.pas',
-  SessionsRepository in 'src\Module Auth\SessionsRepository.pas';
+  SessionsRepository in 'src\Module Auth\SessionsRepository.pas',
+  SessionsRESTController in 'src\Module Auth\SessionsRESTController.pas',
+  SessionsRESTObjects in 'src\Module Auth\SessionsRESTObjects.pas',
+  SessionsController in 'src\Module Auth\SessionsController.pas',
+  InterfaceSessionsController in 'src\Module Auth\Interfaces\InterfaceSessionsController.pas';
 
 {$R *.res}
 
