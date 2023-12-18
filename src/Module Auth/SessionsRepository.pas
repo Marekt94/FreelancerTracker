@@ -9,13 +9,13 @@ type
   TSessionsRepository = class(TInterfacedObject, ISessionsRepository)
     procedure SaveOrUpate(const p_Obj : SessionsEntities.TSession);
     function GetSessionByUserId(const p_UserId : Integer) : SessionsEntities.TSession;
-    function SessionExist(const p_SessionId : string) : boolean;
+    function GetValidSession(const p_SessionId : string) : boolean;
   end;
 
 implementation
 
 uses
-  System.Classes, dorm.Commons, dorm.Query;
+  System.Classes, dorm.Commons, dorm.Query, System.SysUtils, System.DateUtils;
 
 { TSessionsRepository }
 
@@ -51,19 +51,22 @@ begin
 
 end;
 
-function TSessionsRepository.SessionExist(const p_SessionId: string): boolean;
+function TSessionsRepository.GetValidSession(const p_SessionId: string): boolean;
+const
+  cSQLTimestampFormat = 'yyyy-mm-dd hh:nn:ss';
 var
   pomSession : dorm.TSession;
   pomRes : SessionsEntities.TSession;
 begin
   pomRes := nil;
+  var pomDateTime := FormatDateTime(cSQLTimestampFormat, Now);
   pomSession := dorm.TSession.CreateConfigured(
     TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
   try
     pomRes := pomSession.Load<SessionsEntities.TSession>(
       Select
       .From(SessionsEntities.TSession)
-      .Where('SESSION = ?', [p_SessionId])
+      .Where('(SESSION = ?) AND (EXPIRATION_DATE > ?)', [p_SessionId, pomDateTime])
       );
 
     Result := Assigned(pomRes);

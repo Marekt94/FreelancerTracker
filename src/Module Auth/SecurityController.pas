@@ -22,7 +22,7 @@ function TSecurityController.HasPermission(
 begin
   var pomRepo := (MainKernel.GiveObjectByInterface(ISessionsRepository) as ISessionsRepository);
   var pomSessionId := AContext.GetCookieValue('sessionId');
-  var pomRes := pomRepo.SessionExist(pomSessionId);
+  var pomRes := pomRepo.GetValidSession(pomSessionId);
   if pomRes then
     Result := TMiniRESTSecurityResponse.Create(true, '')
   else

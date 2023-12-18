@@ -13,18 +13,19 @@ type
     FUserId : Integer;
     FUser : TUser;
     FSession : string;
-  private
-    procedure SetUser(const Value: TUser);
+    FExpirationDate : TDateTime;
   public
     constructor Create;
     destructor Destroy; override;
     [Id]
     property Id: integer read FId write FId;
     [BelongsTo('UserId')]
-    property User: TUser read FUser write SetUser;
+    property User: TUser read FUser write FUser;
     property Session: string read FSession write FSession;
     [Column('USER_ID')]
     property UserID: Integer read FUserID write FUserID;
+    [Column('EXPIRATION_DATE')]
+    property ExpirationDate: TDateTime read FExpirationDate write FExpirationDate;
   end;
 
 implementation
@@ -40,12 +41,6 @@ destructor TSession.Destroy;
 begin
   FUser.Free;
   inherited;
-end;
-
-procedure TSession.SetUser(const Value: TUser);
-begin
-  FUser.Free;
-  FUser := Value;
 end;
 
 end.

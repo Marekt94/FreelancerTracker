@@ -7,9 +7,13 @@ uses
 
 type
   TSessionsController = class(TInterfacedObject, ISessionsController)
+  private
+    FSessionTimeInSec : Integer;
   public
+    constructor Create;
     procedure Execute(const p_Request  : TUsersDTORequest; var p_Response : TSessionDTOResponse; out p_ErrorMessage : string);
     function CreateSession : string;
+    property SessionTimeInSec: Integer read FSessionTimeInSec write FSessionTimeInSec;
   end;
 
 implementation
@@ -19,6 +23,11 @@ uses
   InterfaceSessionsRepository;
 
 { TSessionsController }
+
+constructor TSessionsController.Create;
+begin
+  FSessionTimeInSec := 3600;
+end;
 
 function TSessionsController.CreateSession: string;
 var
@@ -56,6 +65,7 @@ begin
         pomSession.User := pomUser;
         pomUser := nil;
         pomSession.Session := CreateSession;
+        pomSession.ExpirationDate := Now + FSessionTimeInSec/SecsPerDay;
         p_Response.SessionID := pomSession.Session;
 
         pomSessionRepo.SaveOrUpate(pomSession);
