@@ -9,6 +9,7 @@ type
   TModuleServer = class(TBaseModule, IModuleServer)
   strict private
     FServer : IMiniRESTServer;
+    FLogger : IMiniRESTLogger;
   public
     function GetSelfInterface : TGUID; override;
     function OpenMainWindow : Integer; override;
@@ -44,6 +45,13 @@ begin
 
     Result := FServer;
   end
+  else if p_GUID = IMiniRESTLogger then
+  begin
+    if not Assigned(FLogger) then
+      FLogger := inherited GiveObjectByInterface(p_GUID) as IMiniRESTLogger;
+
+    Result := FLogger;
+  end
   else
     Result := inherited GiveObjectByInterface(p_GUID);
 end;
@@ -58,9 +66,10 @@ begin
   Result := inherited;
   if Result then
   begin
+    FLogger := inherited GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger;
     FServer.SetPort(8080);
     FServer.Start;
-    FServer.SetLogger(inherited GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
+    FServer.SetLogger(FLogger);
     FServer.GetLogger.Info('Start serwera');
   end;
 end;
