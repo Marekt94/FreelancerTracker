@@ -6,7 +6,7 @@ uses
   UsersEntities;
 
 type
-  TUsersDTO = class
+  TUsersDTORequest = class
   strict private
     FUserName : string;
     FPassword : string;
@@ -16,19 +16,26 @@ type
     property Password: string read FPassword write FPassword;
   end;
 
+  TSessionDTOResponse = class
+  private
+    FSessionID : string;
+  public
+    property SessionID : string read FSessionID write FSessionID;
+  end;
+
   TUsersRESTObject = class
   strict private
     FEntity : TUser;
-    FDTO : TUsersDTO;
-    procedure CreateFromDTO(const p_User : TUsersDTO);
-    function GetDTO: TUsersDTO;
+    FDTO : TUsersDTORequest;
+    procedure CreateFromDTO(const p_User : TUsersDTORequest);
+    function GetDTO: TUsersDTORequest;
     function GetJSONString: string;
   public
     constructor Create; overload;
     constructor Create(const p_JSON : string); overload;
-    constructor Create(const p_User : TUsersDTO); overload;
+    constructor Create(const p_User : TUsersDTORequest); overload;
     destructor Destroy; override;
-    property DTO : TUsersDTO read GetDTO;
+    property DTO : TUsersDTORequest read GetDTO;
     property DTOJSONString : string read GetJSONString;
     property Entity : TUser read FEntity write FEntity;
   end;
@@ -49,17 +56,17 @@ end;
 constructor TUsersRESTObject.Create(const p_JSON: string);
 begin
   Create;
-  FDTO := TJson.JsonToObject<TUsersDTO>(p_JSON);
+  FDTO := TJson.JsonToObject<TUsersDTORequest>(p_JSON);
   CreateFromDTO(FDTO);
 end;
 
-constructor TUsersRESTObject.Create(const p_User: TUsersDTO);
+constructor TUsersRESTObject.Create(const p_User: TUsersDTORequest);
 begin
   Create;
   CreateFromDTO(p_User);
 end;
 
-procedure TUsersRESTObject.CreateFromDTO(const p_User: TUsersDTO);
+procedure TUsersRESTObject.CreateFromDTO(const p_User: TUsersDTORequest);
 begin
   FEntity.UserName := p_User.UserName;
   FEntity.Password := p_User.Password;
@@ -72,23 +79,23 @@ begin
   inherited;
 end;
 
-function TUsersRESTObject.GetDTO: TUsersDTO;
+function TUsersRESTObject.GetDTO: TUsersDTORequest;
 begin
   FDTO.Free;
-  FDTO := TUsersDTO.Create(FEntity);
+  FDTO := TUsersDTORequest.Create(FEntity);
   Result := FDTO;
 end;
 
 function TUsersRESTObject.GetJSONString: string;
 begin
   FDTO.Free;
-  FDTO := TUsersDTO.Create(FEntity);
+  FDTO := TUsersDTORequest.Create(FEntity);
   Result := TJson.ObjectToJsonString(FDTO);
 end;
 
 { TUsersDTO }
 
-constructor TUsersDTO.Create(const p_User: TUser);
+constructor TUsersDTORequest.Create(const p_User: TUser);
 begin
   inherited Create;
   Self.FUserName := p_User.UserName;

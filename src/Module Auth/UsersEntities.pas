@@ -15,6 +15,7 @@ type
   public
     [Id]
     property ID: integer read FID write FID;
+    [Column('USER_NAME')]
     property UserName: string read FUserName write FUserName;
     property Password: string read FPassword write FPassword;
   end;

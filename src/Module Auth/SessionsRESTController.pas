@@ -2,47 +2,73 @@ unit SessionsRESTController;
 
 interface
 uses
-  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base, MiniREST.Intf;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base, MiniREST.Intf,
+  SessionsRESTObjects, SessionsEntities, MiniREST.ControllerOtherwise.Intf;
+
+const
+  cMappingLogin = '/login';
 
 type
-  TSessionsRESTController = class(TMiniRESTControllerBase)
-    [RequestMapping('/login')]
+  TMappingIndex = (miLogin);
+
+  TSessionsRESTController = class(TMiniRESTControllerBase, IMiniRESTControllerOtherwise)
+  private
     procedure CreateSession;
+  public
+    procedure Action(AContext : IMiniRESTActionContext);
   end;
 
 implementation
 
 uses
-  UsersEntities, SessionsRESTObjects, InterfaceSessionsController, InterfaceKernel,
-  InterfaceUsersRepository, SessionsEntities;
+  UsersEntities, InterfaceSessionsController, InterfaceKernel,
+  InterfaceUsersRepository, InterfaceSessionsRepository, RESTObjects, System.SysUtils,
+  System.StrUtils;
 
 { TSessionsRESTController }
 
+procedure TSessionsRESTController.Action(AContext: IMiniRESTActionContext);
+begin
+  case IndexStr(AContext.GetURI, [cMappingLogin]) of
+    Integer(miLogin):
+    begin
+      InitController;
+      SetActionContext(AContext);
+      SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
+      CreateSession;
+    end
+  else
+    exit;
+  end;
+end;
+
 procedure TSessionsRESTController.CreateSession;
 var
-  pomContoller : ISessionsController;
-  pomUsersRepo : IUsersRepository;
-  pomSession   : TSession;
+  pomController : ISessionsController;
 begin
-  var pom := GetActionContext.GetRequestContentAsString;
-  var pomUser := TUsersRESTObject.Create(pom);
-  try
-    pomUsersRepo := (MainKernel.GiveObjectByInterface(IUsersRepository) as IUsersRepository);
-    if pomUsersRepo.IsUserExists(pomUser.Entity.UserName, pomUser.Entity.Password) then
+  pomController := (MainKernel.GiveObjectByInterface(ISessionsController) as ISessionsController);
+  var pomSessionRESTObjects := TRESTObject<TUsersDTORequest, TSessionDTOResponse>.Create(GetActionContext.GetRequestContentAsString,
+    procedure (const p_Request : TUsersDTORequest; var p_Response : TSessionDTOResponse; out p_ErrorMessage : string)
     begin
-      pomContoller := (MainKernel.GiveObjectByInterface(ISessionsController) as ISessionsController);
-      pomSession := TSession.Create;
+      pomController.Execute(p_Request, p_Response, p_ErrorMessage);
+    end);
+  try
+    var pomDTOResponse := pomSessionRESTObjects.DTOResponse;
+
+    if Trim(pomSessionRESTObjects.ErrorMessage) = '' then
+    begin
+      var pomCookie := TMiniRESTCookie.Create('sessionId', pomDTOResponse.SessionID);
       try
-        pomSession.User := pomUser.Entity;
-        pomSession.Session := pomContoller.CreateSession;
+        GetActionContext.SetCookie(pomCookie);
+        ResponseJson('Authorized');
       finally
-        pomSession.Free;
+        pomCookie.Free;
       end;
     end
     else
-      ResponseErro('Unauthorized', 401)
+      ResponseErro(pomSessionRESTObjects.ErrorMessage, 401);
   finally
-    pomUser.Free;
+    pomSessionRESTObjects.Free;
   end;
 end;
 

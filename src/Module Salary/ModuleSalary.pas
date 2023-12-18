@@ -9,7 +9,6 @@ type
   TModuleSalary = class(TBaseModule, IModuleSalary)
   public
     function GetSelfInterface : TGUID; override;
-    function OpenMainWindow : Integer; override;
     procedure RegisterClasses; override;
     function OpenModule : boolean; override;
   end;
@@ -26,11 +25,6 @@ uses
 function TModuleSalary.GetSelfInterface: TGUID;
 begin
   Result := IModuleSalary;
-end;
-
-function TModuleSalary.OpenMainWindow: Integer;
-begin
-  Result := inherited;
 end;
 
 function TModuleSalary.OpenModule: boolean;

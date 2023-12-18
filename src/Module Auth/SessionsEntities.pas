@@ -20,11 +20,11 @@ type
     destructor Destroy; override;
     [Id]
     property Id: integer read FId write FId;
-    [Column('USER_ID')]
-    property UserId: Integer read FUserId write FUserId;
     [BelongsTo('UserId')]
     property User: TUser read FUser write SetUser;
     property Session: string read FSession write FSession;
+    [Column('USER_ID')]
+    property UserID: Integer read FUserID write FUserID;
   end;
 
 implementation

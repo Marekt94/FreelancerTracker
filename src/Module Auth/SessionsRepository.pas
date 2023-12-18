@@ -9,6 +9,7 @@ type
   TSessionsRepository = class(TInterfacedObject, ISessionsRepository)
     procedure SaveOrUpate(const p_Obj : SessionsEntities.TSession);
     function GetSessionByUserId(const p_UserId : Integer) : SessionsEntities.TSession;
+    function SessionExist(const p_SessionId : string) : boolean;
   end;
 
 implementation
@@ -48,6 +49,28 @@ begin
     pomSession.Free;
   end;
 
+end;
+
+function TSessionsRepository.SessionExist(const p_SessionId: string): boolean;
+var
+  pomSession : dorm.TSession;
+  pomRes : SessionsEntities.TSession;
+begin
+  pomRes := nil;
+  pomSession := dorm.TSession.CreateConfigured(
+    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
+  try
+    pomRes := pomSession.Load<SessionsEntities.TSession>(
+      Select
+      .From(SessionsEntities.TSession)
+      .Where('SESSION = ?', [p_SessionId])
+      );
+
+    Result := Assigned(pomRes);
+  finally
+    pomRes.Free;
+    pomSession.Free;
+  end;
 end;
 
 end.
