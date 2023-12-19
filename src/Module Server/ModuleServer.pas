@@ -9,12 +9,10 @@ type
   TModuleServer = class(TBaseModule, IModuleServer)
   strict private
     FServer : IMiniRESTServer;
-    FLogger : IMiniRESTLogger;
   public
     function GetSelfInterface : TGUID; override;
     function OpenMainWindow : Integer; override;
     procedure RegisterClasses; override;
-    function GiveObjectByInterface (p_GUID : TGUID) : IInterface; override;
     function OpenModule : boolean; override;
     function CloseModule : boolean; override;
   end;
@@ -36,26 +34,6 @@ begin
   Result := IModuleServer;
 end;
 
-function TModuleServer.GiveObjectByInterface(p_GUID: TGUID): IInterface;
-begin
-  if p_GUID = IMiniRESTServer then
-  begin
-    if not Assigned (FServer) then
-      FServer := inherited GiveObjectByInterface(p_GUID) as IMiniRESTServer;
-
-    Result := FServer;
-  end
-  else if p_GUID = IMiniRESTLogger then
-  begin
-    if not Assigned(FLogger) then
-      FLogger := inherited GiveObjectByInterface(p_GUID) as IMiniRESTLogger;
-
-    Result := FLogger;
-  end
-  else
-    Result := inherited GiveObjectByInterface(p_GUID);
-end;
-
 function TModuleServer.OpenMainWindow: Integer;
 begin
   Result := inherited;
@@ -66,18 +44,19 @@ begin
   Result := inherited;
   if Result then
   begin
-    FLogger := inherited GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger;
+    var pomLogger := GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger;
+    FServer := GiveObjectByInterface(IMiniRESTServer) as IMiniRESTServer;
     FServer.SetPort(8080);
     FServer.Start;
-    FServer.SetLogger(FLogger);
+    FServer.SetLogger(pomLogger);
     FServer.GetLogger.Info('Start serwera');
   end;
 end;
 
 procedure TModuleServer.RegisterClasses;
 begin
-  RegisterClass(IMiniRESTServer, TMiniRESTServerIndy);
-  RegisterClass(IMiniRESTLogger, TRESTLoggger);
+  RegisterClassForSigleton(IMiniRESTServer, TMiniRESTServerIndy);
+  RegisterClassForSigleton(IMiniRESTLogger, TRESTLoggger);
 end;
 
 end.
