@@ -25,11 +25,15 @@ uses
 
 { TRESTLoggger }
 
+var
+  gLogger : IMiniRESTLogger;
+
 constructor TRESTLoggger.Create;
 begin
   TLoggerUnit.initialize;
   FLogger := TLogger.GetInstance('Freelancer Tracker REST logger');
-  FLogger.AddAppender(TFileAppender.Create('Freelancer Tracker REST logger.log', TPatternLayout.Create('%d [%5p] %m%n')));
+  if FLogger.GetAllAppenders.Count = 0 then
+    FLogger.AddAppender(TFileAppender.Create('Freelancer Tracker REST logger.log', TPatternLayout.Create('%d [%5p] %m%n')));
 end;
 
 procedure TRESTLoggger.Debug(ADebug: string);

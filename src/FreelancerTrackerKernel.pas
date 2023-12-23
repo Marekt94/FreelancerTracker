@@ -13,7 +13,7 @@ type
 implementation
 
 uses
-  ModuleServer, ModuleSalary;
+  ModuleServer, ModuleSalary, ModuleAuth;
 
 { TFreelancerTrackerKernel }
 
@@ -23,6 +23,7 @@ begin
   inherited;
   p_ModuleList.Add(TModuleSalary.Create);
   p_ModuleList.Add(TModuleServer.Create);
+  p_ModuleList.Add(TModuleAuth.Create);
 end;
 
 end.
