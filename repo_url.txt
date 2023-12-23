@@ -1,0 +1,4 @@
+https://github.com/Marekt94/FreelancerTracker.git
+https://github.com/glprog/MiniREST.git
+https://github.com/danieleteti/delphi-orm.git
+https://github.com/Marekt94/Kernel.git
