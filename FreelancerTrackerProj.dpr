@@ -38,13 +38,15 @@ uses
   InterfaceModuleAuth in 'src\Module Auth\Interfaces\InterfaceModuleAuth.pas',
   InterfaceSalaryRepository in 'src\Module Salary\Interfaces\InterfaceSalaryRepository.pas',
   InterfaceUsersRepository in 'src\Module Auth\Interfaces\InterfaceUsersRepository.pas',
-  SecurityController in 'src\Module Auth\SecurityController.pas';
+  SecurityController in 'src\Module Auth\SecurityController.pas',
+  INIPreferenceRepository in '..\Kernel\src\Base classes\INIPreferenceRepository.pas';
 
 {$R *.res}
 
 begin
   ReportMemoryLeaksOnShutdown := true;
   MainKernel := TVCLKernel.Create (TFreelancerTrackerKernel.Create);
+  MainKernel.PreferenceRepository := TPreferenceRepository.Create;
   if Supports(MainKernel, IVCLKernel) then
   begin
     (MainKernel as IVCLKernel).Open (TfrmMain, 'Freelancer Tracker Server');

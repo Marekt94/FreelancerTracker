@@ -148,6 +148,7 @@
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryRepository.pas"/>
         <DCCReference Include="src\Module Auth\Interfaces\InterfaceUsersRepository.pas"/>
         <DCCReference Include="src\Module Auth\SecurityController.pas"/>
+        <DCCReference Include="..\Kernel\src\Base classes\INIPreferenceRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
