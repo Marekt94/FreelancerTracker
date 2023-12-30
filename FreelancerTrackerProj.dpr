@@ -39,7 +39,8 @@ uses
   InterfaceSalaryRepository in 'src\Module Salary\Interfaces\InterfaceSalaryRepository.pas',
   InterfaceUsersRepository in 'src\Module Auth\Interfaces\InterfaceUsersRepository.pas',
   SecurityController in 'src\Module Auth\SecurityController.pas',
-  INIPreferenceRepository in '..\Kernel\src\Base classes\INIPreferenceRepository.pas';
+  INIPreferenceRepository in '..\Kernel\src\Base classes\INIPreferenceRepository.pas',
+  RESTControllerWithLogging in 'src\Misc\RESTControllerWithLogging.pas';
 
 {$R *.res}
 

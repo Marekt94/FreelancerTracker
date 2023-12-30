@@ -55,8 +55,8 @@ end;
 
 procedure TModuleServer.RegisterClasses;
 begin
-  RegisterClassForSigleton(IMiniRESTServer, TMiniRESTServerIndy);
-  RegisterClassForSigleton(IMiniRESTLogger, TRESTLoggger);
+  RegisterClassForSigleton(IMiniRESTServer, TMiniRESTServerIndy, []);
+  RegisterClassForSigleton(IMiniRESTLogger, TRESTLoggger, []);
 end;
 
 end.

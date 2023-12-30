@@ -149,6 +149,7 @@
         <DCCReference Include="src\Module Auth\Interfaces\InterfaceUsersRepository.pas"/>
         <DCCReference Include="src\Module Auth\SecurityController.pas"/>
         <DCCReference Include="..\Kernel\src\Base classes\INIPreferenceRepository.pas"/>
+        <DCCReference Include="src\Misc\RESTControllerWithLogging.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -211,6 +212,12 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\xml</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidGDBServer">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

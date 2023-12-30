@@ -48,9 +48,9 @@ end;
 procedure TModuleAuth.RegisterClasses;
 begin
   inherited;
-  RegisterClass(ISessionsController, TSessionsController);
-  RegisterClass(IUsersRepository, TUsersRepository);
-  RegisterClass(ISessionsRepository, TSessionsRepository);
+  RegisterClass(ISessionsController, TSessionsController, []);
+  RegisterClass(IUsersRepository, TUsersRepository, []);
+  RegisterClass(ISessionsRepository, TSessionsRepository, []);
 end;
 
 end.

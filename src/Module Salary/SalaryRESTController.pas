@@ -3,13 +3,11 @@ unit SalaryRESTController;
 interface
 
 uses
-  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base, MiniREST.Intf;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Intf, RESTControllerWithLogging;
 
 type
-  TSalaryRESTController = class(TMiniRESTControllerBase)
+  TSalaryRESTController = class(TRESTControllerWithLogging)
   public
-    procedure ResponseStatus(p_StatusText : string);
-    procedure ResponseJson(AJson: string; AStatusCode : Integer = 200); reintroduce;
     [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
     [RequestMapping('/salary/{id}')]
@@ -226,27 +224,6 @@ begin
       GetLogger.Exception('[TSalaryRESTController.GetSalary]', E);
     end;
   end;
-end;
-
-procedure TSalaryRESTController.ResponseStatus(p_StatusText : string);
-const
-  cStatusJSON = '{"status": "%s"}';
-begin
-  ResponseJson(Format(cStatusJSON, [p_StatusText]));
-end;
-
-procedure TSalaryRESTController.ResponseJson(AJson: string;
-  AStatusCode: Integer);
-begin
-  {$IFDEF DEBUG}
-  GetLogger.Debug(GetActionContext.GetURI);
-  if GetActionContext.GetCommandType = rmPost then
-    GetLogger.Debug(GetActionContext.GetRequestContentAsString);
-  {$ENDIF}
-  GetActionContext.AppendHeader('Access-Control-Allow-Origin', '*');
-  GetActionContext.AppendHeader('Access-Control-Allow-Methods','POST, PUT, PATCH, GET, DELETE, OPTIONS');
-  GetActionContext.AppendHeader('Access-Control-Allow-Headers','Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
-  inherited ResponseJson(AJson, AStatusCode);
 end;
 
 procedure TSalaryRESTController.SaveSalary;

@@ -37,9 +37,9 @@ end;
 procedure TModuleSalary.RegisterClasses;
 begin
   inherited;
-  RegisterClass(ISalaryRepository, TSalaryRepository);
-  RegisterClass(IFormaOpodatkowaniaRepository, TFormaOpodatkowaniaRepository);
-  RegisterClass(ISalaryEvaluatorController, TSalaryEvaluatorController);
+  RegisterClass(ISalaryRepository, TSalaryRepository, []);
+  RegisterClass(IFormaOpodatkowaniaRepository, TFormaOpodatkowaniaRepository, []);
+  RegisterClass(ISalaryEvaluatorController, TSalaryEvaluatorController, []);
 end;
 
 end.

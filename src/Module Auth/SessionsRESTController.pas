@@ -2,8 +2,8 @@ unit SessionsRESTController;
 
 interface
 uses
-  MiniREST.Attribute, MiniREST.Common, MiniREST.Controller.Base, MiniREST.Intf,
-  SessionsRESTObjects, SessionsEntities, MiniREST.ControllerOtherwise.Intf;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Intf,
+  SessionsRESTObjects, SessionsEntities, MiniREST.ControllerOtherwise.Intf, RESTControllerWithLogging;
 
 const
   cMappingLogin = '/login';
@@ -11,7 +11,7 @@ const
 type
   TMappingIndex = (miLogin);
 
-  TSessionsRESTController = class(TMiniRESTControllerBase, IMiniRESTControllerOtherwise)
+  TSessionsRESTController = class(TRESTControllerWithLogging, IMiniRESTControllerOtherwise)
   private
     procedure CreateSession;
   public
@@ -60,7 +60,7 @@ begin
       var pomCookie := TMiniRESTCookie.Create('sessionId', pomDTOResponse.SessionID);
       try
         GetActionContext.SetCookie(pomCookie);
-        ResponseJson('Authorized');
+        ResponseStatus('Authorized');
       finally
         pomCookie.Free;
       end;
