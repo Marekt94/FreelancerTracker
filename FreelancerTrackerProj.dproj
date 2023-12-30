@@ -149,7 +149,13 @@
         <DCCReference Include="src\Module Auth\Interfaces\InterfaceUsersRepository.pas"/>
         <DCCReference Include="src\Module Auth\SecurityController.pas"/>
         <DCCReference Include="..\Kernel\src\Base classes\INIPreferenceRepository.pas"/>
-        <DCCReference Include="src\Misc\RESTControllerWithLogging.pas"/>
+        <DCCReference Include="src\Misc\RESTControllerBase.pas"/>
+        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareCustomHeaderController.pas"/>
+        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareLogger.pas"/>
+        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareWhiteListController.pas"/>
+        <DCCReference Include="src\Module Server\RESTMiddlewareCustomHeaderController.pas"/>
+        <DCCReference Include="src\Module Server\RESTMiddlewareLogger.pas"/>
+        <DCCReference Include="src\Module Server\RESTMiddlewareWhiteListController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

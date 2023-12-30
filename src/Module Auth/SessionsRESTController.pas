@@ -3,7 +3,7 @@ unit SessionsRESTController;
 interface
 uses
   MiniREST.Attribute, MiniREST.Common, MiniREST.Intf,
-  SessionsRESTObjects, SessionsEntities, MiniREST.ControllerOtherwise.Intf, RESTControllerWithLogging;
+  SessionsRESTObjects, SessionsEntities, MiniREST.ControllerOtherwise.Intf, RESTControllerBase;
 
 const
   cMappingLogin = '/login';
@@ -11,7 +11,7 @@ const
 type
   TMappingIndex = (miLogin);
 
-  TSessionsRESTController = class(TRESTControllerWithLogging, IMiniRESTControllerOtherwise)
+  TSessionsRESTController = class(TRESTControllerBase, IMiniRESTControllerOtherwise)
   private
     procedure CreateSession;
   public

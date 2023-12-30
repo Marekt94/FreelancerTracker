@@ -40,7 +40,13 @@ uses
   InterfaceUsersRepository in 'src\Module Auth\Interfaces\InterfaceUsersRepository.pas',
   SecurityController in 'src\Module Auth\SecurityController.pas',
   INIPreferenceRepository in '..\Kernel\src\Base classes\INIPreferenceRepository.pas',
-  RESTControllerWithLogging in 'src\Misc\RESTControllerWithLogging.pas';
+  RESTControllerBase in 'src\Misc\RESTControllerBase.pas',
+  InterfaceRESTMiddlewareCustomHeaderController in 'src\Module Server\Interfaces\InterfaceRESTMiddlewareCustomHeaderController.pas',
+  InterfaceRESTMiddlewareLogger in 'src\Module Server\Interfaces\InterfaceRESTMiddlewareLogger.pas',
+  InterfaceRESTMiddlewareWhiteListController in 'src\Module Server\Interfaces\InterfaceRESTMiddlewareWhiteListController.pas',
+  RESTMiddlewareCustomHeaderController in 'src\Module Server\RESTMiddlewareCustomHeaderController.pas',
+  RESTMiddlewareLogger in 'src\Module Server\RESTMiddlewareLogger.pas',
+  RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas';
 
 {$R *.res}
 

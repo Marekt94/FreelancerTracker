@@ -3,10 +3,10 @@ unit SalaryRESTController;
 interface
 
 uses
-  MiniREST.Attribute, MiniREST.Common, MiniREST.Intf, RESTControllerWithLogging;
+  MiniREST.Attribute, MiniREST.Common, MiniREST.Intf, RESTControllerBase;
 
 type
-  TSalaryRESTController = class(TRESTControllerWithLogging)
+  TSalaryRESTController = class(TRESTControllerBase)
   public
     [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
