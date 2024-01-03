@@ -7,13 +7,17 @@ uses
 
 const
   cMappingLogin = '/login';
+  cMappingLogout = '/logout';
+
+  SESSION_COOKIE_NAME = 'sessionId';
 
 type
-  TMappingIndex = (miLogin);
+  TMappingIndex = (miLogin, miLogout);
 
   TSessionsRESTController = class(TRESTControllerBase, IMiniRESTControllerOtherwise)
   private
     procedure CreateSession;
+    procedure Logout;
   public
     procedure Action(AContext : IMiniRESTActionContext);
   end;
@@ -29,14 +33,15 @@ uses
 
 procedure TSessionsRESTController.Action(AContext: IMiniRESTActionContext);
 begin
-  case IndexStr(AContext.GetURI, [cMappingLogin]) of
+  InitController;
+  SetActionContext(AContext);
+  SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
+
+  case IndexStr(AContext.GetURI, [cMappingLogin, cMappingLogout]) of
     Integer(miLogin):
-    begin
-      InitController;
-      SetActionContext(AContext);
-      SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
       CreateSession;
-    end
+    Integer(miLogout):
+      Logout;
   else
     exit;
   end;
@@ -57,7 +62,7 @@ begin
 
     if Trim(pomSessionRESTObjects.ErrorMessage) = '' then
     begin
-      var pomCookie := TMiniRESTCookie.Create('sessionId', pomDTOResponse.SessionID);
+      var pomCookie := TMiniRESTCookie.Create(SESSION_COOKIE_NAME, pomDTOResponse.SessionID);
       try
         GetActionContext.SetCookie(pomCookie);
         ResponseStatus('Authorized');
@@ -70,6 +75,23 @@ begin
   finally
     pomSessionRESTObjects.Free;
   end;
+end;
+
+procedure TSessionsRESTController.Logout;
+begin
+  var pomController := (MainKernel.GiveObjectByInterface(ISessionsController) as ISessionsController);
+  pomController.Logout(GetActionContext.GetCookieValue(SESSION_COOKIE_NAME));
+  var pomCookie := GetActionContext.GetCookie(SESSION_COOKIE_NAME);
+  try
+    if Assigned(pomCookie) then
+    begin
+      pomCookie.Expires := Now - 1;
+      GetActionContext.SetCookie(pomCookie);
+    end;
+  finally
+    pomCookie.Free;
+  end;
+  ResponseStatus('Logout');
 end;
 
 end.

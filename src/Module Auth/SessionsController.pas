@@ -11,6 +11,7 @@ type
     FSessionTimeInSec : Integer;
   public
     constructor Create;
+    procedure Logout(const p_SessionId : string);
     procedure Execute(const p_Request  : TUsersDTORequest; var p_Response : TSessionDTOResponse; out p_ErrorMessage : string);
     function CreateSession : string;
     property SessionTimeInSec: Integer read FSessionTimeInSec write FSessionTimeInSec;
@@ -78,6 +79,15 @@ begin
   end
   else
     p_ErrorMessage := sUserDoesNotExist;
+end;
+
+procedure TSessionsController.Logout(const p_SessionId: string);
+begin
+  var pomSessionRepo := (MainKernel.GiveObjectByInterface(ISessionsRepository) as ISessionsRepository);
+  var pomSession := pomSessionRepo.GetWhere(['SESSION'], ['='], [p_SessionId]);
+  if Assigned(pomSession) then
+    pomSessionRepo.Delete(pomSession);
+  pomSession.Free;
 end;
 
 end.
