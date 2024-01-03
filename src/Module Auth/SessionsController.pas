@@ -68,7 +68,7 @@ begin
         pomSession.ExpirationDate := Now + FSessionTimeInSec/SecsPerDay;
         p_Response.SessionID := pomSession.Session;
 
-        pomSessionRepo.SaveOrUpate(pomSession);
+        pomSessionRepo.SaveOrUpdate(pomSession);
       finally
         pomSession.Free;
       end

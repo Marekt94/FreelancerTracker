@@ -46,7 +46,9 @@ uses
   InterfaceRESTMiddlewareWhiteListController in 'src\Module Server\Interfaces\InterfaceRESTMiddlewareWhiteListController.pas',
   RESTMiddlewareCustomHeaderController in 'src\Module Server\RESTMiddlewareCustomHeaderController.pas',
   RESTMiddlewareLogger in 'src\Module Server\RESTMiddlewareLogger.pas',
-  RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas';
+  RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas',
+  RepositoryWrapper in 'src\Misc\RepositoryWrapper.pas',
+  InterfaceRepositoryWrapper in 'src\Misc\Interfaces\InterfaceRepositoryWrapper.pas';
 
 {$R *.res}
 

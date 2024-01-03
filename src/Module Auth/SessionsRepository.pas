@@ -3,13 +3,18 @@ unit SessionsRepository;
 interface
 
 uses
-  dorm, InterfaceSessionsRepository, SessionsEntities;
+  dorm, InterfaceSessionsRepository, SessionsEntities, RepositoryWrapper,
+  InterfaceRepositoryWrapper;
 
 type
-  TSessionsRepository = class(TInterfacedObject, ISessionsRepository)
-    procedure SaveOrUpate(const p_Obj : SessionsEntities.TSession);
+  TSessionsRepository = class(TRepositoryWrapper, ISessionsRepository)
     function GetSessionByUserId(const p_UserId : Integer) : SessionsEntities.TSession;
     function GetValidSession(const p_SessionId : string) : boolean;
+
+    function Get(const p_Id : Integer) : TObject;
+    function GetWhere(const p_ColumnsName : array of string;
+                      const p_Compare : array of string;
+                      const p_Values : array of const) : TObject;
   end;
 
 implementation
@@ -19,61 +24,31 @@ uses
 
 { TSessionsRepository }
 
-function TSessionsRepository.GetSessionByUserId(
-  const p_UserId: Integer): SessionsEntities.TSession;
-var
-  pomSession : dorm.TSession;
+function TSessionsRepository.Get(const p_Id: Integer): TObject;
 begin
-  pomSession := dorm.TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    Result := pomSession.Load<SessionsEntities.TSession>(
-      Select
-      .From(SessionsEntities.TSession)
-      .Where('USER_ID = ?', [p_UserId])
-      );
-  finally
-    pomSession.Free;
-  end;
+  Result := inherited Get<SessionsEntities.TSession>(p_Id);
 end;
 
-procedure TSessionsRepository.SaveOrUpate(const p_Obj: TSession);
-var
-  pomSession : dorm.TSession;
+function TSessionsRepository.GetSessionByUserId(
+  const p_UserId: Integer): SessionsEntities.TSession;
 begin
-  pomSession := dorm.TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    pomSession.Persist(p_Obj);
-  finally
-    pomSession.Free;
-  end;
-
+  Result := GetWhere(['USER_ID'], ['='], [p_UserId]) as SessionsEntities.TSession;
 end;
 
 function TSessionsRepository.GetValidSession(const p_SessionId: string): boolean;
 const
   cSQLTimestampFormat = 'yyyy-mm-dd hh:nn:ss';
-var
-  pomSession : dorm.TSession;
-  pomRes : SessionsEntities.TSession;
 begin
-  pomRes := nil;
   var pomDateTime := FormatDateTime(cSQLTimestampFormat, Now);
-  pomSession := dorm.TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    pomRes := pomSession.Load<SessionsEntities.TSession>(
-      Select
-      .From(SessionsEntities.TSession)
-      .Where('(SESSION = ?) AND (EXPIRATION_DATE > ?)', [p_SessionId, pomDateTime])
-      );
+  var pomRes := GetWhere(['SESSION', 'EXPIRATION_DATE'], ['=', '>'], [p_SessionId, pomDateTime]);
+  Result := Assigned(pomRes);
+  pomRes.Free;
+end;
 
-    Result := Assigned(pomRes);
-  finally
-    pomRes.Free;
-    pomSession.Free;
-  end;
+function TSessionsRepository.GetWhere(const p_ColumnsName,
+  p_Compare: array of string; const p_Values: array of const): TObject;
+begin
+  Result := inherited GetWhere<SessionsEntities.TSession>(p_ColumnsName, p_Compare, p_Values);
 end;
 
 end.

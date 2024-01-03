@@ -156,6 +156,8 @@
         <DCCReference Include="src\Module Server\RESTMiddlewareCustomHeaderController.pas"/>
         <DCCReference Include="src\Module Server\RESTMiddlewareLogger.pas"/>
         <DCCReference Include="src\Module Server\RESTMiddlewareWhiteListController.pas"/>
+        <DCCReference Include="src\Misc\RepositoryWrapper.pas"/>
+        <DCCReference Include="src\Misc\Interfaces\InterfaceRepositoryWrapper.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
