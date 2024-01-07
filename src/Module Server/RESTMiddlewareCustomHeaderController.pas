@@ -7,22 +7,58 @@ uses
 
 type
   TRESTMiddlewareCustomHeaderController = class(TInterfacedObject, IRESTMiddlewareCustomHeaderController, IMiniRESTMiddleware)
+  strict private
+    FProtocol : string;
+  public
+    constructor Create;
+    procedure SetProtocol(const AProtocol : TRESTProtocol);
+    function GetProtocol : TRESTProtocol;
     function Process(AActionContext : IMiniRESTActionContext) : Boolean;
-
   end;
 
 implementation
 
+uses
+  System.StrUtils, System.SysUtils;
+
+const
+  cHTTP  = 'http://';
+  cHTTPS = 'https://';
+
 { TRESTMiddlewareCustomHeaderController }
+
+constructor TRESTMiddlewareCustomHeaderController.Create;
+begin
+  FProtocol := 'http://';
+end;
+
+function TRESTMiddlewareCustomHeaderController.GetProtocol: TRESTProtocol;
+begin
+  case IndexStr(FProtocol, [cHttp, cHttps]) of
+    0: Result := rpHTTP;
+    1: Result := rpHTTPS;
+  else
+    raise Exception.Create('Protokó³ nieobs³ugiwany');
+  end;
+end;
 
 function TRESTMiddlewareCustomHeaderController.Process(
   AActionContext: IMiniRESTActionContext): Boolean;
 begin
-  AActionContext.AppendHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  AActionContext.AppendHeader('Access-Control-Allow-Origin', FProtocol + 'localhost:3000');
   AActionContext.AppendHeader('Access-Control-Allow-Credentials', 'true');
   AActionContext.AppendHeader('Access-Control-Allow-Methods','POST, GET, DELETE');
   AActionContext.AppendHeader('Access-Control-Allow-Headers','Content-Type, Accept');
   Result := true;
+end;
+
+procedure TRESTMiddlewareCustomHeaderController.SetProtocol(
+  const AProtocol: TRESTProtocol);
+begin
+  case AProtocol of
+    rpHTTP:  FProtocol := cHTTP;
+    rpHTTPS: FProtocol := cHTTPS;
+  end;
 end;
 
 end.
