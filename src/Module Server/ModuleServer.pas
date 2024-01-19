@@ -82,6 +82,8 @@ begin
     AddMiddleware(pomMidLogger);
     var pomMidHeader := GiveObjectByInterface(IRESTMiddlewareCustomHeaderController) as IRESTMiddlewareCustomHeaderController;
     pomMidHeader.Protocol := TRESTProtocol(pomSecured);
+    pomMidHeader.Logger := pomLogger;
+    pomMidHeader.AllowedOrigin := GetPreference('allowedOrigin', '*');
     AddMiddleware(pomMidHeader);
 
     if pomSecured and Supports(FServer, ISSL, pomSSL) then
