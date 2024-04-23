@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B49446C5-436E-4749-A35A-5F59CAA6801C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FreelancerTrackerProj.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TestFreelancerTrackerProj.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FreelancerTrackerProj">
+        <MSBuild Projects="FreelancerTrackerProj.dproj"/>
+    </Target>
+    <Target Name="FreelancerTrackerProj:Clean">
+        <MSBuild Projects="FreelancerTrackerProj.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FreelancerTrackerProj:Make">
+        <MSBuild Projects="FreelancerTrackerProj.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestFreelancerTrackerProj">
+        <MSBuild Projects="TestFreelancerTrackerProj.dproj"/>
+    </Target>
+    <Target Name="TestFreelancerTrackerProj:Clean">
+        <MSBuild Projects="TestFreelancerTrackerProj.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestFreelancerTrackerProj:Make">
+        <MSBuild Projects="TestFreelancerTrackerProj.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FreelancerTrackerProj;TestFreelancerTrackerProj"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FreelancerTrackerProj:Clean;TestFreelancerTrackerProj:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FreelancerTrackerProj:Make;TestFreelancerTrackerProj:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

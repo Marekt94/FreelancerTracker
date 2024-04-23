@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{ED8F68AE-6B37-4207-8D51-7791D6CC9089}</ProjectGuid>
-        <ProjectVersion>20.1</ProjectVersion>
-        <FrameworkType>VCL</FrameworkType>
+        <ProjectGuid>{0D5AE8CE-E49B-4076-9D79-206B747605DE}</ProjectGuid>
+        <ProjectVersion>19.5</ProjectVersion>
+        <FrameworkType>None</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Application</AppType>
-        <MainSource>FreelancerTrackerProj.dpr</MainSource>
+        <AppType>Console</AppType>
+        <MainSource>TestFreelancerTrackerProj.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -39,14 +39,8 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
-        <Cfg_2_Win32>true</Cfg_2_Win32>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_DcuOutput>.</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
@@ -54,26 +48,18 @@
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>FreelancerTrackerProj</SanitizedProjectName>
-        <DCC_UnitSearchPath>..\Kernel\src\VCL\Interfaces;..\Kernel\src\VCL;..\Kernel\src;..\Kernel\src\Interfaces;..\MiniREST;..\Kernel\src\Base classes;..\MiniREST\JsonDataObjects\Source;..\DORM\source;..\DORM\lib\uib\source;..\DORM\lib\ZeosDBO-7_2_14\src\dbc\;..\DORM\lib\ZeosDBO-7_2_14\src\core;..\DORM\lib\ZeosDBO-7_2_14\src\component;..\DORM\lib\ZeosDBO-7_2_14\src\parsesql;..\DORM\lib\ZeosDBO-7_2_14\src\plain;..\Log4delphi-0.8\src\delphi;..\Log4delphi-0.8\src\delphi\util;..\IndyOpenSSL111\Lib\Core;..\IndyOpenSSL111\Lib\System;..\IndyOpenSSL111\Lib\Protocols;..\IndyOpenSSL111\Lib\Protocols\OpenSSL;C:\Repo\IndyOpenSSL111\Lib\Protocols\OpenSSL\dynamic;C:\Repo\IndyOpenSSL111\Lib\Protocols\OpenSSL\IntermediateCode;C:\Repo\IndyOpenSSL111\Lib\Protocols\OpenSSL\static;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <VerInfo_Locale>1045</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
+        <DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_Define>CONSOLE_TESTRUNNER;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;ZComponent;vclFireDAC;IndySystem;ZCore;bindcompvclsmp;tethering;svnui;bindcompvclwinx;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;TeeDB;FireDAC;ZDbc;vcltouch;vcldb;bindcompfmx;svn;FireDACSqliteDriver;FireDACPgDriver;inetdb;OverbyteIcsD104Run;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;vcledge;fmxobj;vclwinx;Tee;rtl;madDisAsm_;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;ZParseSql;bindcomp;appanalytics;dsnap;ZPlain;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>soapserver;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;vclx;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;RESTBackendComponents;bindcompfmx;ZPlain;ZComponent;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;IndySystem280;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;soapmidas;adortl;IndyCore280;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;IndyProtocols280;dbrtl;ZDbc;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;ZCore;fmxobj;bindcompvclsmp;FMXTee;ZParseSql;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;ZComponent;vclFireDAC;IndySystem;ZCore;bindcompvclsmp;tethering;bindcompvclwinx;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;TeeDB;FireDAC;ZDbc;vcltouch;vcldb;bindcompfmx;FireDACSqliteDriver;FireDACPgDriver;inetdb;OverbyteIcsD104Run;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;vcledge;fmxobj;vclwinx;Tee;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;ZParseSql;bindcomp;appanalytics;dsnap;ZPlain;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>soapserver;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;vclx;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;RESTBackendComponents;bindcompfmx;ZPlain;ZComponent;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;IndySystem280;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;soapmidas;adortl;IndyCore280;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;IndyProtocols280;dbrtl;ZDbc;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;ZCore;fmxobj;bindcompvclsmp;FMXTee;ZParseSql;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -82,14 +68,15 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_UnitSearchPath>..\Kernel\src\VCL\Interfaces;..\Kernel\src\VCL;..\Kernel\src;..\Kernel\src\Interfaces;..\MiniREST;..\Kernel\src\Base classes;..\MiniREST\JsonDataObjects\Source;..\DORM\source;..\DORM\lib\uib\source;..\DORM\lib\ZeosDBO-7_2_14\src\dbc\;..\DORM\lib\ZeosDBO-7_2_14\src\core;..\DORM\lib\ZeosDBO-7_2_14\src\component;..\DORM\lib\ZeosDBO-7_2_14\src\parsesql;..\DORM\lib\ZeosDBO-7_2_14\src\plain;..\Log4delphi-0.8\src\delphi;..\Log4delphi-0.8\src\delphi\util;..\IndyOpenSSL111\Lib\Core;..\IndyOpenSSL111\Lib\System;..\IndyOpenSSL111\Lib\Protocols;..\IndyOpenSSL111\Lib\Protocols\OpenSSL;..\IndyOpenSSL111\Lib\Protocols\OpenSSL\dynamic;..\IndyOpenSSL111\Lib\Protocols\OpenSSL\IntermediateCode;..\IndyOpenSSL111\Lib\Protocols\OpenSSL\static;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
-        <DCC_MapFile>3</DCC_MapFile>
+        <Manifest_File>(None)</Manifest_File>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -97,68 +84,14 @@
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <DCC_MapFile>3</DCC_MapFile>
-        <DCC_DebugInformation>2</DCC_DebugInformation>
-        <DCC_LocalDebugSymbols>true</DCC_LocalDebugSymbols>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-    </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\Kernel\src\Interfaces\InterfaceKernel.pas"/>
-        <DCCReference Include="..\Kernel\src\VCL\VCLKernel.pas"/>
-        <DCCReference Include="..\Kernel\src\VCL\Interfaces\InterfaceVCLKernel.pas"/>
-        <DCCReference Include="src\FreelancerTrackerKernel.pas"/>
-        <DCCReference Include="src\Frames\Main.pas">
-            <Form>frmMain</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="src\Module Server\ModuleServer.pas"/>
-        <DCCReference Include="src\Module Server\Interfaces\InterfaceModuleServer.pas"/>
-        <DCCReference Include="src\Module Salary\Interfaces\InterfaceModuleSalary.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryRESTController.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryEntities.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryRepository.pas"/>
-        <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
-        <DCCReference Include="src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas"/>
-        <DCCReference Include="src\Module Salary\FormaOpodatkowaniaRepository.pas"/>
-        <DCCReference Include="src\Module Salary\LumpSumEvaluatorController.pas"/>
-        <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryRESTObjects.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryDTOs.pas"/>
-        <DCCReference Include="src\Module Server\RESTLogger.pas"/>
-        <DCCReference Include="src\Module Salary\Dictionaries.pas"/>
-        <DCCReference Include="src\Module Auth\UsersRepository.pas"/>
-        <DCCReference Include="src\Module Auth\UsersEntities.pas"/>
-        <DCCReference Include="src\Module Auth\Interfaces\InterfaceSessionsRepository.pas"/>
-        <DCCReference Include="src\Module Auth\SessionsEntities.pas"/>
-        <DCCReference Include="src\Module Auth\SessionsRepository.pas"/>
-        <DCCReference Include="src\Module Auth\SessionsRESTController.pas"/>
-        <DCCReference Include="src\Module Auth\SessionsRESTObjects.pas"/>
-        <DCCReference Include="src\Module Auth\SessionsController.pas"/>
-        <DCCReference Include="src\Module Auth\Interfaces\InterfaceSessionsController.pas"/>
-        <DCCReference Include="src\Misc\RESTObjects.pas"/>
-        <DCCReference Include="src\Module Auth\ModuleAuth.pas"/>
-        <DCCReference Include="src\Module Auth\Interfaces\InterfaceModuleAuth.pas"/>
-        <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryRepository.pas"/>
-        <DCCReference Include="src\Module Auth\Interfaces\InterfaceUsersRepository.pas"/>
-        <DCCReference Include="src\Module Auth\SecurityController.pas"/>
-        <DCCReference Include="..\Kernel\src\Base classes\INIPreferenceRepository.pas"/>
-        <DCCReference Include="src\Misc\RESTControllerBase.pas"/>
-        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareCustomHeaderController.pas"/>
-        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareLogger.pas"/>
-        <DCCReference Include="src\Module Server\Interfaces\InterfaceRESTMiddlewareWhiteListController.pas"/>
-        <DCCReference Include="src\Module Server\RESTMiddlewareCustomHeaderController.pas"/>
-        <DCCReference Include="src\Module Server\RESTMiddlewareLogger.pas"/>
-        <DCCReference Include="src\Module Server\RESTMiddlewareWhiteListController.pas"/>
-        <DCCReference Include="src\Misc\RepositoryWrapper.pas"/>
-        <DCCReference Include="src\Misc\Interfaces\InterfaceRepositoryWrapper.pas"/>
+        <DCCReference Include="test\TestFlatTaxEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\FlatTaxEvaluatorController.pas"/>
+        <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
+        <DCCReference Include="src\Module Salary\SalaryEntities.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -177,7 +110,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">FreelancerTrackerProj.dpr</Source>
+                    <Source Name="MainSource">TestFreelancerTrackerProj.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl280.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
@@ -186,16 +119,24 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="Win32\Debug\FreelancerTrackerProj.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="Win32\Debug\FreelancerTrackerProj.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>FreelancerTrackerProj.exe</RemoteName>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\FreelancerTrackerProj.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
+                    <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Debug\TestFreelancerTrackerProj.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>FreelancerTrackerProj.exe</RemoteName>
+                        <RemoteName>TestFreelancerTrackerProj.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -289,16 +230,6 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="AndroidSplashImageDefV21">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-anydpi-v21</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-anydpi-v21</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
@@ -319,66 +250,6 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="AndroidSplashStylesV31">
-                    <Platform Name="Android">
-                        <RemoteDir>res\values-v31</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\values-v31</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_AdaptiveIcon">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-anydpi-v26</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-anydpi-v26</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_AdaptiveIconBackground">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_AdaptiveIconForeground">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_AdaptiveIconMonochrome">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_AdaptiveIconV33">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-anydpi-v33</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-anydpi-v33</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
                 <DeployClass Name="Android_Colors">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
@@ -386,16 +257,6 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_ColorsDark">
-                    <Platform Name="Android">
-                        <RemoteDir>res\values-night-v21</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\values-night-v21</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -566,56 +427,6 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_VectorizedNotificationIcon">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-anydpi-v24</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-anydpi-v24</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_VectorizedSplash">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_VectorizedSplashDark">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-night-anydpi-v21</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-night-anydpi-v21</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_VectorizedSplashV31">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-anydpi-v31</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-anydpi-v31</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_VectorizedSplashV31Dark">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-night-anydpi-v31</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-night-anydpi-v31</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -1145,7 +956,6 @@
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimARM64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
@@ -1158,7 +968,9 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <UnitTesting>
-                <TestProjectName>C:\Repo\FreelancerTracker\TestFreelancerTrackerProj.dproj</TestProjectName>
+                <TestFramework>DUnit / Delphi Win32</TestFramework>
+                <TestRunner>Console</TestRunner>
+                <SourceProjectName>C:\Repo\FreelancerTracker\FreelancerTrackerProj.dproj</SourceProjectName>
             </UnitTesting>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

@@ -1,4 +1,4 @@
-unit SalaryEvaluatorController;
+unit LumpSumEvaluatorController;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   InterfaceSalaryEvaluatorController, SalaryEntities;
 
 type
-  TSalaryEvaluatorController = class(TInterfacedObject, ISalaryEvaluatorController)
+  TLumpSumEvaluatorController = class(TInterfacedObject, ISalaryEvaluatorController)
   strict private
     function EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Integer; const p_WorkingDays : Integer) : Double;
     function EvaluatePayCheck(const p_Netto : Double; const p_Tax : TWysokoscPodatku; const p_Zus : Double; const p_HealthTax : Double) : Double;
@@ -27,7 +27,7 @@ implementation
 
 { TSalaryEvaluatorController }
 
-function TSalaryEvaluatorController.Evaluate(var p_Salary: TSalary): Boolean;
+function TLumpSumEvaluatorController.Evaluate(var p_Salary: TSalary): Boolean;
 begin
   p_Salary.PelneNetto := EvaluateNetto(p_Salary.Stawka, 8, p_Salary.DniRoboczych);
   p_Salary.Netto      := EvaluateNetto(p_Salary.Stawka, 8, p_Salary.DniPrzepracowanych);
@@ -45,17 +45,17 @@ begin
   Result := True;
 end;
 
-function TSalaryEvaluatorController.EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Integer; const p_WorkingDays : Integer) : Double;
+function TLumpSumEvaluatorController.EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Integer; const p_WorkingDays : Integer) : Double;
 begin
   Result := p_Rate * p_WorkingHours * p_WorkingDays;
 end;
 
-function TSalaryEvaluatorController.EvaluatePayCheck(const p_Netto : Double; const p_Tax : TWysokoscPodatku; const p_Zus : Double; const p_HealthTax : Double) : Double;
+function TLumpSumEvaluatorController.EvaluatePayCheck(const p_Netto : Double; const p_Tax : TWysokoscPodatku; const p_Zus : Double; const p_HealthTax : Double) : Double;
 begin
   Result := p_Netto * (1 - (p_Tax.Stawka/100)) - p_Zus - p_HealthTax;
 end;
 
-function TSalaryEvaluatorController.EvaluateRealPayCheck(const p_Rate : Double;
+function TLumpSumEvaluatorController.EvaluateRealPayCheck(const p_Rate : Double;
                                   const p_WorkingHours : Integer;
                                   const p_WorkingDays : Integer;
                                   const p_MonthsOnB2BInYear : Integer;
