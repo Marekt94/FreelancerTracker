@@ -60,6 +60,7 @@ begin
   AActionContext.AppendHeader('Access-Control-Allow-Credentials', 'true');
   AActionContext.AppendHeader('Access-Control-Allow-Methods','POST, GET, DELETE');
   AActionContext.AppendHeader('Access-Control-Allow-Headers','Content-Type, Accept');
+  AActionContext.AppendHeader('Access-Control-Allow-Private-Network','true');
   Result := true;
 end;
 

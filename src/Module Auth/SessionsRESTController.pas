@@ -34,7 +34,8 @@ uses
 procedure TSessionsRESTController.Action(AContext: IMiniRESTActionContext);
 begin
   InitController;
-  SetActionContext(AContext);
+//  if AContext.ActionInfo.RequestMethod = rmPost then
+    SetActionContext(AContext);
   SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
 
   case IndexStr(AContext.GetURI, [cMappingLogin, cMappingLogout]) of
