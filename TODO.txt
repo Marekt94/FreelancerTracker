@@ -1,3 +1,7 @@
 - kod 201 jest odbierany jak błąd,
 - nie odświeża się ID po zapisie (być może jest to spowodowane, że 201 jest odbierany jako błąd)
-- edittexty mogą być zaokrąglone, to bedzie moze lepiej wyglądać
+- edittexty mogą być zaokrąglone, to bedzie moze lepiej wyglądać,
+- zrobić readme ze wszytkimi informacjami i o tym, ze wsparcie dla tls.13
+- moduły w git, zeby wszystie biblioteki były
+- wyidzlić dropdown list do innego okna
+- składka zdrowotna i zus automatycznie pobierana na podstawie roku
