@@ -50,6 +50,7 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Define>CONSOLE_TESTRUNNER;$(DCC_Define)</DCC_Define>
+        <SanitizedProjectName>TestFreelancerTrackerProj</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>soapserver;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;vclx;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;RESTBackendComponents;bindcompfmx;ZPlain;ZComponent;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;IndySystem280;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;soapmidas;adortl;IndyCore280;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;IndyProtocols280;dbrtl;ZDbc;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;ZCore;fmxobj;bindcompvclsmp;FMXTee;ZParseSql;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -971,6 +972,7 @@
                 <TestFramework>DUnit / Delphi Win32</TestFramework>
                 <TestRunner>Console</TestRunner>
                 <SourceProjectName>C:\Repo\FreelancerTracker\FreelancerTrackerProj.dproj</SourceProjectName>
+                <TestProjectName/>
             </UnitTesting>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

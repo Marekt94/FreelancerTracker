@@ -25,7 +25,9 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
-    procedure TestEvaluate;
+    procedure TestEvaluate1;
+    procedure TestEvaluate2;
+    procedure TestEvaluateWhenEverythingIs0;
   end;
 
 implementation
@@ -41,12 +43,13 @@ begin
   FFlatTaxEvaluatorController := nil;
 end;
 
-procedure TestTFlatTaxEvaluatorController.TestEvaluate;
+procedure TestTFlatTaxEvaluatorController.TestEvaluate1;
 var
   ReturnValue: Boolean;
   p_Salary: TSalary;
   p_Res: Single;
 begin
+  p_Salary := TSalary.Create;
   p_Salary.Brutto           := 10000.00;
   p_Salary.Vat              := 1000.00;
   p_Salary.Podatek          := 1000.00;
@@ -61,6 +64,53 @@ begin
   p_Res := 6733.33;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+end;
+
+procedure TestTFlatTaxEvaluatorController.TestEvaluate2;
+var
+  ReturnValue: Boolean;
+  p_Salary: TSalary;
+  p_Res: Single;
+begin
+  p_Salary := TSalary.Create;
+  p_Salary.Brutto           := 29704.5;
+  p_Salary.Vat              := 5498;
+  p_Salary.Podatek          := 4412;
+  p_Salary.ZUS              := 1373.43;
+  p_Salary.SkladkaZdrowotna := 0;
+
+  p_Salary.DniRoboczych       := 21;
+  p_Salary.DniPrzepracowanych := 21;
+
+  ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
+
+  p_Res := 15643.29;
+
+  CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+end;
+
+procedure TestTFlatTaxEvaluatorController.TestEvaluateWhenEverythingIs0;
+var
+  ReturnValue: Boolean;
+  p_Salary: TSalary;
+  p_Res: Single;
+begin
+  p_Salary := TSalary.Create;
+  p_Salary.Brutto           := 0;
+  p_Salary.Vat              := 0;
+  p_Salary.Podatek          := 0;
+  p_Salary.ZUS              := 0;
+  p_Salary.SkladkaZdrowotna := 0;
+
+  p_Salary.DniRoboczych       := 0;
+  p_Salary.DniPrzepracowanych := 0;
+
+  ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
+
+  p_Res := 0;
+
+  CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+
 end;
 
 initialization

@@ -15,7 +15,7 @@ program TestFreelancerTrackerProj;
 {$ENDIF}
 
 uses
-  DUnitTestRunner,
+  DUnitTestRunner, TextTestRunner,
   TestFlatTaxEvaluatorController in 'test\TestFlatTaxEvaluatorController.pas',
   FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
@@ -24,6 +24,8 @@ uses
 {$R *.RES}
 
 begin
-  DUnitTestRunner.RunRegisteredTests;
+//  DUnitTestRunner.RunRegisteredTests;
+  with TextTestRunner.RunRegisteredTests(rxbPause) do
+    Free;
 end.
 
