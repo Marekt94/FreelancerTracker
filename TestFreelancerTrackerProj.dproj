@@ -93,6 +93,9 @@
         <DCCReference Include="src\Module Salary\FlatTaxEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\SalaryEntities.pas"/>
+        <DCCReference Include="src\Module Salary\TaxEvaluatorStrategyController.pas"/>
+        <DCCReference Include="src\Module Salary\LumpSumEvaluatorController.pas"/>
+        <DCCReference Include="test\TestTaxEvaluatorStrategyController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

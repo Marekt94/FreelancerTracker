@@ -5,6 +5,11 @@ interface
 uses
   dorm.mappings, System.Generics.Collections;
 
+const
+  FORMAOPODATKOWANIA_RYCZALT_INDEX = 3;
+  FORMAOPODATKOWANIA_SKALA_PODATKOWA_INDEX = 4;
+  FORMAOPODATKOWANIA_LINIOWY_INDEX = 5;
+
 type
   [Entity('WYSOKOSC_PODATKU')]
   TWysokoscPodatku = class

@@ -15,11 +15,15 @@ program TestFreelancerTrackerProj;
 {$ENDIF}
 
 uses
-  DUnitTestRunner, TextTestRunner,
+  DUnitTestRunner,
+  TextTestRunner,
   TestFlatTaxEvaluatorController in 'test\TestFlatTaxEvaluatorController.pas',
   FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
-  SalaryEntities in 'src\Module Salary\SalaryEntities.pas';
+  SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
+  TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas',
+  LumpSumEvaluatorController in 'src\Module Salary\LumpSumEvaluatorController.pas',
+  TestTaxEvaluatorStrategyController in 'test\TestTaxEvaluatorStrategyController.pas';
 
 {$R *.RES}
 

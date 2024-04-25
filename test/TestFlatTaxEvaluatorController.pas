@@ -110,7 +110,6 @@ begin
   p_Res := 0;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
-
 end;
 
 initialization

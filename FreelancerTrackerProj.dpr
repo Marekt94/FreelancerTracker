@@ -49,7 +49,8 @@ uses
   RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas',
   RepositoryWrapper in 'src\Misc\RepositoryWrapper.pas',
   InterfaceRepositoryWrapper in 'src\Misc\Interfaces\InterfaceRepositoryWrapper.pas',
-  FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas';
+  FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
+  TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas';
 
 {$R *.res}
 
