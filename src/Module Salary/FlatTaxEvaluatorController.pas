@@ -42,6 +42,7 @@ begin
   p_Salary.DoRozdysponowania := p_WyplataNaDzien * (p_Salary.DniRoboczych - p_DniWolneNaMiesiac);
 
   p_Salary.DoRozdysponowania := RoundTo(p_Salary.DoRozdysponowania, -2);
+  p_Salary.DoWyplaty := RoundTo(p_DoWydania, -2);
 end;
 
 end.

@@ -236,6 +236,9 @@ begin
   FEntity.DoWyplaty := p_SalaryDTO.DoWyplaty;
   FEntity.DoRozdysponowania := p_SalaryDTO.DoRozdysponowania;
   FEntity.Zablokowane := p_SalaryDTO.Zablokowane;
+  FEntity.Brutto := p_SalaryDTO.Brutto;
+  FEntity.Vat := p_SalaryDTO.Vat;
+  FEntity.Podatek := p_SalaryDTO.Podatek;
 end;
 
 destructor TSalaryRESTObject.Destroy;
