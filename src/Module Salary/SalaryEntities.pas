@@ -110,8 +110,11 @@ type
     property DoWyplaty          : Single  read FDoWyplaty          write FDoWyplaty;
     [Column('DO_ROZDYSPONOWANIA')]
     property DoRozdysponowania  : Single  read FDoRozdysponowania  write FDoRozdysponowania;
+    [NoAutomapping]
     property Vat                : Single  read FVat                write FVat;
+    [NoAutomapping]
     property Brutto             : Single  read FBrutto             write FBrutto;
+    [NoAutomapping]
     property Podatek            : Single  read FPodatek            write FPodatek;
     property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
