@@ -55,6 +55,9 @@ type
     FZablokowane : boolean;
     FNaUrlopowoChorobowe : single;
   private
+    FBrutto: Single;
+    FVat: Single;
+    FPodatek: Single;
     procedure SetFormaOpodatkowania(const Value: TFormaOpodatkowaniaDTO);
   public
     constructor Create(const p_Salary : TSalary); overload;
@@ -75,6 +78,9 @@ type
     property DoRozdysponowania  : Single  read FDoRozdysponowania  write FDoRozdysponowania;
     property NaUrlopowoChorobowe: Single  read FNaUrlopowoChorobowe write FNaUrlopowoChorobowe;
     property Zablokowane        : boolean read FZablokowane        write FZablokowane;
+    property Brutto             : Single  read FBrutto             write FBrutto;
+    property Vat                : Single  read FVat                write FVat;
+    property Podatek            : Single  read FPodatek            write FPodatek;
   end;
 
   TDataForNewDTOResponse = class
@@ -158,7 +164,11 @@ begin
   FDoWyplaty := p_Salary.DoWyplaty;
   FDoRozdysponowania := p_Salary.DoRozdysponowania;
   FZablokowane := p_Salary.Zablokowane;
-  FNaUrlopowoChorobowe := FDoWyplaty - FDoRozdysponowania
+  FNaUrlopowoChorobowe := FDoWyplaty - FDoRozdysponowania;
+  FBrutto := p_Salary.Brutto;
+  FPodatek := p_Salary.Podatek;
+  FZUS := p_Salary.ZUS;
+  FVat := p_Salary.Vat;
 end;
 
 destructor TSalaryDTO.Destroy;

@@ -5,6 +5,11 @@ interface
 uses
   dorm.mappings, System.Generics.Collections;
 
+const
+  FORMAOPODATKOWANIA_RYCZALT_INDEX = 3;
+  FORMAOPODATKOWANIA_SKALA_PODATKOWA_INDEX = 4;
+  FORMAOPODATKOWANIA_LINIOWY_INDEX = 5;
+
 type
   [Entity('WYSOKOSC_PODATKU')]
   TWysokoscPodatku = class
@@ -71,6 +76,9 @@ type
     FDniPrzepracowanych : Integer;
     FSkladkaZdrowotna : Single;
     FZUS : Single;
+    FVat : Single;
+    FPodatek : Single;
+    FBrutto : Single;
     FNetto : Single;
     FPelneNetto : Single;
     FDoWyplaty : Single;
@@ -102,6 +110,12 @@ type
     property DoWyplaty          : Single  read FDoWyplaty          write FDoWyplaty;
     [Column('DO_ROZDYSPONOWANIA')]
     property DoRozdysponowania  : Single  read FDoRozdysponowania  write FDoRozdysponowania;
+    [Column('VAT')]
+    property Vat                : Single  read FVat                write FVat;
+    [Column('BRUTTO')]
+    property Brutto             : Single  read FBrutto             write FBrutto;
+    [Column('PODATEK')]
+    property Podatek            : Single  read FPodatek            write FPodatek;
     property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
 

@@ -18,7 +18,7 @@ uses
   ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
   InterfaceFormaOpodatkowaniaRepository in 'src\Module Salary\Interfaces\InterfaceFormaOpodatkowaniaRepository.pas',
   FormaOpodatkowaniaRepository in 'src\Module Salary\FormaOpodatkowaniaRepository.pas',
-  SalaryEvaluatorController in 'src\Module Salary\SalaryEvaluatorController.pas',
+  LumpSumEvaluatorController in 'src\Module Salary\LumpSumEvaluatorController.pas',
   InterfaceSalaryEvaluatorController in 'src\Module Salary\Interfaces\InterfaceSalaryEvaluatorController.pas',
   SalaryRESTObjects in 'src\Module Salary\SalaryRESTObjects.pas',
   SalaryDTOs in 'src\Module Salary\SalaryDTOs.pas',
@@ -48,7 +48,10 @@ uses
   RESTMiddlewareLogger in 'src\Module Server\RESTMiddlewareLogger.pas',
   RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas',
   RepositoryWrapper in 'src\Misc\RepositoryWrapper.pas',
-  InterfaceRepositoryWrapper in 'src\Misc\Interfaces\InterfaceRepositoryWrapper.pas';
+  InterfaceRepositoryWrapper in 'src\Misc\Interfaces\InterfaceRepositoryWrapper.pas',
+  FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
+  TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas',
+  SalaryConst in 'src\Module Salary\SalaryConst.pas';
 
 {$R *.res}
 

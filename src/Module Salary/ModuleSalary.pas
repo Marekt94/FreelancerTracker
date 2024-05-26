@@ -18,7 +18,7 @@ implementation
 uses
   MiniREST.Server.Intf, SalaryRESTController, InterfaceKernel,
   InterfaceSalaryRepository, SalaryRepository, InterfaceFormaOpodatkowaniaRepository,
-  FormaOpodatkowaniaRepository, InterfaceSalaryEvaluatorController, SalaryEvaluatorController;
+  FormaOpodatkowaniaRepository, InterfaceSalaryEvaluatorController, TaxEvaluatorStrategyController;
 
 { TModuleSalary }
 
@@ -39,7 +39,7 @@ begin
   inherited;
   RegisterClass(ISalaryRepository, TSalaryRepository, []);
   RegisterClass(IFormaOpodatkowaniaRepository, TFormaOpodatkowaniaRepository, []);
-  RegisterClass(ISalaryEvaluatorController, TSalaryEvaluatorController, []);
+  RegisterClass(ISalaryEvaluatorController, TTaxEvaluatorStrategyController, []);
 end;
 
 end.
