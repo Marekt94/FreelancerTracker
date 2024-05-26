@@ -23,7 +23,8 @@ uses
   SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
   TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas',
   LumpSumEvaluatorController in 'src\Module Salary\LumpSumEvaluatorController.pas',
-  TestTaxEvaluatorStrategyController in 'test\TestTaxEvaluatorStrategyController.pas';
+  TestTaxEvaluatorStrategyController in 'test\TestTaxEvaluatorStrategyController.pas',
+  SalaryConst in 'src\Module Salary\SalaryConst.pas';
 
 {$R *.RES}
 

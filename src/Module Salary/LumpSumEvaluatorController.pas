@@ -3,7 +3,7 @@ unit LumpSumEvaluatorController;
 interface
 
 uses
-  InterfaceSalaryEvaluatorController, SalaryEntities;
+  InterfaceSalaryEvaluatorController, SalaryEntities, SalaryConst;
 
 type
   TLumpSumEvaluatorController = class(TInterfacedObject, ISalaryEvaluatorController)
@@ -30,20 +30,20 @@ implementation
 
 function TLumpSumEvaluatorController.Evaluate(var p_Salary: TSalary): Boolean;
 const
-  cStawkaVat = 23;
+  cMonthsOnB2B = 12;
 begin
-  p_Salary.PelneNetto := EvaluateNetto(p_Salary.Stawka, 8, p_Salary.DniRoboczych);
-  p_Salary.Netto      := EvaluateNetto(p_Salary.Stawka, 8, p_Salary.DniPrzepracowanych);
+  p_Salary.PelneNetto := EvaluateNetto(p_Salary.Stawka, WORK_HOURS, p_Salary.DniRoboczych);
+  p_Salary.Netto      := EvaluateNetto(p_Salary.Stawka, WORK_HOURS, p_Salary.DniPrzepracowanych);
   p_Salary.DoWyplaty  := EvaluatePayCheck(p_Salary.Netto, p_Salary.FormaOpodatkowania.WysokoscPodatkuList[0], p_Salary.ZUS, p_Salary.SkladkaZdrowotna);
   p_Salary.Podatek    := EvaluateTax(p_Salary.Netto, p_Salary.FormaOpodatkowania.WysokoscPodatkuList[0]);
-  p_Salary.Vat        := p_Salary.Netto * cStawkaVat/100;
+  p_Salary.Vat        := p_Salary.Netto * VAT_RATE/100;
   p_Salary.DoRozdysponowania
     := EvaluateRealPayCheck(p_Salary.Stawka,
-                            8,
+                            WORK_HOURS,
                             p_Salary.DniRoboczych,
-                            12,
-                            26,
-                            12,
+                            cMonthsOnB2B,
+                            HOLIDAY_DAYS_PER_YEAR,
+                            SICK_LEAVE_DAYS_PER_YEAR,
                             p_Salary.FormaOpodatkowania.WysokoscPodatkuList[0],
                             p_Salary.ZUS,
                             p_Salary.SkladkaZdrowotna);
