@@ -164,7 +164,11 @@ begin
   FDoWyplaty := p_Salary.DoWyplaty;
   FDoRozdysponowania := p_Salary.DoRozdysponowania;
   FZablokowane := p_Salary.Zablokowane;
-  FNaUrlopowoChorobowe := FDoWyplaty - FDoRozdysponowania
+  FNaUrlopowoChorobowe := FDoWyplaty - FDoRozdysponowania;
+  FBrutto := p_Salary.Brutto;
+  FPodatek := p_Salary.Podatek;
+  FZUS := p_Salary.ZUS;
+  FVat := p_Salary.Vat;
 end;
 
 destructor TSalaryDTO.Destroy;
