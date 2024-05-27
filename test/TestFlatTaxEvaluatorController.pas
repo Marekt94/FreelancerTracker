@@ -29,6 +29,8 @@ type
     procedure TestEvaluate2;
     procedure TestEvaluateWhenEverythingIs0;
     procedure TestEvaluateWhenBruttoIs0ButHaveHourelySalaryAndVat;
+    procedure TestEvaluateWhenBruttoIs0ButHaveHourelySalaryAndVatAndWorkingDaysNotEqualMonthDays;
+    procedure TestVatIf0;
   end;
 
 implementation
@@ -51,7 +53,7 @@ var
   p_Res: Single;
 begin
   p_Salary := TSalary.Create;
-  p_Salary.Brutto           := 10000.00;
+  p_Salary.Brutto           := 12300.00;
   p_Salary.Vat              := 1000.00;
   p_Salary.Podatek          := 1000.00;
   p_Salary.ZUS              := 1000.00;
@@ -62,7 +64,7 @@ begin
 
   ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
 
-  p_Res := 6733.33;
+  p_Res := 9314.44;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
 end;
@@ -113,6 +115,29 @@ begin
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
 end;
 
+procedure TestTFlatTaxEvaluatorController.TestEvaluateWhenBruttoIs0ButHaveHourelySalaryAndVatAndWorkingDaysNotEqualMonthDays;
+var
+  ReturnValue: Boolean;
+  p_Salary: TSalary;
+  p_Res: Single;
+begin
+  p_Salary := TSalary.Create;
+  p_Salary.Stawka           := 83.33;
+  p_Salary.Vat              := 1000.00;
+  p_Salary.Podatek          := 1000.00;
+  p_Salary.ZUS              := 1000.00;
+  p_Salary.SkladkaZdrowotna := 1000.00;
+
+  p_Salary.DniRoboczych       := 20;
+  p_Salary.DniPrzepracowanych := 15;
+
+  ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
+
+  p_Res := 9313.89;
+
+  CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+end;
+
 procedure TestTFlatTaxEvaluatorController.TestEvaluateWhenEverythingIs0;
 var
   ReturnValue: Boolean;
@@ -134,6 +159,22 @@ begin
   p_Res := 0;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+end;
+
+procedure TestTFlatTaxEvaluatorController.TestVatIf0;
+var
+  ReturnValue: Boolean;
+  p_Salary: TSalary;
+  p_Res: Single;
+begin
+  p_Salary := TSalary.Create;
+  p_Salary.Stawka := 125;
+  p_Salary.DniPrzepracowanych := 1;
+
+  ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
+
+  p_Res := 230;
+  CheckEquals(p_Res, p_Salary.Vat);
 end;
 
 initialization

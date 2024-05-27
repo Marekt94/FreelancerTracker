@@ -28,8 +28,14 @@ begin
   if p_Salary.DniPrzepracowanych = 0 then
     exit;
 
+  p_Salary.Netto := p_Salary.DniPrzepracowanych * p_Salary.Stawka * WORK_HOURS;
+  p_Salary.PelneNetto := p_Salary.DniRoboczych * p_Salary.Stawka * WORK_HOURS;
+
+  if p_Salary.Vat = 0 then
+    p_Salary.Vat := p_Salary.Netto * VAT_RATE/100;
+
   if p_Salary.Brutto = 0 then
-    p_Salary.Brutto := (p_Salary.DniRoboczych * p_Salary.Stawka * WORK_HOURS) * (1 + VAT_RATE/100);
+    p_Salary.Brutto := p_Salary.Netto * (1 + VAT_RATE/100);
 
   // pieni¹dze po op³aceniu wszystkich op³at
   p_DoWydania := p_Salary.Brutto - p_Salary.Vat - p_Salary.Podatek - p_Salary.ZUS - p_Salary.SkladkaZdrowotna;

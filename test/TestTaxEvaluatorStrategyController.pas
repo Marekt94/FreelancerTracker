@@ -49,7 +49,7 @@ var
 begin
   p_Salary := TSalary.Create;
   p_Salary.FormaOpodatkowania.IdFormy := FORMAOPODATKOWANIA_LINIOWY_INDEX;
-  p_Salary.Brutto           := 10000.00;
+  p_Salary.Brutto           := 12300.00;
   p_Salary.Vat              := 1000.00;
   p_Salary.Podatek          := 1000.00;
   p_Salary.ZUS              := 1000.00;
@@ -60,7 +60,7 @@ begin
 
   ReturnValue := FTaxEvaluatorStrategyController.Evaluate(p_Salary);
 
-  p_Res := 6733.33;
+  p_Res := 9314.44;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
 end;
