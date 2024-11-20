@@ -1,4 +1,4 @@
-unit SalaryRESTController;
+unit V1SalaryRESTController;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   MiniREST.Attribute, MiniREST.Common, MiniREST.Intf, RESTControllerBase;
 
 type
-  TSalaryRESTController = class(TRESTControllerBase)
+  TV1SalaryRESTController = class(TRESTControllerBase)
   public
     [RequestMapping('/salaries/{year}')]
     procedure GetSalaries;
@@ -33,9 +33,9 @@ uses
   SalaryEntities, SalaryDTOs, System.Generics.Collections, System.SysUtils, InterfaceFormaOpodatkowaniaRepository,
   InterfaceSalaryEvaluatorController;
 
-{ TSalaryRESTController }
+{ TV1SalaryRESTController }
 
-procedure TSalaryRESTController.DeleteSalary;
+procedure TV1SalaryRESTController.DeleteSalary;
 var
   pomRes : Boolean;
 begin
@@ -54,7 +54,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.Evaluate;
+procedure TV1SalaryRESTController.Evaluate;
 var
   pomContoller : ISalaryEvaluatorController;
   pomSalary : TSalaryRESTObject;
@@ -79,7 +79,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.GetDataForNewSalary;
+procedure TV1SalaryRESTController.GetDataForNewSalary;
 var
   pomObj : TDataForNewSalaryRestObject;
 begin
@@ -99,7 +99,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.GetFormaPodatkowa;
+procedure TV1SalaryRESTController.GetFormaPodatkowa;
 var
   pomFormaOpodatkowania : TFormaOpodatkowania;
   pomFormaOpodatkowaniaDTO : TFormaOpodatkowaniaDTO;
@@ -125,7 +125,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.GetFormyPodatkowe;
+procedure TV1SalaryRESTController.GetFormyPodatkowe;
 var
   pomFormaOpodatkowania : TList<TFormaOpodatkowania>;
   pomJsonArray : TJSONArray;
@@ -162,7 +162,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.GetSalaries;
+procedure TV1SalaryRESTController.GetSalaries;
 var
   pomObjectList : TList<TSalary>;
   pomJsonArray : TJSONArray;
@@ -201,7 +201,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.GetSalary;
+procedure TV1SalaryRESTController.GetSalary;
 var
   pomSalary : TSalary;
 begin
@@ -226,7 +226,7 @@ begin
   end;
 end;
 
-procedure TSalaryRESTController.SaveSalary;
+procedure TV1SalaryRESTController.SaveSalary;
 var
   pomSalary : TSalaryRESTObject;
   pomRepo : ISalaryRepository;

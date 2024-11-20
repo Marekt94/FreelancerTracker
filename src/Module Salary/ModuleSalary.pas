@@ -16,9 +16,10 @@ type
 implementation
 
 uses
-  MiniREST.Server.Intf, SalaryRESTController, InterfaceKernel,
+  MiniREST.Server.Intf, V1SalaryRESTController, InterfaceKernel,
   InterfaceSalaryRepository, SalaryRepository, InterfaceFormaOpodatkowaniaRepository,
-  FormaOpodatkowaniaRepository, InterfaceSalaryEvaluatorController, TaxEvaluatorStrategyController;
+  FormaOpodatkowaniaRepository, InterfaceSalaryEvaluatorController, TaxEvaluatorStrategyController,
+  V2SalaryRESTController;
 
 { TModuleSalary }
 
@@ -31,7 +32,10 @@ function TModuleSalary.OpenModule: boolean;
 begin
   Result := inherited;
   if Result then
-    (MainKernel.GiveObjectByInterface(IMiniRESTServer) as IMiniRESTServer).AddController(TSalaryRESTController);
+  begin
+    (MainKernel.GiveObjectByInterface(IMiniRESTServer) as IMiniRESTServer).AddController(TV1SalaryRESTController);
+    (MainKernel.GiveObjectByInterface(IMiniRESTServer) as IMiniRESTServer).AddController(TV2SalaryRESTController);
+  end;
 end;
 
 procedure TModuleSalary.RegisterClasses;

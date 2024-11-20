@@ -31,8 +31,11 @@ uses
 
 function TRESTMiddlewareLogger.Process(
   AActionContext: IMiniRESTActionContext): Boolean;
+const
+  cCookie = 'sessionId';
 begin
   FLogger.Debug(AActionContext.GetURI);
+  FLogger.Debug(cCookie + ': ' + AActionContext.GetCookieValue(cCookie));
   if AActionContext.GetCommandType = rmPost then
     FLogger.Debug(AActionContext.GetRequestContentAsString);
   Result := true;

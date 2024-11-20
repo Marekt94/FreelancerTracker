@@ -6,7 +6,12 @@ uses
   InterfaceKernel, BaseKernel, InterfaceModule, System.Generics.Collections;
 
 const
-  VERSION = 2.0;
+  VERSION = 3.0;
+
+{
+  VER 3.0:
+  - v2 API,
+}
 
 type
   TFreelancerTrackerKernel = class(TContainer, IContainer)

@@ -121,7 +121,7 @@
         <DCCReference Include="src\Module Server\ModuleServer.pas"/>
         <DCCReference Include="src\Module Server\Interfaces\InterfaceModuleServer.pas"/>
         <DCCReference Include="src\Module Salary\Interfaces\InterfaceModuleSalary.pas"/>
-        <DCCReference Include="src\Module Salary\SalaryRESTController.pas"/>
+        <DCCReference Include="src\Module Salary\V1SalaryRESTController.pas"/>
         <DCCReference Include="src\Module Salary\SalaryEntities.pas"/>
         <DCCReference Include="src\Module Salary\SalaryRepository.pas"/>
         <DCCReference Include="src\Module Salary\ModuleSalary.pas"/>
@@ -161,6 +161,7 @@
         <DCCReference Include="src\Module Salary\FlatTaxEvaluatorController.pas"/>
         <DCCReference Include="src\Module Salary\TaxEvaluatorStrategyController.pas"/>
         <DCCReference Include="src\Module Salary\SalaryConst.pas"/>
+        <DCCReference Include="src\Module Salary\V2SalaryRESTController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

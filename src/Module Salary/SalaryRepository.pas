@@ -12,7 +12,7 @@ type
     FMonthsAvailableMock : TObjectList<TMonth>;
   public
     destructor Destroy; override;
-    function Salaries(const p_Year : Integer = -1) : TObjectList<TSalary>;
+    function Salaries(const p_Year : Integer = DEF_YEAR) : TObjectList<TSalary>;
     function Salary(const p_ID : Integer) : TSalary;
     function AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj : TSalary);
@@ -88,7 +88,7 @@ begin
   Result := FMonthsAvailableMock;
 end;
 
-function TSalaryRepository.Salaries(const p_Year : Integer = -1): TObjectList<TSalary>;
+function TSalaryRepository.Salaries(const p_Year : Integer = DEF_YEAR): TObjectList<TSalary>;
 var
   pomSession : TSession;
 begin
