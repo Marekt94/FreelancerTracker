@@ -32,7 +32,86 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"$2a$10$birC1iSgCy1pF17Oa7HXl.nldNrLR3CfN8/b9StX.YuZDyyaKepD6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "24"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 01 Dec 2024 20:06:14 GMT"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "https://www.marektomas.tech"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "POST, GET, DELETE"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Accept"
+						},
+						{
+							"key": "Access-Control-Allow-Private-Network",
+							"value": "true"
+						},
+						{
+							"key": "Server",
+							"value": "MiniREST 0.1"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "sessionId=ezZCN0Y2OTNELTY0RkEtNDZBNy1CREZDLTVFNTE4Qzk4NDA5Nn0="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"Authorized\"\n}"
+				}
+			]
 		},
 		{
 			"name": "GetSalaries",
@@ -53,6 +132,78 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Add salary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"id\", pm.response.json().id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"miesiac\": 5,\r\n        \"rok\": 2024,\r\n        \"idFormyOpodatkowania\": 3,\r\n        \"formaOpodatkowania\": {\r\n            \"id\": 3,\r\n            \"wysokoscPodatkuList\": [],\r\n            \"nazwa\": \"\"\r\n        },\r\n        \"stawka\": 165,\r\n        \"dniRoboczych\": 21,\r\n        \"dniPrzepracowanych\": 21,\r\n        \"skladkaZdrowotna\": 626.929992675781,\r\n        \"zUS\": 305.609985351563,\r\n        \"netto\": 27720,\r\n        \"pelneNetto\": 27720,\r\n        \"doWyplaty\": 23461.060546875,\r\n        \"doRozdysponowania\": 19782.66015625,\r\n        \"zablokowane\": false,\r\n        \"naUrlopowoChorobowe\": 3678.400390625\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{ip}}:{{port}}/save_salary",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"save_salary"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add salary no month",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"rok\": 2024,\r\n        \"idFormyOpodatkowania\": 3,\r\n        \"formaOpodatkowania\": {\r\n            \"id\": 3,\r\n            \"wysokoscPodatkuList\": [],\r\n            \"nazwa\": \"\"\r\n        },\r\n        \"stawka\": 165,\r\n        \"dniRoboczych\": 21,\r\n        \"dniPrzepracowanych\": 21,\r\n        \"skladkaZdrowotna\": 626.929992675781,\r\n        \"zUS\": 305.609985351563,\r\n        \"netto\": 27720,\r\n        \"pelneNetto\": 27720,\r\n        \"doWyplaty\": 23461.060546875,\r\n        \"doRozdysponowania\": 19782.66015625,\r\n        \"zablokowane\": false,\r\n        \"naUrlopowoChorobowe\": 3678.400390625\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/save_salary",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"save_salary"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
 		},
 		{
 			"name": "Evaluate liniowy",
@@ -105,114 +256,225 @@
 					]
 				}
 			},
-			"response": []
-		},
-		{
-			"name": "Evaluate ryczałt",
-			"event": [
+			"response": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Check doRozdysponowania\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.doRozdysponowania.toFixed(2)).to.eql(\"15643.29\");\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"pm.collectionVariables.set(\"variable_key\", \"variable_value\");"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"miesiac\": 2,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 3,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 3,\r\n        \"nazwa\": \"rycza�t\",\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 3\r\n            }\r\n        ]\r\n    },\r\n    \"stawka\": \"143.75\",\r\n    \"dniRoboczych\": \"21\",\r\n    \"dniPrzepracowanych\": \"21\",\r\n    \"skladkaZdrowotna\": \"1373.43005371094\",\r\n    \"zUS\": \"10\",\r\n    \"netto\": \"24150\",\r\n    \"pelneNetto\": \"24150\",\r\n    \"doWyplaty\": \"19878.5703125\",\r\n    \"doRozdysponowania\": \"16881.009765625\",\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": \"2997.560546875\",\r\n    \"brutto\": 29705,\r\n    \"vat\": \"5555\",\r\n    \"podatek\": \"2898\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "No month",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/v2/evaluate",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"v2",
-						"evaluate"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Do rozliczeń",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Check doRozdysponowania\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.doRozdysponowania.toFixed(2)).to.eql(\"15643.29\");\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
 				},
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"pm.collectionVariables.set(\"variable_key\", \"variable_value\");"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "No year",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
 						}
-					}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
 				},
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"evaluate"
-					]
+				{
+					"name": "No idFormaOpodatkowania",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "No formaOpodatkowania",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "No formaOpodatkowania",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Unknown formaOpodatkowania",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Id null",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": null,\r\n    \"miesiac\": 5,\r\n    \"rok\": 2024,\r\n    \"idFormyOpodatkowania\": 5,\r\n    \"formaOpodatkowania\": {\r\n        \"id\": 5,\r\n        \"wysokoscPodatkuList\": [\r\n            {\r\n                \"id\": 1,\r\n                \"stawka\": 12,\r\n                \"formaOpodatkowaniaId\": 5\r\n            }\r\n        ],\r\n        \"nazwa\": \"liniowy\"\r\n    },\r\n    \"stawka\": 143.75,\r\n    \"dniRoboczych\": 21,\r\n    \"dniPrzepracowanych\": 21,\r\n    \"skladkaZdrowotna\": 0,\r\n    \"zUS\": 1373.43,\r\n    \"netto\": 0,\r\n    \"pelneNetto\": 0,\r\n    \"doWyplaty\": 0,\r\n    \"doRozdysponowania\": 0,\r\n    \"zablokowane\": false,\r\n    \"naUrlopowoChorobowe\": 0,\r\n    \"vat\": 5498,\r\n    \"podatek\": 4412,\r\n    \"brutto\": 29704.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{ip}}:{{port}}/evaluate",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"evaluate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "Add salary",
@@ -249,131 +511,6 @@
 					"port": "{{port}}",
 					"path": [
 						"save_salary"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSalary",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/salaries/2023",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"salaries",
-						"2023"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete salary",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "    {\r\n        \"miesiac\": 5,\r\n        \"rok\": 2024,\r\n        \"idFormyOpodatkowania\": 3,\r\n        \"formaOpodatkowania\": {\r\n            \"id\": 3,\r\n            \"wysokoscPodatkuList\": [],\r\n            \"nazwa\": \"\"\r\n        },\r\n        \"stawka\": 165,\r\n        \"dniRoboczych\": 21,\r\n        \"dniPrzepracowanych\": 21,\r\n        \"skladkaZdrowotna\": 626.929992675781,\r\n        \"zUS\": 305.609985351563,\r\n        \"netto\": 27720,\r\n        \"pelneNetto\": 27720,\r\n        \"doWyplaty\": 23461.060546875,\r\n        \"doRozdysponowania\": 19782.66015625,\r\n        \"zablokowane\": false,\r\n        \"naUrlopowoChorobowe\": 3678.400390625\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/v2/delete_salary/{{id}}",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"v2",
-						"delete_salary",
-						"{{id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get formy podatkowe",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{ip}}:{{port}}/forma_podatkowa/5",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"forma_podatkowa",
-						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Logout",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/logout",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"logout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get data for new salary",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{protocol}}://{{ip}}:{{port}}/v2/get_data_for_new_salary/2023",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"v2",
-						"get_data_for_new_salary",
-						"2023"
 					]
 				}
 			},
