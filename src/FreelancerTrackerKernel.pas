@@ -6,7 +6,7 @@ uses
   InterfaceKernel, BaseKernel, InterfaceModule, System.Generics.Collections;
 
 const
-  VERSION = 4.0;
+  VERSION = 4.1;
 
 {
   VER 3.0:
@@ -15,6 +15,8 @@ const
   - 64bit compatibility,
   - Delphi 12 compatibility,
   - TLS 1.3 not supported
+  VER 4.1:
+  - Allow-origin header changes
 }
 
 type
