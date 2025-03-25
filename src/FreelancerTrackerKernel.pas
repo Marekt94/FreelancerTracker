@@ -6,11 +6,15 @@ uses
   InterfaceKernel, BaseKernel, InterfaceModule, System.Generics.Collections;
 
 const
-  VERSION = 3.0;
+  VERSION = 4.0;
 
 {
   VER 3.0:
   - v2 API,
+  VER 4.0:
+  - 64bit compatibility,
+  - Delphi 12 compatibility,
+  - TLS 1.3 not supported
 }
 
 type

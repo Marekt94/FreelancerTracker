@@ -22,7 +22,7 @@ type
     procedure SaveSalary;
     [RequestMapping('v2/get_data_for_new_salary/{year}')]
     procedure GetDataForNewSalary;
-    [RequestMapping('v2/delete_salary/{id}'), '', rmPost]
+    [RequestMapping('v2/delete_salary/{id}'), '', rmDelete]
     procedure DeleteSalary;
   end;
 
