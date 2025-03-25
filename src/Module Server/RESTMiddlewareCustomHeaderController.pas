@@ -70,7 +70,12 @@ begin
   if Trim(AObj) = '*' then
     FAllowedOrigin := AObj
   else
-    FAllowedOrigin := FProtocol + AObj;
+    if     not AObj.StartsWith(cHTTP)
+       and not AObj.StartsWith(cHTTPS)
+    then
+      FAllowedOrigin := FProtocol + AObj
+    else
+      FAllowedOrigin := AObj;
 
   if Assigned(FLogger) then
     FLogger.Info('Allow-origin: ' + FAllowedOrigin);
