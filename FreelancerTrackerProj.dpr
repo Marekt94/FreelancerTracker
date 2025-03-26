@@ -12,7 +12,6 @@ uses
   ModuleServer in 'src\Module Server\ModuleServer.pas',
   InterfaceModuleServer in 'src\Module Server\Interfaces\InterfaceModuleServer.pas',
   InterfaceModuleSalary in 'src\Module Salary\Interfaces\InterfaceModuleSalary.pas',
-  V1SalaryRESTController in 'src\Module Salary\V1SalaryRESTController.pas',
   SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
   SalaryRepository in 'src\Module Salary\SalaryRepository.pas',
   ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
