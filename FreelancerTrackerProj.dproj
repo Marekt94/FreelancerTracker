@@ -6,7 +6,7 @@
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
-        <TargetedPlatforms>3</TargetedPlatforms>
+        <TargetedPlatforms>2</TargetedPlatforms>
         <AppType>Application</AppType>
         <MainSource>FreelancerTrackerProj.dpr</MainSource>
         <ProjectName Condition="'$(ProjectName)'==''">FreelancerTrackerProj</ProjectName>
@@ -1178,7 +1178,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
-                <Platform value="Win32">True</Platform>
+                <Platform value="Win32">False</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
             <UnitTesting>
