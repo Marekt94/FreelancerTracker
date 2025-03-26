@@ -4,44 +4,29 @@ interface
 
 uses
   InterfaceSalaryRepository, System.Generics.Collections, SalaryEntities, dorm.Filters,
-  System.TypInfo;
+  DatabaseSessionManager;
 
 type
   TSalaryRepository = class(TInterfacedObject, ISalaryRepository)
   strict private
-    FMonthsAvailableMock : TObjectList<TMonth>;
+    FMonthsAvailableMock: TObjectList<TMonth>;
+    function LoadFilteredList<T: class>(const SQLFilter: string; const Params: array of const): TObjectList<T>;
+    function LoadSingle<T: class>(const SQLFilter: string; const Params: array of const): T;
   public
     destructor Destroy; override;
-    function Salaries(const p_Year : Integer = DEF_YEAR) : TObjectList<TSalary>;
-    function Salary(const p_ID : Integer) : TSalary;
-    function AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
-    procedure SaveOrUpdate(p_Obj : TSalary);
-    function Delete(p_ID : Integer) : boolean;
+    function Salaries(const UserID: Integer; const p_Year: Integer): TObjectList<TSalary>;
+    function Salary(const p_ID: Integer; const UserID: Integer): TSalary;
+    function AvailableMonths(const AYear: Integer; const UserID: Integer): TObjectList<TMonth>;
+    procedure SaveOrUpdate(p_Obj: TSalary; const UserID: Integer);
+    function Delete(p_ID: Integer; const UserID: Integer): boolean;
   end;
 
 implementation
 
 uses
-  dorm, System.Classes, dorm.Commons, Dictionaries, dorm.Query, System.SysUtils;
+  dorm.Query, System.SysUtils, dorm;
 
 { TSalaryRepository }
-
-function TSalaryRepository.Delete(p_ID: Integer): boolean;
-var
-  pomSession : TSession;
-  pomSalary  : TSalary;
-begin
-  pomSession := TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    pomSalary := pomSession.Load<TSalary>(p_ID);
-    Result := Assigned(pomSalary);
-    if Result then
-      pomSession.Delete(pomSalary)
-  finally
-    pomSession.Free;
-  end;
-end;
 
 destructor TSalaryRepository.Destroy;
 begin
@@ -49,89 +34,107 @@ begin
   inherited;
 end;
 
-function TSalaryRepository.AvailableMonths(const AYear : Integer) : TObjectList<TMonth>;
+function TSalaryRepository.LoadFilteredList<T>(const SQLFilter: string; const Params: array of const): TObjectList<T>;
 var
-  pomSession : TSession;
-  pomMiesiace : TObjectList<TMonth>;
+  Session: TSession;
+begin
+  Session := TDatabaseSessionManager.CreateSession;
+  try
+    Result := Session.LoadListSQL<T>(
+      Select.From(T).Where(SQLFilter, Params)
+    );
+  finally
+    Session.Free;
+  end;
+end;
+
+function TSalaryRepository.LoadSingle<T>(const SQLFilter: string; const Params: array of const): T;
+var
+  Session: TSession;
+begin
+  Session := TDatabaseSessionManager.CreateSession;
+  try
+//    Result := Session.LoadSQL<T>(
+//      Select.From(T).Where(SQLFilter, Params)
+//    );
+  finally
+    Session.Free;
+  end;
+end;
+
+function TSalaryRepository.Salaries(const UserID: Integer; const p_Year: Integer): TObjectList<TSalary>;
+begin
+  if p_Year = -1 then
+    Result := LoadFilteredList<TSalary>('USER_ID = ?', [UserID])
+  else
+    Result := LoadFilteredList<TSalary>('ROK = ? AND USER_ID = ?', [p_Year, UserID]);
+end;
+
+function TSalaryRepository.Salary(const p_ID: Integer; const UserID: Integer): TSalary;
+begin
+  Result := LoadSingle<TSalary>('ID = ? AND USER_ID = ?', [p_ID, UserID]);
+end;
+
+function TSalaryRepository.AvailableMonths(const AYear: Integer; const UserID: Integer): TObjectList<TMonth>;
+var
+  pomMiesiace: TObjectList<TMonth>;
 begin
   FMonthsAvailableMock.Free;
   FMonthsAvailableMock := TObjectList<TMonth>.Create;
 
-  for var i := 0 to Length(MonthRecArray) - 1 do
-    FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+//  for var i := 0 to Length(MonthRecArray) - 1 do
+//    FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+//
+//  if AYear <> -1 then
+//  begin
+//    pomMiesiace := LoadFilteredList<TMonth>('ROK = ? AND USER_ID = ?', [AYear, UserID]);
+//    try
+//      for var pomMiesiac in pomMiesiace do
+//        for var i := FMonthsAvailableMock.Count - 1 downto 0 do // Iteracja od koñca dla bezpieczeñstwa usuwania elementów.
+//          if FMonthsAvailableMock[i].ID = pomMiesiac.ID then
+//          begin
+//            FMonthsAvailableMock.Delete(i);
+//            Break;
+//          end;
+//    finally
+//      pomMiesiace.Free;
+//    end;
+//  end;
 
-  if (AYear <> -1) then
-  begin
-    pomSession := TSession.CreateConfigured(
-      TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-    try
-      pomMiesiace := pomSession.LoadListSQL<TMonth>(
-        Select
-        .From(TMonth)
-        .Where('ROK = ?', [AYear])
-        );
-      try
-        for var pomMiesiac in pomMiesiace do
-          for var i := 0 to FMonthsAvailableMock.Count - 1 do
-            if FMonthsAvailableMock[i].ID = pomMiesiac.ID then
-            begin
-              FMonthsAvailableMock.Delete(i);
-              break
-            end;
-      finally
-        pomMiesiace.Free;
-      end;
-    finally
-      pomSession.Free;
-    end;
-  end;
   Result := FMonthsAvailableMock;
 end;
 
-function TSalaryRepository.Salaries(const p_Year : Integer = DEF_YEAR): TObjectList<TSalary>;
+procedure TSalaryRepository.SaveOrUpdate(p_Obj: TSalary; const UserID: Integer);
 var
-  pomSession : TSession;
+  Session : TSession;
 begin
-  pomSession := TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    if (p_Year = -1) then
-      Result := pomSession.LoadList<TSalary>
-    else
-      Result := pomSession.LoadListSQL<TSalary>(
-        Select
-        .From(TSalary)
-        .Where('ROK = ?', [p_Year])
-        );
-  finally
-    pomSession.Free;
-  end;
+//  p_Obj.UserID := UserID; // Przypisanie identyfikatora u¿ytkownika
+//
+//  Session := TDatabaseSessionManager.CreateSession;
+//  try
+//    Session.Persist(p_Obj);
+//  finally
+//    Session.Free;
+//  end;
 end;
 
-function TSalaryRepository.Salary(const p_ID: Integer): TSalary;
+function TSalaryRepository.Delete(p_ID: Integer; const UserID: Integer): boolean;
 var
-  pomSession : TSession;
+  pomSalary : TSalary;
 begin
-  pomSession := TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    Result := pomSession.Load<TSalary>(p_Id);
-  finally
-    pomSession.Free;
-  end;
-end;
+  pomSalary := LoadSingle<TSalary>('ID = ? AND USER_ID = ?', [p_ID, UserID]);
 
-procedure TSalaryRepository.SaveOrUpdate(p_Obj: TSalary);
-var
-  pomSession : TSession;
-begin
-  pomSession := TSession.CreateConfigured(
-    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
-  try
-    pomSession.Persist(p_Obj);
-  finally
-    pomSession.Free;
+  Result := Assigned(pomSalary);
+  if Result then
+  begin
+    var Session := TDatabaseSessionManager.CreateSession;
+    try
+      Session.Delete(pomSalary);
+    finally
+      Session.Free;
+    end;
   end;
 end;
 
 end.
+

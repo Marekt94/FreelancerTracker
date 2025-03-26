@@ -60,6 +60,7 @@ type
 
   TDataForNewSalaryRestObject = class
   strict private
+    FUserId: integer;
     FFormaOpodatkowaniaRepository : IFormaOpodatkowaniaRepository;
     FSalaryRepository : ISalaryRepository;
     FDTORequest : Integer;
@@ -68,7 +69,7 @@ type
     function GetJSONString: string;
   public
     destructor Destroy; override;
-    constructor Create(const p_Year: integer); overload;
+    constructor Create(const p_Year: integer; const UserID: Integer); overload;
     property DTO : TDataForNewDTOResponse read GetDTO;
     property DTOJSONString : string read GetJSONString;
   end;
@@ -284,7 +285,7 @@ begin
     FDTORespone.Free;
 
   pomFormyOpodatkowania := FFormaOpodatkowaniaRepository.FormaOpodatkowania;
-  pomAvailableMonths    := FSalaryRepository.AvailableMonths(FDTORequest);
+  pomAvailableMonths    := FSalaryRepository.AvailableMonths(FDTORequest, FUserId);
 
   FDTORespone := TDataForNewDTOResponse.Create(pomAvailableMonths, pomFormyOpodatkowania);
   Result := FDTORespone;
@@ -298,8 +299,9 @@ begin
   Result := TJson.ObjectToJsonString(pomDTO);
 end;
 
-constructor TDataForNewSalaryRestObject.Create(const p_Year: integer);
+constructor TDataForNewSalaryRestObject.Create(const p_Year: integer; const UserID: Integer);
 begin
+  FUserId := UserID;
   FDTORequest := p_Year;
   FFormaOpodatkowaniaRepository := (MainKernel.GiveObjectByInterface(IFormaOpodatkowaniaRepository) as IFormaOpodatkowaniaRepository);
   FSalaryRepository := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);

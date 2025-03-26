@@ -9,15 +9,34 @@ type
   TUsersRepository = class(TInterfacedObject, IUsersRepository)
   public
     function IsUserExists(const p_UserName : string; const p_Password : string) : boolean;
+    function GetUserIdBySessionId(const p_SessionId: string) : Integer;
     function User(const p_Login : string; const p_Password : string) : TUser;
   end;
 
 implementation
 
 uses
-  System.Classes, dorm.Commons, dorm.Query;
+  System.Classes, dorm.Commons, dorm.Query, SessionsEntities;
 
 { TUsersSalary }
+
+function TUsersRepository.GetUserIdBySessionId(
+  const p_SessionId: string): Integer;
+var
+  pomSession : dorm.TSession;
+begin
+  pomSession := dorm.TSession.CreateConfigured(
+    TStreamReader.Create('..\..\dorm.conf'), TdormEnvironment.deDevelopment);
+  try
+    Result := pomSession.Load<SessionsEntities.TSession>(
+      Select
+      .From(SessionsEntities.TSession)
+      .Where('ID = ?', [p_SessionId])
+      ).UserID;
+  finally
+    pomSession.Free;
+  end;
+end;
 
 function TUsersRepository.IsUserExists(const p_UserName,
   p_Password: string): boolean;

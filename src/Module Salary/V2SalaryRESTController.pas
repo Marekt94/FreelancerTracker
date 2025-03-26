@@ -31,7 +31,7 @@ implementation
 uses
   InterfaceKernel, InterfaceSalaryRepository, REST.JSON, System.JSON, SalaryRESTObjects,
   SalaryEntities, SalaryDTOs, System.Generics.Collections, System.SysUtils, InterfaceFormaOpodatkowaniaRepository,
-  InterfaceSalaryEvaluatorController;
+  InterfaceSalaryEvaluatorController, InterfaceUsersRepository;
 
 { TV2SalaryRESTController }
 
@@ -40,7 +40,7 @@ var
   pomRes : Boolean;
 begin
   try
-    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')));
+    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')), -1);
     if pomRes then
       ResponseStatus('ok')
     else
@@ -82,9 +82,11 @@ end;
 procedure TV2SalaryRESTController.GetDataForNewSalary;
 var
   pomObj : TDataForNewSalaryRestObject;
+  pomUserId : Integer;
 begin
+  pomUserId := GetUserIdFromSession;
   try
-    pomObj := TDataForNewSalaryRestObject.Create(StrToInt(PathVariable('year')));
+    pomObj := TDataForNewSalaryRestObject.Create(StrToInt(PathVariable('year')), pomUserId);
     try
       ResponseJson(pomObj.DTOJSONString);
     finally
@@ -213,7 +215,7 @@ var
   pomSalaryDTO : TSalaryDTO;
 begin
   try
-    pomSalary := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salary(StrToInt(PathVariable('id')));
+    pomSalary := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salary(StrToInt(PathVariable('id')), GetUserIdFromSession);
     try
       if Assigned(pomSalary) then
         pomSalaryDTO := TSalaryDTO.Create(pomSalary)
@@ -245,7 +247,7 @@ begin
     pomSalary := TSalaryRESTObject.Create(GetActionContext.GetRequestContentAsString);
     try
       pomRepo := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
-      pomRepo.SaveOrUpdate(pomSalary.Entity);
+      pomRepo.SaveOrUpdate(pomSalary.Entity, GetUserIdFromSession);
       var pomResponse := TJSONObject.Create;
       try
         pomResponse.AddPair('id', TJSONNumber.Create(pomSalary.Entity.Id));

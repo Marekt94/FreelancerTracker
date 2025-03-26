@@ -52,7 +52,8 @@ uses
   FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
   TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas',
   SalaryConst in 'src\Module Salary\SalaryConst.pas',
-  V2SalaryRESTController in 'src\Module Salary\V2SalaryRESTController.pas';
+  V2SalaryRESTController in 'src\Module Salary\V2SalaryRESTController.pas',
+  DatabaseSessionManager in 'src\Misc\DatabaseSessionManager.pas';
 
 {$R *.res}
 
