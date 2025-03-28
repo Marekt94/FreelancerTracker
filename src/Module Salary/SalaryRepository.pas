@@ -4,14 +4,12 @@ interface
 
 uses
   InterfaceSalaryRepository, System.Generics.Collections, SalaryEntities, dorm.Filters,
-  DatabaseSessionManager;
+  RepositoryWrapper;
 
 type
-  TSalaryRepository = class(TInterfacedObject, ISalaryRepository)
+  TSalaryRepository = class(TRepositoryWrapper, ISalaryRepository)
   strict private
     FMonthsAvailableMock: TObjectList<TMonth>;
-    function LoadFilteredList<T: class>(const SQLFilter: string; const Params: array of const): TObjectList<T>;
-    function LoadSingle<T: class>(const SQLFilter: string; const Params: array of const): T;
   public
     destructor Destroy; override;
     function Salaries(const UserID: Integer; const p_Year: Integer): TObjectList<TSalary>;
@@ -19,12 +17,17 @@ type
     function AvailableMonths(const AYear: Integer; const UserID: Integer): TObjectList<TMonth>;
     procedure SaveOrUpdate(p_Obj: TSalary; const UserID: Integer);
     function Delete(p_ID: Integer; const UserID: Integer): boolean;
+
+    function Get(const p_Id : Integer) : TSalary;
+    function GetWhere(const p_ColumnsName : array of string;
+                      const p_Compare : array of string;
+                      const p_Values : array of const) : TSalary;
   end;
 
 implementation
 
 uses
-  dorm.Query, System.SysUtils, dorm;
+  dorm.Query, System.SysUtils, dorm, Dictionaries;
 
 { TSalaryRepository }
 
@@ -34,45 +37,28 @@ begin
   inherited;
 end;
 
-function TSalaryRepository.LoadFilteredList<T>(const SQLFilter: string; const Params: array of const): TObjectList<T>;
-var
-  Session: TSession;
+function TSalaryRepository.Get(const p_Id: Integer): TSalary;
 begin
-  Session := TDatabaseSessionManager.CreateSession;
-  try
-    Result := Session.LoadListSQL<T>(
-      Select.From(T).Where(SQLFilter, Params)
-    );
-  finally
-    Session.Free;
-  end;
+  Result := inherited Get<TSalary>(p_id);
 end;
 
-function TSalaryRepository.LoadSingle<T>(const SQLFilter: string; const Params: array of const): T;
-var
-  Session: TSession;
+function TSalaryRepository.GetWhere(const p_ColumnsName,
+  p_Compare: array of string; const p_Values: array of const): TSalary;
 begin
-  Session := TDatabaseSessionManager.CreateSession;
-  try
-//    Result := Session.LoadSQL<T>(
-//      Select.From(T).Where(SQLFilter, Params)
-//    );
-  finally
-    Session.Free;
-  end;
+  Result := inherited GetWhere<TSalary>(p_ColumnsName, p_Compare, p_Values);
 end;
 
 function TSalaryRepository.Salaries(const UserID: Integer; const p_Year: Integer): TObjectList<TSalary>;
 begin
   if p_Year = -1 then
-    Result := LoadFilteredList<TSalary>('USER_ID = ?', [UserID])
+    Result := GetListWhere<TSalary>(['USER_ID'], ['='], [UserID]) as TObjectList<TSalary>
   else
-    Result := LoadFilteredList<TSalary>('ROK = ? AND USER_ID = ?', [p_Year, UserID]);
+    Result := GetListWhere<TSalary>(['ROK', 'USER_ID'], ['='], [p_Year, UserID]) as TObjectList<TSalary>;
 end;
 
 function TSalaryRepository.Salary(const p_ID: Integer; const UserID: Integer): TSalary;
 begin
-  Result := LoadSingle<TSalary>('ID = ? AND USER_ID = ?', [p_ID, UserID]);
+  Result := GetWhere(['ID', 'USER_ID'], ['=','='], [p_id, UserID]);
 end;
 
 function TSalaryRepository.AvailableMonths(const AYear: Integer; const UserID: Integer): TObjectList<TMonth>;
@@ -82,24 +68,24 @@ begin
   FMonthsAvailableMock.Free;
   FMonthsAvailableMock := TObjectList<TMonth>.Create;
 
-//  for var i := 0 to Length(MonthRecArray) - 1 do
-//    FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
-//
-//  if AYear <> -1 then
-//  begin
-//    pomMiesiace := LoadFilteredList<TMonth>('ROK = ? AND USER_ID = ?', [AYear, UserID]);
-//    try
-//      for var pomMiesiac in pomMiesiace do
-//        for var i := FMonthsAvailableMock.Count - 1 downto 0 do // Iteracja od koñca dla bezpieczeñstwa usuwania elementów.
-//          if FMonthsAvailableMock[i].ID = pomMiesiac.ID then
-//          begin
-//            FMonthsAvailableMock.Delete(i);
-//            Break;
-//          end;
-//    finally
-//      pomMiesiace.Free;
-//    end;
-//  end;
+  for var i := 0 to Length(MonthRecArray) - 1 do
+    FMonthsAvailableMock.Add(TMonth.Create(MonthRecArray[i].ID, MonthRecArray[i].MonthName));
+
+  if AYear <> -1 then
+  begin
+    pomMiesiace := GetListWhere<TMonth>(['ROK', 'USER_ID'], ['=', '='], [AYear, UserId]) as TObjectList<TMonth>;
+    try
+      for var pomMiesiac in pomMiesiace do
+        for var i := FMonthsAvailableMock.Count - 1 downto 0 do // Iteracja od koñca dla bezpieczeñstwa usuwania elementów.
+          if FMonthsAvailableMock[i].ID = pomMiesiac.ID then
+          begin
+            FMonthsAvailableMock.Delete(i);
+            Break;
+          end;
+    finally
+      pomMiesiace.Free;
+    end;
+  end;
 
   Result := FMonthsAvailableMock;
 end;
@@ -122,18 +108,11 @@ function TSalaryRepository.Delete(p_ID: Integer; const UserID: Integer): boolean
 var
   pomSalary : TSalary;
 begin
-  pomSalary := LoadSingle<TSalary>('ID = ? AND USER_ID = ?', [p_ID, UserID]);
+  pomSalary := Salary(p_Id, UserID);
 
   Result := Assigned(pomSalary);
   if Result then
-  begin
-    var Session := TDatabaseSessionManager.CreateSession;
-    try
-      Session.Delete(pomSalary);
-    finally
-      Session.Free;
-    end;
-  end;
+    Result := inherited Delete(pomSalary);
 end;
 
 end.
