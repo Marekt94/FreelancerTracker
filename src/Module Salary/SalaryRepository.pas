@@ -51,14 +51,14 @@ end;
 function TSalaryRepository.Salaries(const UserID: Integer; const p_Year: Integer): TObjectList<TSalary>;
 begin
   if p_Year = -1 then
-    Result := GetListWhere<TSalary>(['USER_ID'], ['='], [UserID]) as TObjectList<TSalary>
+    Result := GetListWhere<TSalary>(['ID_USER'], ['='], [UserID]) as TObjectList<TSalary>
   else
-    Result := GetListWhere<TSalary>(['ROK', 'USER_ID'], ['='], [p_Year, UserID]) as TObjectList<TSalary>;
+    Result := GetListWhere<TSalary>(['ROK', 'ID_USER'], ['=', '='], [p_Year, UserID]) as TObjectList<TSalary>;
 end;
 
 function TSalaryRepository.Salary(const p_ID: Integer; const UserID: Integer): TSalary;
 begin
-  Result := GetWhere(['ID', 'USER_ID'], ['=','='], [p_id, UserID]);
+  Result := GetWhere(['ID', 'ID_USER'], ['=','='], [p_id, UserID]);
 end;
 
 function TSalaryRepository.AvailableMonths(const AYear: Integer; const UserID: Integer): TObjectList<TMonth>;
@@ -73,7 +73,7 @@ begin
 
   if AYear <> -1 then
   begin
-    pomMiesiace := GetListWhere<TMonth>(['ROK', 'USER_ID'], ['=', '='], [AYear, UserId]) as TObjectList<TMonth>;
+    pomMiesiace := GetListWhere<TMonth>(['ROK', 'ID_USER'], ['=', '='], [AYear, UserId]) as TObjectList<TMonth>;
     try
       for var pomMiesiac in pomMiesiace do
         for var i := FMonthsAvailableMock.Count - 1 downto 0 do // Iteracja od koñca dla bezpieczeñstwa usuwania elementów.
@@ -94,14 +94,8 @@ procedure TSalaryRepository.SaveOrUpdate(p_Obj: TSalary; const UserID: Integer);
 var
   Session : TSession;
 begin
-//  p_Obj.UserID := UserID; // Przypisanie identyfikatora u¿ytkownika
-//
-//  Session := TDatabaseSessionManager.CreateSession;
-//  try
-//    Session.Persist(p_Obj);
-//  finally
-//    Session.Free;
-//  end;
+  p_Obj.UserID := UserID;
+  inherited SaveOrUpdate(p_Obj);
 end;
 
 function TSalaryRepository.Delete(p_ID: Integer; const UserID: Integer): boolean;

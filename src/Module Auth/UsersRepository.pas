@@ -33,7 +33,7 @@ end;
 function TUsersRepository.GetUserIdBySessionId(
   const p_Session: string): Integer;
 begin
-  Result := (inherited GetWhere<TSession>(['SESSION'], ['='], [p_Session]) as TSession).User.ID;
+  Result := (inherited GetWhere<TSession>(['SESSION'], ['='], [p_Session]) as TSession).UserID;
 end;
 
 function TUsersRepository.GetWhere(const p_ColumnsName,
