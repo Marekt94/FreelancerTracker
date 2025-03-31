@@ -5,6 +5,9 @@ interface
 uses
   System.Generics.Collections, dorm.Commons;
 
+const
+  VALIDATE_ERROR = 'Validate error';
+
 type
   TSteeringObj = class
   private
@@ -73,6 +76,8 @@ begin
   finally
     pomSession.Free;
   end;
+
+  Result := true;
 end;
 
 function TRepositoryWrapper.Get<TObjClass>(const p_Id : Integer) : TObjClass;
@@ -85,7 +90,18 @@ function TRepositoryWrapper.GetListWhere<TObjClass>(const p_ColumnsName : array 
                                         const p_Values : array of const) : TList<TObjClass>;
 var
   pomSession : TSession;
+  pomSteeringObj: TSteeringObj;
+  pomRes: boolean;
 begin
+  pomSteeringObj := TSteeringObj.Create(p_ColumnsName, p_Compare, p_Values);
+  try
+    pomRes := Validate(pomSteeringObj);
+    if not pomRes then
+      raise Exception.Create(VALIDATE_ERROR);
+  finally
+    FreeAndNil(pomSteeringObj);
+  end;
+
   pomSession := TSession.CreateConfigured(
     TStreamReader.Create(FConfPath), FEnvironment);
   try
@@ -104,7 +120,18 @@ function TRepositoryWrapper.GetWhere<TObjClass>(const p_ColumnsName : array of s
                                         const p_Values : array of const) : TObjClass;
 var
   pomSession : dorm.TSession;
+  pomSteeringObj: TSteeringObj;
+  pomRes: boolean;
 begin
+  pomSteeringObj := TSteeringObj.Create(p_ColumnsName, p_Compare, p_Values);
+  try
+    pomRes := Validate(pomSteeringObj);
+    if not pomRes then
+      raise Exception.Create(VALIDATE_ERROR);
+  finally
+    FreeAndNil(pomSteeringObj);
+  end;
+
   pomSession := dorm.TSession.CreateConfigured(
     TStreamReader.Create(FConfPath), FEnvironment);
   try
@@ -125,7 +152,7 @@ begin
   pomSession := dorm.TSession.CreateConfigured(
     TStreamReader.Create(FConfPath), FEnvironment);
   try
-    pomSession.Persist(p_Obj);
+    Result := Assigned(pomSession.Persist(p_Obj));
   finally
     pomSession.Free;
   end;
@@ -138,18 +165,29 @@ end;
 
 function TRepositoryWrapper.Validate(p_SteeringObj: TSteeringObj): boolean;
 begin
-//  TODO
-  Result := true;
-//  Result := (Length(p_SteeringObj.FColumnsName) = Length(p_SteeringObj.FCompare))
-//     and (Length(p_SteeringObj.FCompare) = Length(p_SteeringObj. FValues))
+  Result := (Length(p_SteeringObj.FColumnsName) = Length(p_SteeringObj.FCompare))
+     and (Length(p_SteeringObj.FCompare) = Length(p_SteeringObj. FValues))
 end;
 
 { TSteeringObj }
 
 constructor TSteeringObj.Create(const p_ColumnsName, p_Compare: array of string;
   const p_Values: array of const);
+var
+  i: Integer;
 begin
-  //TODO
+  SetLength(FColumnsName, Length(p_ColumnsName));
+  SetLength(FCompare, Length(p_Compare));
+  SetLength(FValues, Length(p_Values));
+
+  for i := 0 to Length(p_ColumnsName) -1 do
+    FColumnsName[i] := p_ColumnsName[i];
+
+  for i := 0 to Length(p_Compare) - 1 do
+    FCompare[i] := p_Compare[i];
+
+  for i := 0 to Length(p_Values) - 1 do
+    FValues[i] := p_Values[i];
 end;
 
 end.

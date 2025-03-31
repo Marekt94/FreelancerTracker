@@ -33,18 +33,26 @@ uses
 
 procedure TSessionsRESTController.Action(AContext: IMiniRESTActionContext);
 begin
-  InitController;
-//  if AContext.ActionInfo.RequestMethod = rmPost then
-    SetActionContext(AContext);
-  SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
+  try
+    InitController;
+  //  if AContext.ActionInfo.RequestMethod = rmPost then
+      SetActionContext(AContext);
+    SetLogger(MainKernel.GiveObjectByInterface(IMiniRESTLogger) as IMiniRESTLogger);
 
-  case IndexStr(AContext.GetURI, [cMappingLogin, cMappingLogout]) of
-    Integer(miLogin):
-      CreateSession;
-    Integer(miLogout):
-      Logout;
-  else
-    exit;
+    case IndexStr(AContext.GetURI, [cMappingLogin, cMappingLogout]) of
+      Integer(miLogin):
+        CreateSession;
+      Integer(miLogout):
+        Logout;
+    else
+      exit;
+    end;
+  except
+    on E : Exception do
+    begin
+      ResponseErro(E.Message);
+      GetLogger.Exception('[TSessionsRESTController.Action]', E);
+    end;
   end;
 end;
 
