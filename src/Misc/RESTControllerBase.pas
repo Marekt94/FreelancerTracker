@@ -25,11 +25,18 @@ uses
 function TRESTControllerBase.GetUserIdFromSession: Integer;
 var
   pomSession: string;
+  pomCookie: TMiniRESTCookie;
 begin
+  Result := -1;
   GetLogger.Info('Getting user by session');
   try
-    pomSession := GetActionContext.GetCookie(SESSION_ID_COOKIE).Value;
-    Result := (MainKernel.GiveObjectByInterface(IUsersRepository) as IUsersRepository).GetUserIdBySessionId(pomSession);
+    pomCookie := GetActionContext.GetCookie(SESSION_ID_COOKIE);
+    try
+      pomSession := pomCookie.Value;
+      Result := (MainKernel.GiveObjectByInterface(IUsersRepository) as IUsersRepository).GetUserIdBySessionId(pomSession);
+    finally
+      pomCookie.Free;
+    end;
   except
     on E : Exception do
       GetLogger.Exception('Error during getting user', E);

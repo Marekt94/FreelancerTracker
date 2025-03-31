@@ -91,8 +91,6 @@ begin
 end;
 
 procedure TSalaryRepository.SaveOrUpdate(p_Obj: TSalary; const UserID: Integer);
-var
-  Session : TSession;
 begin
   p_Obj.UserID := UserID;
   inherited SaveOrUpdate(p_Obj);
