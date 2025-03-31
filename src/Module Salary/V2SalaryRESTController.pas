@@ -38,9 +38,11 @@ uses
 procedure TV2SalaryRESTController.DeleteSalary;
 var
   pomRes : Boolean;
+  pomUserId: Integer;
 begin
   try
-    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')), -1);
+    pomUserId := GetUserIdFromSession;
+    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')), pomUserId);
     if pomRes then
       ResponseStatus('ok')
     else
