@@ -6,11 +6,22 @@ uses
   System.Generics.Collections, dorm.Commons;
 
 type
+  TSteeringObj = class
+  private
+    FColumnsName: array of string;
+    FCompare: array of string;
+    FValues: TArray<TVarRec>;
+  public
+    constructor Create(const p_ColumnsName : array of string;
+      const p_Compare : array of string; const p_Values : array of const);
+  end;
+
   TRepositoryWrapper = class(TInterfacedObject, IInterface)
   strict private
     FConfPath : string;
     FEnvironment : TdormEnvironment;
     function ColumnsNameToString(const p_ColumnsName : array of string; const p_Compare : array of string) : string;
+    function Validate(p_SteeringObj: TSteeringObj): boolean;
   public
     constructor Create;
 
@@ -123,6 +134,22 @@ end;
 procedure TRepositoryWrapper.SetEnvironment(const p_Env: Integer);
 begin
   FEnvironment := TdormEnvironment(p_Env);
+end;
+
+function TRepositoryWrapper.Validate(p_SteeringObj: TSteeringObj): boolean;
+begin
+//  TODO
+  Result := true;
+//  Result := (Length(p_SteeringObj.FColumnsName) = Length(p_SteeringObj.FCompare))
+//     and (Length(p_SteeringObj.FCompare) = Length(p_SteeringObj. FValues))
+end;
+
+{ TSteeringObj }
+
+constructor TSteeringObj.Create(const p_ColumnsName, p_Compare: array of string;
+  const p_Values: array of const);
+begin
+  //TODO
 end;
 
 end.
