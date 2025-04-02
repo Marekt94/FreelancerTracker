@@ -37,7 +37,10 @@ var
 begin
   pomSession := inherited GetWhere<TSession>(['SESSION'], ['='], [p_Session]) as TSession;
   try
-    Result := pomSession.UserID;
+    if Assigned(pomSession) then
+      Result := pomSession.UserID
+    else
+      Result := EMPTY_USER_ID;
   finally
     pomSession.Free;
   end;

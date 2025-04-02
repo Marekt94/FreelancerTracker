@@ -115,6 +115,15 @@
         <DCCReference Include="src\Module Salary\LumpSumEvaluatorController.pas"/>
         <DCCReference Include="test\TestTaxEvaluatorStrategyController.pas"/>
         <DCCReference Include="src\Module Salary\SalaryConst.pas"/>
+        <DCCReference Include="test\TestUsersRepository.pas"/>
+        <DCCReference Include="src\Module Auth\UsersRepository.pas"/>
+        <DCCReference Include="src\Module Auth\Interfaces\InterfaceUsersRepository.pas"/>
+        <DCCReference Include="src\Misc\RepositoryWrapper.pas"/>
+        <DCCReference Include="src\Module Auth\UsersEntities.pas"/>
+        <DCCReference Include="src\Module Auth\SessionsEntities.pas"/>
+        <DCCReference Include="src\Module Auth\SessionsRepository.pas"/>
+        <DCCReference Include="src\Module Auth\Interfaces\InterfaceSessionsRepository.pas"/>
+        <DCCReference Include="src\Misc\Interfaces\InterfaceRepositoryWrapper.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -159,6 +168,18 @@
                 <DeployFile LocalName="Win32\Debug\TestFreelancerTrackerProj.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>TestFreelancerTrackerProj.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Debug\TestFreelancerTrackerProj.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>TestFreelancerTrackerProj.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Debug\TestFreelancerTrackerProj.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win64">
+                        <RemoteName>TestFreelancerTrackerProj.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

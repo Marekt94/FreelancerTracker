@@ -5,6 +5,9 @@ interface
 uses
   UsersEntities;
 
+const
+  EMPTY_USER_ID = -1;
+
 type
   IUsersRepository = interface(IInterface)
     ['{2B722188-F6C8-47DE-926C-FD53EA06D350}']

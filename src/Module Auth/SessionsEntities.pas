@@ -20,7 +20,7 @@ type
     procedure SetUser(const AUser : TUser);
     [Id]
     property Id: integer read FId write FId;
-    [BelongsTo('UserId')]
+    [BelongsTo('ID')]
     property User: TUser read FUser write SetUser;
     property Session: string read FSession write FSession;
     [Column('USER_ID')]
