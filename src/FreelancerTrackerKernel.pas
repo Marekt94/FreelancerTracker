@@ -6,7 +6,7 @@ uses
   InterfaceKernel, BaseKernel, InterfaceModule, System.Generics.Collections;
 
 const
-  VERSION = 4.1;
+  VERSION = 5.0;
 
 {
   VER 3.0:
@@ -17,6 +17,10 @@ const
   - TLS 1.3 not supported
   VER 4.1:
   - Allow-origin header changes
+  VER 5.0:
+  - mutiuser support,
+  - mem leaks fix
+  - v1 API deleted
 }
 
 type
