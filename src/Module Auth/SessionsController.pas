@@ -64,6 +64,7 @@ begin
           pomSession := TSession.Create;
 
         pomSession.User := pomUser;
+        pomSession.UserID := pomUser.ID;
         pomUser := nil;
         pomSession.Session := CreateSession;
         pomSession.ExpirationDate := Now + FSessionTimeInSec/SecsPerDay;

@@ -21,7 +21,7 @@ type
   TFormaOpodatkowaniaDTO = class
   strict private
     FId: Integer;
-    FWysokoscPodatkuList: array of TWysokoscPodatkuDTO;
+    FWysokoscPodatku: array of TWysokoscPodatkuDTO;
     FNazwa: string;
   private
   public
@@ -103,35 +103,35 @@ begin
   Create;
   FId    := p_FormaOpodatkowania.IdFormy;
   FNazwa := p_FormaOpodatkowania.Nazwa;
-  SetLength(FWysokoscPodatkuList, p_FormaOpodatkowania.WysokoscPodatkuList.Count);
+  SetLength(FWysokoscPodatku, p_FormaOpodatkowania.WysokoscPodatkuList.Count);
   for var i := 0 to p_FormaOpodatkowania.WysokoscPodatkuList.Count - 1 do
-    FWysokoscPodatkuList[i] := TWysokoscPodatkuDTO.Create(p_FormaOpodatkowania.WysokoscPodatkuList[i]);
+    FWysokoscPodatku[i] := TWysokoscPodatkuDTO.Create(p_FormaOpodatkowania.WysokoscPodatkuList[i]);
 end;
 
 destructor TFormaOpodatkowaniaDTO.Destroy;
 begin
-  for var i := Length(FWysokoscPodatkuList) - 1 downto 0 do
-    FWysokoscPodatkuList[i].Free;
+  for var i := Length(FWysokoscPodatku) - 1 downto 0 do
+    FWysokoscPodatku[i].Free;
   inherited;
 end;
 
 function TFormaOpodatkowaniaDTO.GetWysokoscPodatku(
   Index: Integer): TWysokoscPodatkuDTO;
 begin
-  Result := FWysokoscPodatkuList[index];
+  Result := FWysokoscPodatku[index];
 end;
 
 function TFormaOpodatkowaniaDTO.GetWysokoscPodatkuCount: Integer;
 begin
-  Result := Length(FWysokoscPodatkuList);
+  Result := Length(FWysokoscPodatku);
 end;
 
 procedure TFormaOpodatkowaniaDTO.SetWysokoscPodatku(Index: Integer;
   const Value: TWysokoscPodatkuDTO);
 begin
-  if Index = Length(FWysokoscPodatkuList) then
-    SetLength(FWysokoscPodatkuList, Length(FWysokoscPodatkuList) + 1);
-  FWysokoscPodatkuList[Index] := Value
+  if Index = Length(FWysokoscPodatku) then
+    SetLength(FWysokoscPodatku, Length(FWysokoscPodatku) + 1);
+  FWysokoscPodatku[Index] := Value
 end;
 
 { TWysokoscPodatkuDTO }

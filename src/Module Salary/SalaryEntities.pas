@@ -84,6 +84,7 @@ type
     FDoWyplaty : Single;
     FDoRozdysponowania : Single;
     FZablokowane : Boolean;
+    FUserId : Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -116,6 +117,8 @@ type
     property Brutto             : Single  read FBrutto             write FBrutto;
     [Column('PODATEK')]
     property Podatek            : Single  read FPodatek            write FPodatek;
+    [Column('ID_USER')]
+    property UserId             : Integer read FUserId             write FUserId;
     property Zablokowane        : Boolean read FZablokowane        write FZablokowane;
   end;
 

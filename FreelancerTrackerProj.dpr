@@ -12,7 +12,6 @@ uses
   ModuleServer in 'src\Module Server\ModuleServer.pas',
   InterfaceModuleServer in 'src\Module Server\Interfaces\InterfaceModuleServer.pas',
   InterfaceModuleSalary in 'src\Module Salary\Interfaces\InterfaceModuleSalary.pas',
-  V1SalaryRESTController in 'src\Module Salary\V1SalaryRESTController.pas',
   SalaryEntities in 'src\Module Salary\SalaryEntities.pas',
   SalaryRepository in 'src\Module Salary\SalaryRepository.pas',
   ModuleSalary in 'src\Module Salary\ModuleSalary.pas',
@@ -47,12 +46,12 @@ uses
   RESTMiddlewareCustomHeaderController in 'src\Module Server\RESTMiddlewareCustomHeaderController.pas',
   RESTMiddlewareLogger in 'src\Module Server\RESTMiddlewareLogger.pas',
   RESTMiddlewareWhiteListController in 'src\Module Server\RESTMiddlewareWhiteListController.pas',
-  RepositoryWrapper in 'src\Misc\RepositoryWrapper.pas',
   InterfaceRepositoryWrapper in 'src\Misc\Interfaces\InterfaceRepositoryWrapper.pas',
   FlatTaxEvaluatorController in 'src\Module Salary\FlatTaxEvaluatorController.pas',
   TaxEvaluatorStrategyController in 'src\Module Salary\TaxEvaluatorStrategyController.pas',
   SalaryConst in 'src\Module Salary\SalaryConst.pas',
-  V2SalaryRESTController in 'src\Module Salary\V2SalaryRESTController.pas';
+  V2SalaryRESTController in 'src\Module Salary\V2SalaryRESTController.pas',
+  RepositoryWrapper in 'src\Misc\RepositoryWrapper.pas';
 
 {$R *.res}
 

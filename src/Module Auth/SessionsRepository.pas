@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  System.Classes, dorm.Commons, dorm.Query, System.SysUtils, System.DateUtils;
+  System.Classes, dorm.Commons, dorm.Query, System.SysUtils, System.DateUtils, UsersEntities;
 
 { TSessionsRepository }
 

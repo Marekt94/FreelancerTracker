@@ -31,16 +31,18 @@ implementation
 uses
   InterfaceKernel, InterfaceSalaryRepository, REST.JSON, System.JSON, SalaryRESTObjects,
   SalaryEntities, SalaryDTOs, System.Generics.Collections, System.SysUtils, InterfaceFormaOpodatkowaniaRepository,
-  InterfaceSalaryEvaluatorController;
+  InterfaceSalaryEvaluatorController, InterfaceUsersRepository;
 
 { TV2SalaryRESTController }
 
 procedure TV2SalaryRESTController.DeleteSalary;
 var
   pomRes : Boolean;
+  pomUserId: Integer;
 begin
   try
-    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')));
+    pomUserId := GetUserIdFromSession;
+    pomRes := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Delete(StrToInt(PathVariable('id')), pomUserId);
     if pomRes then
       ResponseStatus('ok')
     else
@@ -82,9 +84,11 @@ end;
 procedure TV2SalaryRESTController.GetDataForNewSalary;
 var
   pomObj : TDataForNewSalaryRestObject;
+  pomUserId : Integer;
 begin
+  pomUserId := GetUserIdFromSession;
   try
-    pomObj := TDataForNewSalaryRestObject.Create(StrToInt(PathVariable('year')));
+    pomObj := TDataForNewSalaryRestObject.Create(StrToInt(PathVariable('year')), pomUserId);
     try
       ResponseJson(pomObj.DTOJSONString);
     finally
@@ -168,14 +172,16 @@ var
   pomJsonArray : TJSONArray;
   pomQueryParamYear: IMiniRESTQueryParam;
   pomYear: Integer;
+  pomUserId: Integer;
 begin
   try
     pomQueryParamYear := GetActionContext.GetQueryParam('year');
+    pomUserId := GetUserIdFromSession;
     if Assigned(pomQueryParamYear) then
       pomYear := StrToInt(pomQueryParamYear.GetValue)
     else
       pomYear := DEF_YEAR;
-    pomObjectList := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries(pomYear);
+    pomObjectList := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salaries(pomUserId, pomYear);
 
     pomJsonArray := TJSONArray.Create;
     try
@@ -211,16 +217,21 @@ procedure TV2SalaryRESTController.GetSalary;
 var
   pomSalary : TSalary;
   pomSalaryDTO : TSalaryDTO;
+  pomId: Integer;
 begin
   try
-    pomSalary := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salary(StrToInt(PathVariable('id')));
+    pomId := StrToInt(PathVariable('id'));
+    pomSalary := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository).Salary(pomId, GetUserIdFromSession);
     try
       if Assigned(pomSalary) then
         pomSalaryDTO := TSalaryDTO.Create(pomSalary)
       else
         pomSalaryDTO := nil;
       try
-        ResponseJson(TJson.ObjectToJsonString(pomSalaryDTO));
+        if Assigned(pomSalaryDTO) then
+          ResponseJson(TJson.ObjectToJsonString(pomSalaryDTO))
+        else
+          ResponseErro(Format('Salary %d not found', [pomId]), 404);
       finally
         pomSalaryDTO.Free;
       end;
@@ -245,7 +256,7 @@ begin
     pomSalary := TSalaryRESTObject.Create(GetActionContext.GetRequestContentAsString);
     try
       pomRepo := (MainKernel.GiveObjectByInterface(ISalaryRepository) as ISalaryRepository);
-      pomRepo.SaveOrUpdate(pomSalary.Entity);
+      pomRepo.SaveOrUpdate(pomSalary.Entity, GetUserIdFromSession);
       var pomResponse := TJSONObject.Create;
       try
         pomResponse.AddPair('id', TJSONNumber.Create(pomSalary.Entity.Id));
