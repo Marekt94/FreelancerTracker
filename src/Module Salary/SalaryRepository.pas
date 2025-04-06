@@ -101,10 +101,13 @@ var
   pomSalary : TSalary;
 begin
   pomSalary := Salary(p_Id, UserID);
-
-  Result := Assigned(pomSalary);
-  if Result then
-    Result := inherited Delete(pomSalary);
+  try
+    Result := Assigned(pomSalary);
+    if Result then
+      Result := inherited Delete(pomSalary);
+  finally
+    pomSalary.Free;
+  end;
 end;
 
 end.
