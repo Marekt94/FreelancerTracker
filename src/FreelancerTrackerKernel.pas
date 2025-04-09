@@ -18,7 +18,7 @@ const
   VER 4.1:
   - Allow-origin header changes
   VER 5.0:
-  - mutiuser support,
+  - multiuser support,
   - mem leaks fix
   - v1 API deleted
 }
