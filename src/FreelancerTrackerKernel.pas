@@ -6,7 +6,7 @@ uses
   InterfaceKernel, BaseKernel, InterfaceModule, System.Generics.Collections;
 
 const
-  VERSION = 5.0;
+  VERSION = 5.1;
 
 {
   VER 3.0:
@@ -21,6 +21,8 @@ const
   - multiuser support,
   - mem leaks fix
   - v1 API deleted
+  VER 5.1:
+  - dniRobocze dniPrzepracowane int -> single
 }
 
 type
