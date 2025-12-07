@@ -8,11 +8,11 @@ uses
 type
   TLumpSumEvaluatorController = class(TInterfacedObject, ISalaryEvaluatorController)
   strict private
-    function EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Integer; const p_WorkingDays : Integer) : Double;
+    function EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Single; const p_WorkingDays : Single) : Double;
     function EvaluatePayCheck(const p_Netto : Double; const p_Tax : TWysokoscPodatku; const p_Zus : Double; const p_HealthTax : Double) : Double;
     function EvaluateRealPayCheck(const p_Rate : Double;
-                                  const p_WorkingHours : Integer;
-                                  const p_WorkingDays : Integer;
+                                  const p_WorkingHours : Single;
+                                  const p_WorkingDays : Single;
                                   const p_MonthsOnB2BInYear : Integer;
                                   const p_VacationDays : Integer;
                                   const p_IllDays : Integer;
@@ -50,7 +50,7 @@ begin
   Result := True;
 end;
 
-function TLumpSumEvaluatorController.EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Integer; const p_WorkingDays : Integer) : Double;
+function TLumpSumEvaluatorController.EvaluateNetto(const p_Rate : Double; const p_WorkingHours : Single; const p_WorkingDays : Single) : Double;
 begin
   Result := p_Rate * p_WorkingHours * p_WorkingDays;
 end;
@@ -61,8 +61,8 @@ begin
 end;
 
 function TLumpSumEvaluatorController.EvaluateRealPayCheck(const p_Rate : Double;
-                                  const p_WorkingHours : Integer;
-                                  const p_WorkingDays : Integer;
+                                  const p_WorkingHours : Single;
+                                  const p_WorkingDays : Single;
                                   const p_MonthsOnB2BInYear : Integer;
                                   const p_VacationDays : Integer;
                                   const p_IllDays : Integer;

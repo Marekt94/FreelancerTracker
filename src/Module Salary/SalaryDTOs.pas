@@ -44,8 +44,8 @@ type
     FIdFormyOpodatkowania : Integer;
     FFormaOpodatkowania: TFormaOpodatkowaniaDTO;
     FStawka : Single;
-    FDniRoboczych : Integer;
-    FDniPrzepracowanych : Integer;
+    FDniRoboczych : Single;
+    FDniPrzepracowanych : Single;
     FSkladkaZdrowotna : Single;
     FZUS : Single;
     FNetto : Single;
@@ -68,8 +68,8 @@ type
     property IdFormyOpodatkowania : Integer read FIdFormyOpodatkowania;
     property FormaOpodatkowania : TFormaOpodatkowaniaDTO read FFormaOpodatkowania write SetFormaOpodatkowania;
     property Stawka             : Single  read FStawka             write FStawka;
-    property DniRoboczych       : Integer read FDniRoboczych       write FDniRoboczych;
-    property DniPrzepracowanych : Integer read FDniPrzepracowanych write FDniPrzepracowanych;
+    property DniRoboczych       : Single  read FDniRoboczych       write FDniRoboczych;
+    property DniPrzepracowanych : Single  read FDniPrzepracowanych write FDniPrzepracowanych;
     property SkladkaZdrowotna   : Single  read FSkladkaZdrowotna   write FSkladkaZdrowotna;
     property ZUS                : Single  read FZUS                write FZUS;
     property Netto              : Single  read FNetto              write FNetto;

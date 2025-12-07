@@ -72,8 +72,8 @@ type
     FIdFormyOpodatkowania : Integer;
     FFormaOpodatkowania: TFormaOpodatkowania;
     FStawka : Single;
-    FDniRoboczych : Integer;
-    FDniPrzepracowanych : Integer;
+    FDniRoboczych : Single;
+    FDniPrzepracowanych : Single;
     FSkladkaZdrowotna : Single;
     FZUS : Single;
     FVat : Single;
@@ -98,9 +98,9 @@ type
     property FormaOpodatkowania : TFormaOpodatkowania read FFormaOpodatkowania write SetFormaOpodatkowania;
     property Stawka             : Single  read FStawka             write FStawka;
     [Column('DNI_ROBOCZYCH')]
-    property DniRoboczych       : Integer read FDniRoboczych       write FDniRoboczych;
+    property DniRoboczych       : Single read FDniRoboczych       write FDniRoboczych;
     [Column('DNI_PRZEPRACOWANYCH')]
-    property DniPrzepracowanych : Integer read FDniPrzepracowanych write FDniPrzepracowanych;
+    property DniPrzepracowanych : Single read FDniPrzepracowanych write FDniPrzepracowanych;
     [Column('SKLADKA_ZDROWOTNA')]
     property SkladkaZdrowotna   : Single  read FSkladkaZdrowotna   write FSkladkaZdrowotna;
     property ZUS                : Single  read FZUS                write FZUS;
