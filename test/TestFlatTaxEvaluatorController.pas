@@ -29,6 +29,7 @@ type
     procedure TestEvaluate2;
     procedure TestEvaluateWhenEverythingIs0;
     procedure TestEvaluateWhenDniPrzepracowaneAndDniRoboczeNotInteger;
+    procedure TestEvaluateWhenDniPrzepracowanychIsMoreThanDniRobocze;
     procedure TestEvaluateWhenBruttoIs0ButHaveHourelySalaryAndVat;
     procedure TestEvaluateWhenBruttoIs0ButHaveHourelySalaryAndVatAndWorkingDaysNotEqualMonthDays;
     procedure TestVatIf0;
@@ -146,18 +147,41 @@ var
   p_Res: Single;
 begin
   p_Salary := TSalary.Create;
-  p_Salary.Brutto           := 29704.5;
+  p_Salary.Stawka           := 143.75;
   p_Salary.Vat              := 5498;
   p_Salary.Podatek          := 4412;
   p_Salary.ZUS              := 1373.43;
   p_Salary.SkladkaZdrowotna := 0;
 
   p_Salary.DniRoboczych       := 21.1;
-  p_Salary.DniPrzepracowanych := 20.9;
+  p_Salary.DniPrzepracowanych := 20.5;
 
   ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
 
-  p_Res := 15643.29;
+  p_Res := 15495.99;
+
+  CheckEquals(p_Res, p_Salary.DoRozdysponowania);
+end;
+
+procedure TestTFlatTaxEvaluatorController.TestEvaluateWhenDniPrzepracowanychIsMoreThanDniRobocze;
+var
+  ReturnValue: Boolean;
+  p_Salary: TSalary;
+  p_Res: Single;
+begin
+  p_Salary := TSalary.Create;
+  p_Salary.Stawka           := 143.75;
+  p_Salary.Vat              := 5498;
+  p_Salary.Podatek          := 4412;
+  p_Salary.ZUS              := 1373.43;
+  p_Salary.SkladkaZdrowotna := 0;
+
+  p_Salary.DniRoboczych       := 21;
+  p_Salary.DniPrzepracowanych := 23.5;
+
+  ReturnValue := FFlatTaxEvaluatorController.Evaluate(p_Salary);
+
+  p_Res := 16662.65;
 
   CheckEquals(p_Res, p_Salary.DoRozdysponowania);
 end;
